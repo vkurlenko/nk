@@ -1,0 +1,72 @@
+html,
+body {
+    height: 100%;
+    font-family: 'HelveticaRegular';
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.main{border:1px solid #eee; padding:0}
+
+header{}
+
+/* NavBar */
+.navbar-default{background: #dc3383; border-radius: 0; border:0px; margin-bottom:0;}
+.navbar-brand{padding:0}
+.navbar-default .navbar-nav > li > a{color:#fff; text-transform: uppercase; font-family: 'HelveticaBold'; font-size:14px}
+.navbar-default .navbar-nav > li > a:hover{color:#f99ec9}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus{color:#f99ec9; background: none}
+
+/* /NavBar */
+
+/* slider1 */
+.carousel-inner{    z-index: -1;}
+.carousel-inner > .item > img{margin:auto}
+
+.carousel-caption-nk {
+    /*position: absolute;*/
+    right: 15%;
+    /* bottom: 20px; */
+    left: 15%;
+    /*z-index: 10;*/
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /*background: #f9a0ca;*/
+    background: #f9a0ca url(/web/tpl/slider_caption_bg.png) repeat-x;
+    color: #fff;
+    text-align: center;
+    /*text-shadow: 0 1px 2px rgba(0, 0, 0, .6);*/
+    font-family: 'HelveticaLight';
+    font-size: 24px;
+    border-top:3px solid #fff;
+}
+
+#slider1 .carousel-control {
+    position: absolute;
+    top: auto;
+    bottom: 0px;
+    left: auto;
+    width: 15%;
+    font-size: 20px;
+    /*margin:0 15px;*/
+    padding:15px;
+    color: #fff;
+    /*text-align: center;*/
+    text-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+.carousel-control.left, .carousel-control.right{background-image: none}
+.carousel-control.left{text-align: left}
+.carousel-control.right{text-align: right}
+
+/* /slider1 */
