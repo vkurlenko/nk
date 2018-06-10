@@ -135,4 +135,9 @@ class SiteController extends Controller
     {
         return $this->render('person');
     }
+
+    public function actionSupervision()
+    {
+        return $this->render('supervision');
+    }
 }

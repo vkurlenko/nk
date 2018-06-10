@@ -7,7 +7,7 @@ use yii\helpers\Html;
 $this->title = 'О проекте';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<div class="container main">
     <div class="container">
         <h1><?= Html::encode($this->title) ?></h1>
     </div>
@@ -33,6 +33,7 @@ $this->title = 'О проекте';
         </p>
         <hr>
     </section>
+</div>
 
 
 

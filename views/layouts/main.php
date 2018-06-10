@@ -28,7 +28,6 @@ AppAsset::register($this);
 
 <div class="wrap">
 
-
     <header>
         <?php
         NavBar::begin(['brandImage' => '/tpl/logo.png']);
@@ -58,11 +57,13 @@ AppAsset::register($this);
         ?>
     </header>
 
-    <div class="container main">
-        <?php
-        echo $content;
-        ?>
-    </div>
+    
+
+    <!-- <div class="container main"> -->
+    <?php
+    echo $content;
+    ?>
+   <!--  </div> -->
 </div>
 
 <footer>

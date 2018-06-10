@@ -1,4 +1,4 @@
-/* dropdown menu formatting */
+ /*dropdown menu formatting */
 function setMarginLeft(){
     var win = $(window);
     var cont = $('.container');
@@ -28,48 +28,59 @@ function setYouTubeSize(){
 
 
 /* youtube iframe insert by click */
-function insertYouTubeIframe(obj){
-    var src = $(obj).attr('data-src');
-    var w = $(obj).width();
-    var h = $(obj).height();
+function insertYouTubeIframe(e, obj){
+    var b = $(obj).parents('.video').find('.yt-cover');
 
-    if(src){
-        var yt_code = '<iframe width="'+w+'" height="'+h+'" src="https://www.youtube.com/embed/'+src+'?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-        var to = $(obj).find('.yt-container');
-        $(yt_code).appendTo(to);
-        $(obj).find('i').remove()
+    var src = $(b).attr('data-src');
+    var w = $(b).width();
+    var h = $(b).height();
+   
+    if (src) {
+        var yt_code = '<iframe width="'+w+'" height="'+h+'" src="https://www.youtube.com/embed/'+src+'?autoplay=1" frameborder="0" allowfullscreen></iframe>';
+        var to = $(b).find('.yt-container');
+        to.html(yt_code);
+        e.preventDefault();
     }
+    
+    return false;
 }
 
 
 
 $(document).ready(function(){
 
+    // left-margin for dropdown submenu
     setMarginLeft();
 
+    // on window resize
     $(window).on('resize', function(){
         setMarginLeft();
         setYouTubeSize();
     });
 
-    $('.yt-cover').click(function () {
-        insertYouTubeIframe($(this))
+    // youtube start
+    $('.yt-start').click(function (e){        
+        insertYouTubeIframe(e, $(this));       
     });
 
+    // youtube icon
     $('.yt-container').mouseover(function () {
         $(this).find('i').addClass('over')
     }).mouseout(function(){
         $(this).find('i').removeClass('over')
     });
 
-    $('.slider-main').slick({
-        lazyLoad: 'ondemand',
+    // slider on main_page
+    $('.slider-main').slick({        
+        mobileFirst: true,
+        speed: 1500,
         arrows: true,
-        autoplay: false,
-        autoplaySpeed: 2000,
+        autoplay: true,
+        autoplaySpeed: 3000,
         nextArrow: '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"><img src="/web/tpl/slider_button_next.png" ></a>',
         prevArrow: '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"><img src="/web/tpl/slider_button_prev.png" ></a>'
     });
 
-
+   
 });
+

@@ -13,8 +13,9 @@
             <div class="carousel-caption-nk">
                 Победитель проекта: Ирина
             </div>
-        </div>
+        </div> 
 
     </div>
+    <div class="carousel-caption-nk-bg"></div>
     <div class="laces"></div>
 </section>

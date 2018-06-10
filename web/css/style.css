@@ -11,6 +11,8 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+    /* margin: 0 auto -200px;
+    padding: 0 0 200px; */
 }
 
 .main{border:0px solid #eee; padding:0}
@@ -54,7 +56,7 @@ hr{
 section button, section button:hover, section button:active
 {
     color: #fff;
-    background-color: #ff325b;
+    background: #ff325b url(/web/tpl/arrow_tr.png) no-repeat right;
     font-size: 14px;
     border:1px solid #ff325b;
     outline: none;
@@ -74,9 +76,11 @@ section button, section button:hover, section button:active
     -ms-user-select: none;
     user-select: none;
     border-radius: 4px;
+    width:100%;
+    max-width:360px;
 }
 .btn-title{
-    padding:40px
+    padding:0 20px
 }
 
 
@@ -183,6 +187,28 @@ picture img{
     font-family: 'HelveticaBold', serif;
 }
 
+
+.navbar-toggle .icon-bar-2{
+    transform: rotate(-45deg) translateX(4px) translateY(-4px);
+    /* display: none; */
+}
+
+.navbar-toggle .icon-bar-1{
+    transform: rotate(45deg);
+    /* display: none; */
+}
+/* nav-bar closed */
+
+.collapsed .icon-close{
+    display: none;
+} 
+.collapsed .icon-bar{
+    display: block;
+    transform:none;
+}
+
+
+
 /* /NavBar */
 
 /* slider1 */
@@ -193,15 +219,23 @@ picture img{
 .slider-main{
     /*background: #f9a0ca ;*/
     margin-top:45px;
+    max-width:1170px; 
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
 }
 .slider-main .item{
-    background: #fff;
+    background: none; /* #fff; */
     display: none;
+    text-align: center;
 }
 .slider-main .item img{
     margin:auto;
 
 }
+
+/* .item-hide{display: none;} */
+
 .slider-main .item:first-child{
     display: inline;
 }
@@ -237,7 +271,8 @@ picture img{
     left: 15%;
     padding-top: 20px;
     padding-bottom: 20px;
-    background: #f9a0ca url(/web/tpl/slider_caption_bg.png) repeat-x;
+    padding:20px;
+    background: none; /* #f9a0ca url(/web/tpl/slider_caption_bg.png) repeat-x; */
     color: #fff;
     text-align: center;
     font-family: 'HelveticaLight';
@@ -245,11 +280,17 @@ picture img{
     border-top:3px solid #fff;
 }
 
+.carousel-caption-nk-bg{
+    background: #f9a0ca url(/web/tpl/slider_caption_bg.png) repeat-x; 
+    height: 74px;
+    margin-top: -74px;
+}
+
 #slider1 .carousel-control {
     position: absolute;
     top: auto;
     bottom: 0px;
-    left: auto;
+    /* left: auto; */
     width: 15%;
     font-size: 20px;
     padding:15px;
@@ -265,11 +306,23 @@ picture img{
     background-image: none
 }
 .carousel-control.left{
-    text-align: left
+    text-align: left;
+    left:0;
+    background: -moz-linear-gradient(left, rgba(249, 160, 202,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dc3383', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
 }
 .carousel-control.right{
-    text-align: right
+    text-align: right;
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(249, 160, 202,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#dc3383',GradientType=1 ); /* IE6-9 */
+
 }
+
+
 
 /* /slider1 */
 
@@ -358,11 +411,11 @@ footer .laces{
     left:50%;
     margin-left: -40px;
     font-size: 80px;
-    color:#f9a0ca;
+    color:#fff;
 }
 
 .yt-container i.over{
-    color:#fff;
+    color:#f9a0ca;
 }
 /* /SECTION Supervision */
 
@@ -390,6 +443,14 @@ footer .laces{
 .person-nav h2{
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.person-nav a.person-next{
+    padding:20px 0 20px 20px;
+}
+
+.person-nav a.person-prev{
+    padding:20px 20px 20px 0;
 }
 
 .person-images img{
@@ -438,6 +499,8 @@ footer .laces{
 
 }
 /* /SECTION Person */
+
+
 
 /* FOOTER */
 footer{
@@ -491,7 +554,6 @@ footer ul li.social{
 
 
 
-
 .alignment-block .align-left{
     padding-left:0 !important;
     margin-left:0;
@@ -506,19 +568,25 @@ footer ul li.social{
     margin-bottom:20px;
 }
 
+.arrow-rt{
+    transform: rotate(-45deg);
+}
 
+/* ==================================================================================================== */
+/*                  MEDIA QUERYES                                                                       */
+/* ==================================================================================================== */
 /*==========  Non-Mobile First Method  ==========*/
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
-
+    .main{margin-top:30px;}
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-    .navbar-brand > img {
+     .navbar-brand > img {
         display: block;
         width: 200px;
-    }
+    } 
     .navbar-brand{
         left: 50%;
         margin-left: -100px;
@@ -527,6 +595,8 @@ footer ul li.social{
         margin-left: 160px;
 
     }
+
+    .main{margin-top:0;}
 }
 
 @media only screen and (width : 768px) {
@@ -537,6 +607,12 @@ footer ul li.social{
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
+    .main{margin-top:20px;}
+
+    .slider-main{
+        /*background: #f9a0ca ;*/
+        margin-top:25px;
+    }
     .alignment-block .align-left{
         padding-left: 30px !important;
         margin-left: auto;
@@ -548,7 +624,7 @@ footer ul li.social{
     }
 
     .navbar-nav {
-        margin: 0 0 0 0;
+        margin: 55px 0 0 0;
     }
 
     .dropdown-menu li {
@@ -566,6 +642,8 @@ footer ul li.social{
         font-family: 'HelveticaBold', Arial, sans-serif;
     }
 
+
+
     .footer-menu-social, .social-menu{
         text-align: center;
     }
@@ -575,6 +653,9 @@ footer ul li.social{
         float: none !important;
     }
 
+    /* .face {
+    padding: 0;
+    } */
     .person-text{
        padding:8px;
     }
@@ -592,6 +673,35 @@ footer ul li.social{
     .person-text{
         font-size: 18px;
     }
+
+    #slider1 .carousel-control{
+        padding:15px 20px 18px;
+    }
+
+    .carousel-caption-nk{
+        font-size:16px;
+    }
+
+    .carousel-control.right img,
+    .carousel-control.left img{
+        height:20px;
+    }
+
+    .carousel-caption-nk-bg {
+        background: #f9a0ca url(/web/tpl/slider_caption_bg.png) repeat-x;
+        height: 65px;
+        margin-top: -65px;
+    }
+
+    .section-center{
+        padding:0 10px;
+    }
+
+    .face{
+        padding:5px 10px !important;
+    }
+
+
 }
 
 /* Extra Small Devices, Phones */
@@ -604,9 +714,48 @@ footer ul li.social{
         font-size: 24px;
     }
 
+    #project-faces .container-fluid,
+    #supervision .container-fluid {
+        padding-right: 0;
+        padding-left: 0;
+    }  
+
+     #project-faces .container-fluid .row,
+    #supervision .container-fluid .row{
+        margin-right: 0;
+        margin-left: 0;
+    }  
+
+    #project-faces .align-left,
+    #supervision .align-left{
+        padding-left: 0 !important;
+    }
+
+    #project-faces  .align-right,
+    #supervision .align-right{
+        padding-right:0 !important;
+    }
+
+    #supervision .video {
+        padding: 15px 0;
+    }
     .person-text{
         font-size: 14px;
     }
+
+    .person-images{
+        padding-left:15px;
+        padding-right:15px;
+    }
+    
+    .face{
+        padding-top:5px;
+        padding-bottom:5px;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    
 }
 
 /* Custom, iPhone Retina (iphone 6) */
@@ -625,9 +774,7 @@ footer ul li.social{
     h3{
         font-size: 16px;
     }
-    .carousel-caption-nk{
-        font-size:16px;
-    }
+    
 
     .person-text{
         font-size: 10px;
