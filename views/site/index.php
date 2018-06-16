@@ -2,35 +2,43 @@
 
 /* @var $this yii\web\View */
 
+use yii\helpers\Url;
+use app\models\Pages;
+
 $this->title = 'Народный кондитер';
+
+$page = Pages::findOne(1);
+$gallery = $page->getImages();
+
 ?>
 
-<?= $this->render('/site/blocks/_slider1') ?>
+<?= $this->render('/site/blocks/_slider1', compact('gallery')) ?>
 
 
 <div class="container main">
 
 
 
+
 <section id="promo" class="section-center">
     <h1>Народный кондитер</h1>
-    <h1 style="font-family:'HelveticaNeueCyrLight'">Народный кондитер</h1>
+    <!--<h1 style="font-family:'HelveticaNeueCyrLight'">Народный кондитер</h1>-->
 
     <p>Ренат Агзамов представляет проект "Народный кондитер".<br>
         Участником проекта может стать каждый, кто любит готовить и радовать своих родных и друзей.
     </p>
-    <a href="/web/site/about/">Подробнее &gt;</a>
+    <a href="#">Подробнее &gt;</a>
 
     <hr>
 </section>
 
 <section id="project-faces" class="section-center alignment-block">
     <h2>Лица проекта</h2>
-    <h2 style="font-family:'HelveticaNeueCyrThin'">Лица проекта</h2>
+    <!--<h2 style="font-family:'HelveticaNeueCyrThin'">Лица проекта</h2>-->
 
     <p>Знакомьтесь с участниками конкурса на лучший народный торт.</p>
 
-    <a href="/web/site/person/">Все участники проекта &gt;</a>
+    <a href="<?= Url::to(['person'])?>">Все участники проекта &gt;</a>
 
     <div class="container-fluid">
 

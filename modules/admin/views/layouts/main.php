@@ -35,6 +35,9 @@ if (Yii::$app->controller->action->id === 'login') {
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
+
+        <link rel="stylesheet" href="/css/admin.css">
+
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
     <?php $this->beginBody() ?>
@@ -59,6 +62,11 @@ if (Yii::$app->controller->action->id === 'login') {
     </div>
 
     <?php $this->endBody() ?>
+    <script language="JavaScript" src="/js/admin.js"></script>
+
+    <script language="JavaScript">
+
+    </script>
     </body>
     </html>
     <?php $this->endPage() ?>

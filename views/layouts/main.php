@@ -5,10 +5,12 @@
 
 use app\widgets\Alert;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\controllers\SiteController;
 
 AppAsset::register($this);
 ?>
@@ -30,12 +32,16 @@ AppAsset::register($this);
 
     <header>
         <?php
+
+        $arr = SiteController::makeMainMenu();
+
         NavBar::begin(['brandImage' => '/tpl/logo.png']);
+
         echo Nav::widget([
-            'items' => [
-                ['label' => 'О проекте', 'url' => ['/site/about']],
-                ['label' => 'Продукция', 'url' => ['/site/about']],
-                ['label' => 'Франчайзинг', 'url' => ['/site/franch']],
+            'items' => $arr,
+               /* ['label' => 'О проекте', 'url' => ['/about']],
+                ['label' => 'Продукция', 'url' => ['/products']],
+                ['label' => 'Франчайзинг', 'url' => ['/franch']],
                 [
                     'label' => 'Где купить',
                     'items' => [
@@ -47,10 +53,11 @@ AppAsset::register($this);
                         ['label' => 'Калининград', 'url' => '#']
                     ],
                     'options' => ['class' => 'submenu'],
-                ],
+                ],*/
+               //$arr,
 
                /* ['label' => 'Контакты', 'url' => ['/site/about']],*/
-            ],
+            //,
             'options' => ['class' => 'navbar-nav navbar-center'],
         ]);
         NavBar::end();

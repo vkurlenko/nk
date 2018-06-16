@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\modules\admin\controllers\PagesController;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,8 +10,12 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\UploadedFile;
+use rico\yii2images;
 
-class SiteController extends Controller
+
+
+class SiteController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -61,7 +66,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $pages = $this->makeMainMenu();
+        return $this->render('index', compact('pages'));
     }
 
     /**
@@ -140,4 +146,42 @@ class SiteController extends Controller
     {
         return $this->render('supervision');
     }
+
+    // формирует главное меню
+    public function makeMainMenu()
+    {
+        $arr = [];
+
+        $pages = PagesController::mapTree(PagesController::getAllPages());
+
+        foreach($pages as $page){
+
+            if($page['childs']){
+
+                $i = 0;
+                $arr_ch = [];
+
+                foreach($page['childs'] as $child){
+
+                    if($child['active']) {
+                        $i++;
+                        $arr_ch[] =  [
+                            'label' => $child['title'],
+                            'url' => [$child['url']],
+                            'options' => $i == 1 ? ['class' => 'first-item'] : []
+                        ];
+                    }
+
+                }
+
+                $arr[] = ['label' => $page['title'], 'items' => $arr_ch, 'options' => ['class' => 'submenu'],];
+
+            }
+            else
+                $arr[] = ['label' => $page['title'], 'url' => [$page['url']]];
+        }
+
+        return $arr;
+    }
 }
+

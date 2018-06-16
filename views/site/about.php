@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use rico\yii2images;
+use app\models\Pages;
 
 $this->title = 'О проекте';
 //$this->params['breadcrumbs'][] = $this->title;
@@ -11,6 +13,21 @@ $this->title = 'О проекте';
     <div class="container">
         <h1><?= Html::encode($this->title) ?></h1>
     </div>
+
+    <?php
+    $page = Pages::findOne(2);
+
+    debug($page->getImage());
+    $img = $page->getImage();
+    $gallery = $page->getImages();
+
+    //echo Html::img($img->getUrl());
+
+    foreach($gallery as $pic){
+        echo Html::img('/upload/store/'.$pic->filePath);
+    }
+
+    ?>
 
     <div class="about-img-block">
        <!-- <img class="about-img" data-mini="/images/about_mini.jpg" data-original="/images/about.jpg" src="/images/about.jpg">-->

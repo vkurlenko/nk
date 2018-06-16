@@ -7,9 +7,14 @@
  */
 
 namespace app\controllers;
+use yii\web\Controller;
+use yii\db\Query;
 
-
-class AppController extends SiteController
+class AppController extends Controller
 {
+    public $arr;
 
+    public function printArray($arr = null){
+        return '<pre>'.print_r($arr).'</pre>';
+    }
 }

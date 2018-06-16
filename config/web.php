@@ -16,11 +16,24 @@ $config = [
             'class' => 'app\modules\admin\Module',
             'layout'=> 'main'
         ],
+        'yii2images' => [
+            'class' => 'rico\yii2images\Module',
+            //be sure, that permissions ok
+            //if you cant avoid permission errors you have to create "images" folder in web root manually and set 777 permissions
+            'imagesStorePath' => 'upload/store', //path to origin images
+            'imagesCachePath' => 'upload/cache', //path to resized copies
+            'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
+            //'imagesStorePath' => '@webroot/upload/store', //path to origin images
+            //'imagesCachePath' => '@webroot/upload/cache', //path to resized copies
+            'placeHolderPath' => '@webroot/upload/store/no-image.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
+            'imageCompressionQuality' => 85, // Optional. Default value is 85.
+        ],
     ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'DB7K1R3Eljg5DK_zI-kE9uVCBQM9_Apv',
+            'baseUrl'=> '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -53,9 +66,15 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            //'suffix'    => '.html',
             'rules' => [
-                '' => 'site/index',                                
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                '' => 'site/index',
+                '<action:\w+>' => 'site/<action>',
+                //'about' => 'site/about',
+                //'admin' => 'admin', 
+                //'admin/pages' => 'admin/pages',                              
+                //'<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
             ],
         ],
         

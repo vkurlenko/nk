@@ -1,0 +1,41 @@
+.form-img{
+    width:212px;
+    float: left;
+    padding:5px;
+    margin:5px;
+    border:1px solid #ccc;
+    text-align: center;
+}
+.form-img img,
+.form-img input{
+    max-width: 100%;
+}
+
+.form-img input{
+    /*margin:2px;*/
+}
+
+.form-img .del_img .glyphicon-remove{
+    color:red;
+}
+
+.img-cont{
+    width:200px;
+    height: 205px;}
+.img-cont img{
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+a.set_name{
+    float: right;
+    position: relative;
+    display: block;}
+
+a.del_img{
+    float: left;
+    position: relative;
+    display: block;}
