@@ -9,6 +9,7 @@ namespace app\modules\admin\components;
 
 use yii\base\Widget;
 
+
 class ImageWidget extends Widget
 {
     public $model;
@@ -23,10 +24,13 @@ class ImageWidget extends Widget
     {
         $model = $this->model;
         $mode = $this->mode;
+        $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
 
-        if($mode == 'gallery')
+        return $this->render($mode.'_block', compact('model', 'modelName'));
+
+        /*if($mode == 'gallery')
             return $this->render('gallery_block', compact('model'));
         else
-            return $this->render('image_block', compact('model'));
+            return $this->render('image_block', compact('model'));*/
     }
 }

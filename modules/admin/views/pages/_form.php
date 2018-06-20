@@ -31,7 +31,7 @@ use app\modules\admin\components\ImageWidget;
     <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6]]);?>
 
 
-    <?= ImageWidget::widget(['model' => $model, 'mode' => 'main']) ?>
+    <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
     <div style="clear:both;"></div>
     <?= $form->field($model, 'image')->fileInput(); ?>
 
@@ -53,10 +53,10 @@ use app\modules\admin\components\ImageWidget;
 
     <?= $form->field($model, 'order_by')->textInput() ?>
 
-    <?= $form->field($model, 'active')->dropDownList([ '0' => 'Нет', '1' => 'Да', ], ['prompt' => 'Показывать на сайте']) ?>
+    <?= $form->field($model, 'active')->checkbox(['0', '1']); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

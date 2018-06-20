@@ -8,6 +8,7 @@ use app\modules\admin\models\CitiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CitiesController implements the CRUD actions for Cities model.
@@ -87,8 +88,20 @@ class CitiesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+
+            if($model->image){
+                $model->upload();
+            }
+
+            unset($model->image);
+
+            Yii::$app->session->setFlash('success', 'Страница сохранена');
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
+
 
         return $this->render('update', [
             'model' => $model,
@@ -123,5 +136,20 @@ class CitiesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /*
+        получим список шаблонов для выбора
+    */
+    public function getCities(){
+        $arg = [];
+
+        $cities = Cities::find()->asArray()->all();
+
+        foreach($cities as $city) {
+            $arg[$city['id']] = $city['city'];
+        }
+
+        return $arg;
     }
 }

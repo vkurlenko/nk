@@ -17,7 +17,7 @@ $this->title = 'О проекте';
     <?php
     $page = Pages::findOne(2);
 
-    debug($page->getImage());
+    //debug($page->getImage());
     $img = $page->getImage();
     $gallery = $page->getImages();
 

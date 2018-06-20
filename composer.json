@@ -21,7 +21,9 @@
         "dmstr/yii2-adminlte-asset": "2.*",
         "leandrogehlen/yii2-treegrid": "*",
         "mihaildev/yii2-ckeditor": "*",
-        "costa-rico/yii2-images": "dev-master"
+        "costa-rico/yii2-images": "dev-master",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "mihaildev/yii2-elfinder": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

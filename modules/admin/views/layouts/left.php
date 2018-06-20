@@ -32,8 +32,12 @@
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Страницы', 'icon' => 'file-code-o', 'url' => ['/admin/pages']],
+                    ['label' => 'Лица проекта', 'icon' => 'file-code-o', 'url' => ['/admin/persons']],
                     ['label' => 'Города', 'icon' => 'file-code-o', 'url' => ['/admin/cities']],
                     ['label' => 'Торговые сети', 'icon' => 'file-code-o', 'url' => ['/admin/brands']],
+                    ['label' => 'Создать видео', 'icon' => 'file-code-o', 'url' => ['/admin/svision/create']],
+                    ['label' => 'Авторский надзор', 'icon' => 'file-code-o', 'url' => ['/admin/svision?type=svision']],
+                    ['label' => 'Видео с участниками', 'icon' => 'file-code-o', 'url' => ['/admin/svision?type=video']],
                     ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

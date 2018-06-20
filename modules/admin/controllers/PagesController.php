@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use rico\yii2images\models\Image;
 
 /**
  * PagesController implements the CRUD actions for Pages model.
@@ -51,7 +52,6 @@ class PagesController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            //'tree' => $tree
         ]);
     }
 
@@ -110,9 +110,9 @@ class PagesController extends Controller
             $model->gallery = UploadedFile::getInstances($model, 'gallery');
             $model->UploadGallery();
 
-            Yii::$app->session->setFlash('success', 'Страницы сохранена');
+            Yii::$app->session->setFlash('success', 'Страница сохранена');
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -134,20 +134,6 @@ class PagesController extends Controller
         return $this->redirect(['index']);
     }
 
-   /* public function actionUpload()
-    {
-        $model = new UploadForm();
-
-        if (Yii::$app->request->isPost) {
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return;
-            }
-        }
-
-        return $this->render('upload', ['model' => $model]);
-    }*/
 
     /**
      * Finds the Pages model based on its primary key value.
@@ -213,6 +199,7 @@ class PagesController extends Controller
     public function getPagesSelect($id = null)
     {
         $arr = [];
+        $arr[0] = 'Самостоятельная страница';
 
         $pages = PagesController::getAllPages();
 
@@ -274,9 +261,25 @@ class PagesController extends Controller
                 $save = $img->setName($name, $sort);
             }
         }
-
         return $save;
     }
+
+    /*public function sortImages($model_id, $gallery){
+
+        $gallery_sorted = [];
+
+        $arr = Image::find()->asArray()->where(['itemId' => $$model_id])->orderBy(['sort' => SORT_ASC])->all();
+
+        foreach($arr as $row){
+            foreach($gallery as $img){
+                if($img->id == $row['id']){
+                    $gallery_sorted[] = $img;
+                }
+            }
+        }
+
+        return $gallery_sorted;
+    }*/
 
 
 }

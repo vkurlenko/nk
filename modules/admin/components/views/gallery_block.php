@@ -2,16 +2,22 @@
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use rico\yii2images\models\Image;
+use app\modules\admin\models\Pages;
+use app\modules\admin\controllers\PagesController;
 ?>
 
 <div class="form-gallery">
 
     <?php
+
+    $fields = [
+            'name' => true,
+            'sort' => true
+    ];
+
     $gallery = $model->getImages();
     $gallery2 = [];
     $arr = Image::find()->asArray()->where(['itemId' => $model->id])->orderBy(['sort' => SORT_ASC])->all();
-
-    //debug($arr);
 
     foreach($arr as $row){
         foreach($gallery as $img){
@@ -21,12 +27,11 @@ use rico\yii2images\models\Image;
         }
     }
 
+
     foreach($gallery2 as $img){
-    //foreach($arr as $img){
-        $url_delete     = Url::toRoute(['pages/deleteimg', 'page_id' => $model->id, 'img_id' => $img->id]);
-        $url_setname    = Url::toRoute(['pages/setnameimg', 'page_id' => $model->id, 'img_id' => $img->id]);
+        $url_delete     = Url::toRoute([$modelName.'/deleteimg',  'page_id' => $model->id, 'img_id' => $img->id]);
+        $url_setname    = Url::toRoute([$modelName.'/setnameimg', 'page_id' => $model->id, 'img_id' => $img->id]);
         require 'tpl.php';
     }
     ?>
-
 </div>

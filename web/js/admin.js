@@ -11,7 +11,7 @@ function delImg(obj, e){
             url: href,
             //data: "id="+id+"&uid="+uid,
             success: function(res){
-                console.log(res);
+                //console.log(res);
                 if(res)
                     $(obj).parent('.form-img').remove();
                 else
@@ -28,21 +28,50 @@ function setImgName(obj, e){
     var href = $(obj).attr('href');
     var name = $(obj).parents('.form-img').find('.img-name').val();
     var sort = $(obj).parents('.form-img').find('.img-sort').val();
+    var role = $(obj).parents('.form-img').find('.img-role select').val();
 
     $.ajax({
         type: "POST",
         dataType: "html",
-        url: href+'&name='+name+'&sort='+sort,
+        url: href+'&name='+name+'&sort='+sort+'&role='+role,
         //data: "name="+name
         success: function(res){
-            if(res)
+            if(res){
                 alert('Сохранено');
+            }
+
             else
                 alert('Ошибка');
         }
     });
+}
 
-   // alert(href+'&name='+name);
+function setSort(obj, e){
+
+    e.preventDefault();
+
+    var model = $(obj).attr('data-model');
+    var id = $(obj).attr('data-id');
+    var sort = $(obj).parents('.sort-widget').find('input').val();
+    var href = $(obj).attr('href');
+
+
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        url: href+'?id='+id+'&sort='+sort+'&model='+model,
+        //data: "name="+name
+        success: function(res){
+            if(res){
+                //alert('Сохранено');
+                $(obj).parents('.sort-widget').find('input').addClass('save-success');
+            }
+            else{
+                //alert('Ошибка');
+                $(obj).parents('.sort-widget').find('input').addClass('save-error');
+            }
+        }
+    });
 
 }
 
@@ -56,5 +85,13 @@ $(document).ready(function () {
 
     $('.set_name').click(function (e) {
         setImgName($(this), e);
+    });
+
+    $('.sort-widget-input').click(function(){
+        $(this).select()
+    });
+
+    $('.set_sort').click(function (e) {
+        setSort($(this), e);
     });
 })

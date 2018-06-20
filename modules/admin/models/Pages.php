@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
  * @property string $anons
  * @property string $content
  * @property string $images
+ * @property string $image2
  * @property string $thumbnail
  * @property string $kwd
  * @property string $dscr
@@ -49,7 +50,7 @@ class Pages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url', 'h1', 'title', 'tpl', 'order_by'], 'required'],
+            [['pid', 'h1', 'title', 'order_by', 'active'], 'required'],
             [['pid',  'order_by'], 'integer'],
             [['url', 'h1', 'tpl', 'title', 'anons', 'content', 'images',  'kwd', 'dscr', 'params', 'active'], 'string'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
@@ -111,6 +112,7 @@ class Pages extends \yii\db\ActiveRecord
             'content' => 'Полный текст (контент)',
             'gallery' => 'Галерея',
             'image' => 'Картинка',
+            'image2' => 'Картинка',
             'kwd' => 'Meta keywords',
             'dscr' => 'Meta description',
             'tpl' => 'Шаблон',

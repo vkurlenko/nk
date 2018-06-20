@@ -16,12 +16,36 @@ use Yii;
  */
 class Brands extends \yii\db\ActiveRecord
 {
+    public $image;
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'brands';
+    }
+
+    /* для загрузки картинок */
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
+            $this->image->saveAs($path);
+            $this->attachImage($path, true);
+            unlink($path);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getCities(){
@@ -34,9 +58,10 @@ class Brands extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'logo', 'city', 'text', 'active'], 'required'],
-            [['name', 'logo', 'text', 'active'], 'string'],
+            [['name', 'city', 'text', 'active'], 'required'],
+            [['name', 'text', 'active'], 'string'],
             [['city'], 'integer'],
+            [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -51,7 +76,7 @@ class Brands extends \yii\db\ActiveRecord
             'logo' => 'Логотип',
             'city' => 'Город',
             'text' => 'Описание',
-            'active' => 'Активен',
+            'active' => 'Показывать на сайте',
         ];
     }
 }

@@ -17,4 +17,12 @@ class AppController extends Controller
     public function printArray($arr = null){
         return '<pre>'.print_r($arr).'</pre>';
     }
+
+    public function formatDate($date = null){
+        $month = ['', 'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+
+        $d = explode('-', $date);
+
+        return $d[2].' '.$month[intval($d[1])].', '.$d[0];
+    }
 }

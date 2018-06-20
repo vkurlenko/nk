@@ -8,6 +8,7 @@ use app\modules\admin\models\BrandsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * BrandsController implements the CRUD actions for Brands model.
@@ -87,7 +88,17 @@ class BrandsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->image = UploadedFile::getInstance($model, 'image');
+
+            if($model->image){
+                $model->upload();
+            }
+
+            unset($model->image);
+
+            Yii::$app->session->setFlash('success', 'Страница сохранена');
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [

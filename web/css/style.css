@@ -53,7 +53,7 @@ hr{
     height: 1px;
 }
 
-section button, section button:hover, section button:active
+.main section button, .main section button:hover, .main section button:active
 {
     color: #fff;
     background: #ff325b url(/web/tpl/arrow_tr.png) no-repeat right;
@@ -358,6 +358,10 @@ footer .laces{
     max-width: 100%;
 }
 
+.all-faces > .face{
+    padding-top: 0 !important;
+}
+
 
 /* /SECTION Project Faces */
 
@@ -383,6 +387,7 @@ footer .laces{
 /*#supervision */.video .video-date, #supervision .video a{
     color:#dc3383;
     font-size: 14px;
+    text-transform: lowercase;
 }
 
 .yt-cover{
@@ -434,11 +439,13 @@ footer .laces{
 #person hr{
     margin:20px 0 0 0}
 .person-nav {
-    display: -webkit-flex;
+    /*display: -webkit-flex;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
 }
+
+.person-nav .col-sm-1{padding:0}
 
 .person-nav h2{
     margin-top: 30px;
@@ -447,10 +454,14 @@ footer .laces{
 
 .person-nav a.person-next{
     padding:20px 0 20px 20px;
+    margin:20px 0;
+    display: block;
 }
 
 .person-nav a.person-prev{
     padding:20px 20px 20px 0;
+    margin:20px 0;
+    display: block;
 }
 
 .person-images img{
@@ -497,6 +508,48 @@ footer .laces{
     font-family: 'HelveticaMedium', Arial, sans-serif;
     font-size:22px;
 
+}
+
+.city-name{
+    clear: both;
+    margin-top:25px;
+}
+
+.city-name hr{
+    display: block;
+    position: relative;
+    top:-25px;
+    margin:0;
+    z-index: -1}
+
+.city-name span{
+    background:#14aba4;
+    color:#fff;
+    text-transform: uppercase;
+    width:100%;
+    max-width: 300px;
+    padding:10px;
+    margin:auto;
+    font-size: 24px;
+    font-family: 'HelveticaNeueCyrThin', Arial, sans-serif;
+    display: block;
+}
+
+.year-list ul, year-list ul li{
+    display: block;
+    margin:0;
+    padding: 0px;
+}
+
+.year-list ul li{
+    display: block;
+    float: left;
+    list-style: none;
+    padding:20px;
+}
+
+.year-list ul li.active{
+    font-weight: bold;
 }
 /* /SECTION Person */
 

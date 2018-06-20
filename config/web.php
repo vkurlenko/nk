@@ -6,6 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'language' => 'ru-RU',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -14,7 +15,25 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
-            'layout'=> 'main'
+            'layout'=> 'main',
+            /*'controllerMap' => [
+                'elfinder' => [
+                    'class' => 'mihaildev\elfinder\Controller',
+                    'access' => ['@', '?'], //глобальный доступ к фаил менеджеру @ - для авторизорованных , ? - для гостей , чтоб открыть всем ['@', '?']
+                    'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
+                    'roots' => [
+                        [
+                            'baseUrl'=>'@web',
+                            'basePath'=>'@webroot',
+                            'path' => 'upload/global',
+                            'name' => 'Global'
+                        ],
+
+                    ],
+
+                ]
+            ],*/
+            /**/
         ],
         'yii2images' => [
             'class' => 'rico\yii2images\Module',
@@ -29,6 +48,10 @@ $config = [
             'imageCompressionQuality' => 85, // Optional. Default value is 85.
         ],
     ],
+
+
+
+
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -62,14 +85,22 @@ $config = [
             ],
         ],
         'db' => $db,
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'suffix'    => '.html',
             'rules' => [
-                '' => 'site/index',
-                '<action:\w+>' => 'site/<action>',
+                '/' => 'site/index',
+                //'<action:\w+>' => 'site/<action>',
+                //'<action:(person)>/' => 'site/<action>',
+                'person/<id:\d+>' => 'person/index',
+                'persons/<year:\d+>' => 'person/person',
+                'persons' => 'person/person',
+
+                '<action:\w+>' => 'site/text',
+
+                //'defaultRoute' => 'site/text',
                 //'about' => 'site/about',
                 //'admin' => 'admin', 
                 //'admin/pages' => 'admin/pages',                              
@@ -79,6 +110,18 @@ $config = [
         ],
         
     ],
+
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\PathController',
+            'access' => ['@', '?'],
+            'root' => [
+                'path' => 'upload/global',
+                'name' => 'Global'
+            ],
+        ]
+    ],
+
     'params' => $params,
 ];
 

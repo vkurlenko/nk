@@ -1,3 +1,6 @@
+select{
+    width:auto !important;
+}
 .form-img{
     width:212px;
     float: left;
@@ -29,6 +32,8 @@
     margin-bottom: 5px;
 }
 
+.img-role{margin-top:5px}
+
 
 a.set_name{
     float: right;
@@ -39,3 +44,9 @@ a.del_img{
     float: left;
     position: relative;
     display: block;}
+
+.success{color:green}
+.danger{color:red}
+
+.save-success{border-color:green}
+.save-error{border-color:red}
