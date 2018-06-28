@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use richardfan\sortable\SortableAction;
 
 /**
  * CitiesController implements the CRUD actions for Cities model.
@@ -29,6 +30,8 @@ class CitiesController extends Controller
             ],
         ];
     }
+
+    /**/
 
     /**
      * Lists all Cities models.
@@ -66,6 +69,8 @@ class CitiesController extends Controller
     public function actionCreate()
     {
         $model = new Cities();
+
+        $model->active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -151,5 +156,63 @@ class CitiesController extends Controller
         }
 
         return $arg;
+    }
+
+    /* сортировка записи */
+    public function actionSetsort($id = null, $sort = null)
+    {
+        $person = Cities::findOne($id);
+        $person->sort = $sort;
+        $save = $person->save();
+
+        return $save;
+    }
+
+    /* удаление картинки */
+    public function actionDeleteimg($page_id, $img_id)
+    {
+        $page = Cities::find()
+            ->where(['id' => $page_id])
+            ->one();
+
+        $images = $page->getImages();
+        $del = false;
+
+        foreach($images as $img){
+            if($img->id == $img_id){
+                $del = $page->removeImage($img);
+            }
+        }
+
+        return $del;
+    }
+
+    /* название картинки */
+    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null)
+    {
+        $page = Cities::find()
+            ->where(['id' => $page_id])
+            ->one();
+
+        $images = $page->getImages();
+        $save = false;
+
+        foreach($images as $img){
+            if($img->id == $img_id){
+                $save = $img->setName($name, $sort);
+            }
+        }
+        return $save;
+    }
+
+    public function actions(){
+        return [
+            'sortItem' => [
+                'class' => SortableAction::className(),
+                'activeRecordClassName' => Cities::className(),
+                'orderColumn' => 'sort',
+            ],
+            // your other actions
+        ];
     }
 }

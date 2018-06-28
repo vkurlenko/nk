@@ -8,6 +8,8 @@ use app\controllers\PersonController;
 
 $page = $page_data;
 $this->title = $page['title'];
+
+
 ?>
 
 <?= $this->render('/site/blocks/_slider1', compact('gallery')) ?>
@@ -78,9 +80,16 @@ $this->title = $page['title'];
             <?php
             $i = 0;
             foreach($s_vision as $video):
+                if(!$video['size'])
+                    $i % 2 ? $align = 'align-right' : $align = 'align-left';
+                else{
+                    $align = '';
+                    $i = 1;
+                }
+
                 ?>
 
-                <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $i % 2 ? 'align-right' : 'align-left';?>">
+                <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
                     <div class="yt-cover yt-start" data-src="<?=$video['video']?>">
                         <img src="<?=$video['cover']?>">
                         <div class="yt-container">

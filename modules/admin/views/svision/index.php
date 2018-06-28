@@ -33,12 +33,45 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->person->name;
                 }
             ],
-            'date',
-            'title',
-            'descr:ntext',
+            //'date',
+            [
+                'attribute' => 'date',
+                'value' => function($data){
+
+                    return date("d.m.Y", strtotime($data->date));;
+                },
+                'format' => 'html'
+            ],
+            //Yii::$app->formatter->asDate('2014-01-01')
+            [
+                'attribute' => 'title',
+                'value' => function($data){
+                    return Html::a($data->title, \yii\helpers\Url::to('/admin/svision/update?id='.$data->id));
+                },
+                'format' => 'html'
+            ],
+            //'descr:ntext',
             //'video:ntext',
-            //'size',
-            //'active',
+            [
+                'attribute' => 'size',
+                'value' => function($data){
+                    if($data->size == '1')
+                        return 'Большой';
+                    else
+                        return 'Малый';
+                },
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'active',
+                'value' => function($data){
+                    if($data->active == '1')
+                        return '<span class="success">Да</span>';
+                    else
+                        return '<span class="danger">Нет</span>';
+                },
+                'format' => 'html'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

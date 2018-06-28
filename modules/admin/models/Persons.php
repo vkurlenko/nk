@@ -53,7 +53,8 @@ class Persons extends \yii\db\ActiveRecord
 
     public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        //return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        return $this->hasOne(PersonCities::className(), ['name' => 'city_id']);
     }
 
     public function getSvision()
@@ -103,8 +104,8 @@ class Persons extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'city_id', 'year'], 'required'],
-            [['city_id', 'year', 'winner', 'on_main', 'on_main_sort', 'sort', 'active'], 'integer'],
-            [['text',  'photo_cake', 'photo_on_main'], 'string'],
+            [['year', 'winner', 'on_main', 'on_main_sort', 'sort', 'active'], 'integer'],
+            [['city_id', 'text',  'photo_cake', 'photo_on_main'], 'string'],
             [['name', 'winner_text'], 'string', 'max' => 255],
             [['photo_big'], 'file', 'extensions' => 'png, jpg'],
             [['photo_small'], 'file', 'extensions' => 'png, jpg'],
@@ -128,6 +129,7 @@ class Persons extends \yii\db\ActiveRecord
             'photo_small' => 'Фото мелкое',
             'photo_cake' => 'Фото торта',
             'photo_on_main' => 'Фото для главной (составное)',*/
+            'photo' => 'Фото',
             'person_images' => 'Фотографии участника',
             'on_main' => 'Разместить на главной',
             'on_main_sort' => 'Порядок на главной',

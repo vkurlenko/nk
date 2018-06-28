@@ -1,3 +1,6 @@
+<?php
+use yii\helpers\Html;
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -32,14 +35,26 @@
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Страницы', 'icon' => 'file-code-o', 'url' => ['/admin/pages']],
-                    ['label' => 'Лица проекта', 'icon' => 'file-code-o', 'url' => ['/admin/persons']],
-                    ['label' => 'Города', 'icon' => 'file-code-o', 'url' => ['/admin/cities']],
-                    ['label' => 'Торговые сети', 'icon' => 'file-code-o', 'url' => ['/admin/brands']],
-                    ['label' => 'Создать видео', 'icon' => 'file-code-o', 'url' => ['/admin/svision/create']],
-                    ['label' => 'Авторский надзор', 'icon' => 'file-code-o', 'url' => ['/admin/svision?type=svision']],
-                    ['label' => 'Видео с участниками', 'icon' => 'file-code-o', 'url' => ['/admin/svision?type=video']],
-                    ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Лица проекта', 'icon' => 'user-circle', 'url' => ['/admin/persons']],
+                    ['label' => 'Жюри', 'icon' => 'user-circle', 'url' => ['/admin/jury']],
+
+                    ['label' => 'Города', 'icon' => 'hospital-o', 'url' => '#',
+                        'items' => [
+                            ['label' => 'Города участников', 'icon' => '', 'url' => ['/admin/personcities']],
+                            ['label' => 'Города производств', 'icon' => '', 'url' => ['/admin/cities']],
+                        ]],
+
+                    ['label' => 'Торговые сети', 'icon' => 'trademark', 'url' => ['/admin/brands']],
+                    ['label' => 'Продукция', 'icon' => 'user-circle', 'url' => ['/admin/products']],
+                    ['label' => 'Видео', 'icon' => 'file-video-o', 'url' => ['#'],
+                        'items' => [
+                            ['label' => 'Авторский надзор', 'icon' => '', 'url' => ['/admin/svision?type=svision']],
+                            ['label' => 'Видео с участниками', 'icon' => '', 'url' => ['/admin/svision?type=video']],
+                        ]
+                        ],
+
+                   // ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],
+                    //['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Инструменты',
                         'icon' => 'share',
@@ -49,7 +64,7 @@
                             ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             ['label' => 'Шаблоны', 'icon' => 'dashboard', 'url' => ['/admin/tpl'],],
                             //http://127.0.0.1/openserver/phpmyadmin/index.php?db=nk
-                            [
+                            /*[
                                 'label' => 'Level One',
                                 'icon' => 'circle-o',
                                 'url' => '#',
@@ -65,7 +80,7 @@
                                         ],
                                     ],
                                 ],
-                            ],
+                            ],*/
                         ],
                     ],
                 ],
@@ -73,5 +88,11 @@
         ) ?>
 
     </section>
+
+   <!-- --><?/*= Html::a(
+        'Выйти из системы',
+        ['/site/logout'],
+        ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
+    ) */?>
 
 </aside>

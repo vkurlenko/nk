@@ -16,69 +16,51 @@ $this->title = 'Авторский надзор';
 
 <section id="supervision" class="section-center alignment-block">
 
+    <?php
+    //debug($svision);
+    ?>
 
     <p>Мы тщательно контролируем качество нашей продукции. Наши победители часто бывают на производстве и следят за соблюдением рецептуры</p>
 
     <hr>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6 video align-left">
-                <div class="yt-cover yt-start" data-src="BrQ17Yqbe70">
-                    <img src="/images/6456.jpg">
-                    <div class="yt-container">
-                        <i class="far fa-play-circle"></i>
-                    </div>
-
-                    
-                </div>
-                <span class="video-title">Маша Иванова в Самаре</span>
-                    <span class="video-date">10 сентября, 2018</span>
-                    <p>Маша посетила производство тортов на фабрике "Конфети", качество на высоте!</p>
-                    <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
-            </div>
-
-            <div class="col-sm-6 video align-right">
-                <div class="yt-cover yt-start" data-src="BrQ17Yqbe70">
-                    <img src="/images/6456.jpg">
-                    <div class="yt-container">
-                        <i class="far fa-play-circle"></i>
-                    </div>
-
-                    
-                </div>
-                <span class="video-title">Маша Иванова в Самаре</span>
-                    <span class="video-date">10 сентября, 2018</span>
-                    <p>Маша посетила производство тортов на фабрике "Конфети", качество на высоте!</p>
-                    <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
-            </div>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="container-fluid">
 
         <div class="row">
 
-            <div class="col-sm-12 video">
+            <?php
+            $i = 0;
+            foreach($svision as $video):
 
-                <div class="yt-cover yt-start" data-src="BrQ17Yqbe70">
-                    <img src="/images/6456.jpg">
-                    <div class="yt-container">
-                        <i class="far fa-play-circle"></i>
+                if(!$video['size'])
+                    $i % 2 ? $align = 'align-right' : $align = 'align-left';
+                else{
+                    $align = '';
+                    $i = 1;
+                }
+                ?>
+
+                <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
+                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>">
+                        <img src="<?=$video['cover']?>">
+                        <div class="yt-container">
+                            <i class="far fa-play-circle"></i>
+                        </div>
                     </div>
+
+                    <span class="video-title"><?=$video['title']?></span>
+                    <span class="video-date"><?=$video['date']?><!--10 сентября, 2018--></span>
+                    <p><?=$video['descr']?></p>
+                    <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
                 </div>
 
-                <span class="video-title">Маша Иванова в Самаре</span>
-                <span class="video-date">10 сентября, 2018</span>
-                <p>Маша посетила производство тортов на фабрике "Конфети", качество на высоте!</p>
-                <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
-            </div>
-
-
+                <?php
+                $i++;
+            endforeach;
+            ?>
         </div>
     </div>
+
 
     <hr>
 

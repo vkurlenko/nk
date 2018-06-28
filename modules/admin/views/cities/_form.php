@@ -17,15 +17,35 @@ mihaildev\elfinder\Assets::noConflict($this);
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'active')->checkbox([1, 0]); ?>
 
-    <?= $form->field($model, 'city')->textInput() ?>
 
-    <?= $form->field($model, 'sort')->textInput() ?>
+    <div class="group">
 
-    <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
-    <div style="clear:both;"></div>
-    <?= $form->field($model, 'image')->fileInput(); ?>
+        <?= $form->field($model, 'active')->checkbox([1, 0]); ?>
+        <?/*= $form->field($model, 'sort')->textInput(['maxlength' => 5, 'size' => 5]) */?>
+    </div>
+
+    <div class="group">
+        <?= $form->field($model, 'city')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+
+        <?= $form->field($model, 'text')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+    </div>
+
+
+    <?php
+    if($model->id):?>
+    <div class="group">
+
+
+        <div style="clear:both;"></div>
+        <?= $form->field($model, 'image')->fileInput(); ?>
+        <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
+
+        <div style="clear: both"></div>
+    </div>
+    <?php
+    endif;
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

@@ -23,7 +23,9 @@
         "mihaildev/yii2-ckeditor": "*",
         "costa-rico/yii2-images": "dev-master",
         "kartik-v/yii2-widget-fileinput": "@dev",
-        "mihaildev/yii2-elfinder": "*"
+        "mihaildev/yii2-elfinder": "*",
+        "richardfan1126/yii2-sortable-gridview": "*",
+        "yiisoft/yii2-imagine": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

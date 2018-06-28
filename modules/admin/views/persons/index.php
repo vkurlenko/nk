@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\components\SortWidget;
+use \app\modules\admin\components\CheckboxWidget;
+use richardfan\sortable\SortableGridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\PersonsSearch */
@@ -14,24 +17,60 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="persons-index">
 
     <!--<h1><?/*= Html::encode($this->title) */?></h1>-->
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+    <div class="btn-group" role="group" aria-label="...">
         <?= Html::a('Создать Лицо проекта', ['create'], ['class' => 'btn btn-success']) ?>
+        <?/*= Html::a('Сохранить сортировку и обновить страницу', [''], ['class' => 'btn btn-primary mass-save']) */?>
+    </div>
     </p>
 
-    <?= GridView::widget([
+
+    <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'sortUrl' => Url::to(['sortItem']),
+        'sortingPromptText' => 'Загрузка ...',
+        'failText' => 'Ошибка сортировки',
+       // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            /*'id',*/
+            [
+                'attribute' => 'name',
+                'value' => function($data){
+                    return Html::a($data->name, \yii\helpers\Url::to('/admin/persons/update?id='.$data->id));
+                },
+                'format' => 'html',
+                'options' => ['class' => 'align-left']
+            ],
+            [
+                'attribute' => 'photo',
+                'value' => function($data){
+                    //$brand = new Brands();
+                    $model = \app\modules\admin\models\Persons::findOne($data->id);//$this->findModel($data->id);
+                    $images = $model->getImages();
+                    $image = false;
 
-            'id',
-            'name',
+                    foreach($images as $img){
+                        if($img->role == 'photo_big')
+                        {
+                            $image = $img;
+                            //debug($image); die;
+                        }
+                    }
+
+                    if($image)
+                        return Html::img('/'.$image->getPath('50x')); //Html::img($image->getUrl('50x')),
+                },
+                'format' => 'raw'
+            ],
             [
                 'attribute' => 'city_id',
                 'value' => function($data){
-                    return $data->city->city;
+                    //debug($data);
+                    return $data->city_id;
+                    //return $data->city->name;
                 }
             ],
             'year',
@@ -56,14 +95,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html'
             ],
-            [
+            /*[
                 'attribute' => 'sort',
                 'value' => function($data){
 
-                    return SortWidget::widget(['data' => $data, 'model_name' => 'person']);
+                    return SortWidget::widget(['data' => $data, 'model_name' => 'persons']);
                 },
                 'format' => 'raw'
-            ],
+            ],*/
             [
                 'attribute' => 'active',
                 'value' => function($data){
@@ -72,7 +111,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     else
                         return '<span class="danger">Нет</span>';
                 },
-                'format' => 'html'
+                /*'value' => function($data){
+                    return CheckboxWidget::widget(['data' => $data]);
+                },*/
+                'format' => 'raw'
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

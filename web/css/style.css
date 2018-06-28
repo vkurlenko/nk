@@ -218,7 +218,7 @@ picture img{
 
 .slider-main{
     /*background: #f9a0ca ;*/
-    margin-top:45px;
+    /*margin-top:45px;*/
     max-width:1170px; 
     margin-left:auto;
     margin-right:auto;
@@ -296,8 +296,9 @@ picture img{
     padding:15px;
     color: #fff;
     text-shadow: none;
-    background-color: rgba(0, 0, 0, 0);
-    filter: alpha(opacity=100);
+    /*background-color: rgba(0, 0, 0, 0);
+    filter: alpha(opacity=100);*/
+
     opacity: 1;
     z-index: 2;
 }
@@ -308,17 +309,19 @@ picture img{
 .carousel-control.left{
     text-align: left;
     left:0;
-    background: -moz-linear-gradient(left, rgba(249, 160, 202,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dc3383', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+    background: url(/web/tpl/grad_prev.png) left no-repeat;
+    /*background: -moz-linear-gradient(left, rgba(249, 160, 202,1) 0%, rgba(255,255,255,0) 100%); !* FF3.6-15 *!
+    background: -webkit-linear-gradient(left, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); !* Chrome10-25,Safari5.1-6 *!
+    background: linear-gradient(to right, rgba(249, 160, 202,1) 0%,rgba(255,255,255,0) 100%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dc3383', endColorstr='#00ffffff',GradientType=1 ); !* IE6-9 *!*/
 }
 .carousel-control.right{
     text-align: right;
-    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(249, 160, 202,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#dc3383',GradientType=1 ); /* IE6-9 */
+    background: url(/web/tpl/grad_next.png) right no-repeat;
+    /*background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(249, 160, 202,1) 100%); !* FF3.6-15 *!
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); !* Chrome10-25,Safari5.1-6 *!
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(249, 160, 202,1) 100%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#dc3383',GradientType=1 ); !* IE6-9 *!*/
 
 }
 
@@ -476,24 +479,42 @@ footer .laces{
     padding: 0 0 0 0;
     position: relative;
 }
-.person-img-2{
+/*.person-img-2{
     padding: 0 0 0 5px;
     display: -webkit-flex;
-    display: flex; /*отображает контейнер как блочный элемент*/
+    display: flex; !*отображает контейнер как блочный элемент*!
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
     right: 0;
     height: 100%;
     box-sizing:border-box;
+}*/
+
+.person-img-2{
+    margin: 0 0 0 5px;
+    padding:0;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    box-sizing:border-box;
+    /*background:red;*/
 }
 
 .person-img-2 img{
     /*height:100%;*/
+    border-left:5px solid #fff;
 }
 
 .person-img-2 img:first-child{
     /*margin-bottom:10px;*/
+}
+
+.person-img-cake{
+    display: block;
+    position: absolute;
+    bottom:0;
+    border-top:5px solid #fff;
 }
 
 .person-text{
@@ -552,6 +573,123 @@ footer .laces{
     font-weight: bold;
 }
 /* /SECTION Person */
+
+/* SECTION Jury */
+#jury .col-md-4{
+    padding-left:9px;
+    padding-right: 9px;
+    text-align:left;
+    margin-top:25px;
+}
+
+.j-img img{
+    max-width:100%;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.j-name{
+    color: #dc3383;
+    display: block;
+    margin-top: 15px;
+}
+
+.j-descr{
+    display: block;
+    margin-top: 15px;
+}
+
+.clear-3{
+    clear:both;
+}
+
+/* /SECTION Jury */
+
+/* SECTION Markets */
+#markets,
+#markets .container-fluid{
+    padding:0
+}
+
+#markets .flex-container{
+    display: -webkit-flex;
+    display: flex; /*отображает контейнер как блочный элемент*/
+    justify-content: space-between;
+    flex-wrap:wrap;
+}
+
+.markets-city-name{
+    color:#dc3383;
+}
+.markets-city-brand{
+    border:1px solid #cecece;
+    /*float:left;*/
+    margin:9px;
+}
+
+/* /SECTION Markets */
+
+
+/* SECTION Products */
+#products{
+
+}
+
+.product a{
+    display: block;
+}
+
+.product a img{
+    max-width:100%;
+    margin-top:40px;
+    margin-bottom:40px;
+}
+
+.product span{
+    display: block;
+    font-family: HelveticaNeueCyrLight;
+    font-size:30px;
+}
+
+.gallery-nav .item img{
+    max-width: 100%;
+}
+
+.gallery-nav .item a{
+    display: block;
+    padding-bottom:15px;
+}
+
+.gallery-nav .item a.selected{
+    border-bottom:2px solid #f9a0ca;
+}
+
+#product .video iframe{
+    width:100%;
+}
+
+.product-descr{
+    text-align: left;
+}
+
+.product-descr ul,
+.product-descr ul li{
+    list-style: none;
+    /*margin:0;*/
+    padding: 10px 0;
+}
+
+.gallery-view img{
+    max-width: 100%;
+}
+
+.gallery-nav .item a{
+    /*border:1px solid red;*/
+}
+
+/* /SECTION Products */
+
 
 
 
@@ -650,6 +788,14 @@ footer ul li.social{
     }
 
     .main{margin-top:0;}
+
+    .clear-3{
+        display: none;
+    }
+
+    .clear-2{
+        clear:both;
+    }
 }
 
 @media only screen and (width : 768px) {
@@ -666,6 +812,8 @@ footer ul li.social{
         /*background: #f9a0ca ;*/
         margin-top:25px;
     }
+
+
     .alignment-block .align-left{
         padding-left: 30px !important;
         margin-left: auto;
@@ -675,6 +823,10 @@ footer ul li.social{
         padding-right:30px !important;
         margin-right:0;
     }
+
+   /* #project-faces .align-left{
+        padding-left:0;
+    }*/
 
     .navbar-nav {
         margin: 55px 0 0 0;
@@ -695,8 +847,6 @@ footer ul li.social{
         font-family: 'HelveticaBold', Arial, sans-serif;
     }
 
-
-
     .footer-menu-social, .social-menu{
         text-align: center;
     }
@@ -709,9 +859,66 @@ footer ul li.social{
     /* .face {
     padding: 0;
     } */
+
+    .person-nav h2{
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+
+    .person-nav a.person-prev,
+    .person-nav a.person-next{
+        /*border:1px solid red;*/
+        margin:0;
+    }
+
+    .person-nav a.person-prev{
+        padding-right:0;
+    }
+
+    .person-nav a.person-next{
+        padding-left:0;
+    }
+
     .person-text{
        padding:8px;
     }
+
+    .person-images img {
+       width: auto !important;
+    }
+
+    .person-img-2 {
+         margin: auto;
+         padding: auto;
+         position: relative;
+         right: auto;
+         height: 100%;
+         box-sizing: border-box;
+         /*background: red; */
+    }
+
+    .person-img-2 img
+    {
+        display: block;
+        margin: 10px auto 0 auto;
+        border:0;
+    }
+    .person-img-cake {
+
+        position: relative;
+        bottom: auto;
+        border-top: 0;
+    }
+
+    #jury .col-md-4{
+        text-align:center;
+    }
+
+    #markets .flex-container{
+        justify-content: center;
+    }
+
+
 }
 
 @media only screen and (max-width : 576px) {
@@ -753,6 +960,8 @@ footer ul li.social{
     .face{
         padding:5px 10px !important;
     }
+
+
 
 
 }
@@ -836,41 +1045,40 @@ footer ul li.social{
 
 /* Custom, iPhone Retina (iphone 4, 5) */
 @media only screen and (max-width : 320px) {
-    html, body{
-        font-size:12px;
+    html, body {
+        font-size: 12px;
     }
-    h1{
+
+    h1 {
         font-size: 24px;
     }
 
-    h2{
+    h2 {
         font-size: 20px;
     }
-    h3{
+
+    h3 {
         font-size: 16px;
     }
 
     .navbar-default .navbar-nav > li > a,
-    .dropdown-menu{
-        font-size:12px;
+    .dropdown-menu {
+        font-size: 12px;
     }
 
-    .carousel-caption-nk{
-        font-size:16px;
+    .carousel-caption-nk {
+        font-size: 16px;
     }
 
     .video .video-date, #supervision .video a {
-       font-size: 10px;
+        font-size: 10px;
     }
 
-    .video .video-title{
+    .video .video-title {
         font-size: 12px;
     }
 
     footer ul, footer ul li {
         font-size: 12px;
     }
-
-
-
 }

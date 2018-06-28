@@ -75,6 +75,40 @@ function setSort(obj, e){
 
 }
 
+function massSave(e){
+
+    e.preventDefault();
+    var result = true;
+
+    $('.sort-widget').each(function () {
+        var sort = $(this).find('input').val();
+        var href = $(this).find('a').attr('href');
+        var id   = $(this).find('a').attr('data-id');
+        var model = $(this).find('a').attr('data-model');
+
+        var obj = $(this);
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: href+'?id='+id+'&sort='+sort+'&model='+model,
+            success: function(res){
+                if(res){
+                    $(obj).find('input').addClass('save-success');
+                }
+                else{
+                    $('.mass-save').addClass('save-error');
+                    $(obj).find('input').addClass('save-error');
+                }
+            }
+        });
+    });
+
+
+    location.reload();
+
+}
+
 
 
 $(document).ready(function () {
@@ -94,4 +128,11 @@ $(document).ready(function () {
     $('.set_sort').click(function (e) {
         setSort($(this), e);
     });
+
+    $('.mass-save').click(function (e) {
+        massSave(e);
+        return false;
+    });
+
+
 })

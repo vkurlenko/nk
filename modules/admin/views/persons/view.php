@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\admin\models\Persons */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Persons', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Лица проекта', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $images = $model->getImages();
@@ -42,7 +42,7 @@ foreach($images as $img){
             [
                 'attribute' => 'city_id',
                 'value' => function($data){
-                    return $data->city->city;
+                    return $data->city_id;
                 }
             ],
             'year',

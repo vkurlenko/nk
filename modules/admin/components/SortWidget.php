@@ -8,7 +8,6 @@
 
 namespace app\modules\admin\components;
 
-
 use yii\base\Widget;
 
 class SortWidget extends Widget

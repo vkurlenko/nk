@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use richardfan\sortable\SortableAction;
 
 /**
  * BrandsController implements the CRUD actions for Brands model.
@@ -42,6 +43,7 @@ class BrandsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => new Brands()
         ]);
     }
 
@@ -67,8 +69,14 @@ class BrandsController extends Controller
     {
         $model = new Brands();
 
+        $model->active = true;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->upload();
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -134,5 +142,26 @@ class BrandsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /* сортировка записи */
+    public function actionSetsort($id = null, $sort = null)
+    {
+        $row = Brands::findOne($id);
+        $row->sort = $sort;
+        $save = $row->save();
+        //$save = false;
+        return $save;
+    }
+
+    public function actions(){
+        return [
+            'sortItem' => [
+                'class' => SortableAction::className(),
+                'activeRecordClassName' => Brands::className(),
+                'orderColumn' => 'sort',
+            ],
+            // your other actions
+        ];
     }
 }

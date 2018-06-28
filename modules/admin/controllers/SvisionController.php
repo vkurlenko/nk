@@ -141,7 +141,7 @@ class SvisionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function getTitle($type = null){
+    public static function getTitle($type = null){
         $type_title = [
             'svision' => 'Авторский надзор',
             'video'   => 'Видео с участником'

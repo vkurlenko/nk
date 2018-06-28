@@ -15,7 +15,7 @@ $this->title = $page['title'];
 
     <h1>Лица проекта</h1>
 
-    <section id="project-faces all-faces" class="section-center alignment-block">
+    <section id="project-faces" class="section-center alignment-block">
 
 
         <div class="container-fluid">
@@ -25,14 +25,21 @@ $this->title = $page['title'];
                 <div class="year-list">
                     <ul>
                         <?php
-                        if($years){
+                        if($years && count($years) > 1){
                             foreach($years as $k => $v):?>
                             <li <?= Yii::$app->request->get('year') == $v['year'] ? 'class="active"' : '';?>><?=Html::a($v['year'], '/persons/'.$v['year']);?></li>
                             <?php
                             endforeach;
                         }
                         ?>
+
+                        <?php
+                        if(count($years) > 1):
+                        ?>
                         <li <?= Yii::$app->request->get('year') ? '' : 'class="active"'; ?>><?=Html::a('Все', '/persons');?></li>
+                        <?php
+                        endif;
+                        ?>
                     </ul>
 
                 </div>
@@ -41,7 +48,7 @@ $this->title = $page['title'];
 
                 $img_key = 'photo_on_main';
                 $city_id = '';
-                $i = 0;
+                //$i = 0;
                 foreach($persons as $city) {
 
                     foreach($city as $person){
@@ -62,12 +69,16 @@ $this->title = $page['title'];
                         <div class="col-sm-6 col-xs-6 face <?= $i % 2 ? 'align-right' : 'align-left'; ?>">
                             <span><?= $person['name'] ?></span>
                             <a href="<?= Url::to(['person/' . $person['id']]) ?>">
-                                <?= Html::img($person[$img_key][0], ['alt' => $person[$img_key][1], 'title' => $person[$img_key][1]]) ?>
+                                <?= Html::img('/'.$person[$img_key][0], ['alt' => $person[$img_key][1], 'title' => $person[$img_key][1]]) ?>
                             </a>
                             <div style="clear: both"></div>
                         </div>
                         <?php
+                        if($i % 2){
+                            echo '<div style="clear: both"></div>';
+                        }
                         $i++;
+
                     }
                 }
                 ?>

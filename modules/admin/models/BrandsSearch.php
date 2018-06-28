@@ -47,6 +47,11 @@ class BrandsSearch extends Brands
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                // количество пунктов на странице
+                'pageSize' => 100,
+            ],
+            'sort'=> ['defaultOrder' => ['sort' => SORT_ASC]]
         ]);
 
         $this->load($params);

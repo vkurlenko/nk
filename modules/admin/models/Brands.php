@@ -58,9 +58,9 @@ class Brands extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'city', 'text', 'active'], 'required'],
-            [['name', 'text', 'active'], 'string'],
-            [['city'], 'integer'],
+            [['name', 'city', 'active'], 'required'],
+            [['name', 'text', 'url', 'active'], 'string'],
+            [['city', 'sort'], 'integer'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
@@ -73,9 +73,11 @@ class Brands extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название сети',
+            'url' => 'Сайт',
             'logo' => 'Логотип',
             'city' => 'Город',
             'text' => 'Описание',
+            'sort' => 'Сортировка',
             'active' => 'Показывать на сайте',
         ];
     }

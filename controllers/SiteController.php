@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 
+use app\modules\admin\models\Brands;
+use app\modules\admin\models\Cities;
+use app\modules\admin\models\Jury;
 use Yii;
 use app\modules\admin\controllers\PagesController;
 use yii\filters\AccessControl;
@@ -97,12 +100,230 @@ class SiteController extends AppController
     }
 
 
-    public function getSvision(){
 
-        //$s_vision = [];
 
-        $arr_video = Svision::find()->where(['active' => 1, 'type' => 'svision'])->orderBy(['date' => SORT_DESC])->asArray()->limit(4)->all();
-//debug($arr_video);
+    /* action по умолчанию для типовых (тестовых) страниц */
+    public function actionText()
+    {
+
+        // определим данные главной страницы по ее url
+        $url = Url::to();
+
+        $data = Pages::find()->where(['url' => $url])->asArray()->one();
+
+        if(!$data){
+            $url = substr($url, 1);
+            //echo $url;
+            $data = Pages::find()->where(['url' => $url])->asArray()->one();
+        }
+
+
+        if($data){
+            // найдем главную картинку и галерею картинок, если они прикреплены к странице
+            $page = Pages::findOne($data['id']);
+            $img = $page->getImage();
+            $gallery = $page->getImages();
+
+            return $this->render('text', compact('data', 'img', 'gallery'));
+        }
+        else
+            return $this->render('error');
+    }
+
+
+    /**
+     * Login action.
+     *
+     * @return Response|string
+     */
+    public function actionLogin()
+    {
+        $this->layout = '@app/modules/admin/views/layouts/main-login';
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        $model->password = '';
+
+        return $this->render('@app/modules/admin/views/site/login', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Logout action.
+     *
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    /**
+     * Displays contact page.
+     *
+     * @return Response|string
+     */
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+
+
+    public function actionSupervision()
+    {
+        $svision = $this->getSvision(100);
+        return $this->render('supervision', compact('svision'));
+    }
+
+    public function actionJury()
+    {
+        $jury = Jury::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
+
+        foreach($jury as $m){
+            $p = Jury::findOne($m['id']);
+            $photo = $p->getImage();
+            $jury[$m['id']]['photo'] = $photo->getUrl('460x360');
+        }
+        return $this->render('jury', compact('jury'));
+    }
+
+    public function actionMarkets(){
+
+        $city = [];
+        if(Yii::$app->request->get('id')){
+            $id = Yii::$app->request->get('id');
+
+            $model = Cities::findOne($id);
+            $herb = $model->getImage();
+            $city = [
+                'id' => $model->id,
+                'name' => $model->city,
+                'herb' => $herb->getUrl('x200'),
+                'text' => $model->text,
+            ];
+
+            $logos = Brands::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
+
+            if($logos){
+                foreach($logos as $logo){
+                    $model = Brands::findOne($logo['id']);
+                    $img = $model->getImage();
+
+                    if($model->city == $id){
+                        $city['logos'][] =
+                            [
+                                'brand' => $model->name,
+                                'img' => '/'.$img->getPath('170x70'),
+                                'url' => $model->url,
+                            ];
+                    }
+                }
+            }
+        }
+
+        //debug($city); die;
+
+        return $this->render('markets', compact('city'));
+    }
+
+    // формирует главное меню
+    public static function makeMainMenu()
+    {
+        $arr = [];
+
+        $pages = PagesController::mapTree(PagesController::getAllPages());
+
+        foreach($pages as $page){
+
+            if($page['url'] == '' || !$page['active'])
+                continue;
+
+            // подменю Где купить
+            if($page['url'] == 'markets'){
+
+                $cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
+
+                foreach($cities as $city){
+
+                    $page['childs'][] = [
+                        'active' => $city['active'],
+                        'title' => $city['city'],
+                        'url' => '/markets/'.$city['id'],
+                    ];
+                }
+            }
+
+
+
+            if($page['childs']){
+
+                $i = 0;
+                $arr_ch = [];
+
+                foreach($page['childs'] as $child){
+
+                    if($child['active']) {
+                        $i++;
+                        $arr_ch[] =  [
+                            'label' => $child['title'],
+                            'url' => ['/'.$child['url']],
+                            'options' => $i == 1 ? ['class' => 'first-item'] : []
+                        ];
+                    }
+                }
+                $arr[] = ['label' => $page['title'], 'items' => $arr_ch, 'options' => ['class' => 'submenu'],];
+            }
+            else
+                $arr[] = ['label' => $page['title'], 'url' => ['/'.$page['url']]];
+        }
+
+        //debug($arr); die;
+
+        return $arr;
+    }
+
+    /* сортировка картинок слайдера для страницы с ID = $id*/
+    public function makeSliderGallery($id)
+    {
+        $page = Pages::findOne($id);
+        $gallery = $page->getImages();
+        $gallery2 = [];
+        $arr = Image::find()->asArray()->where(['itemId' => $id])->orderBy(['sort' => SORT_ASC])->all();
+
+        foreach($arr as $row){
+            foreach($gallery as $img){
+                if($img->id == $row['id']){
+                    $gallery2[] = $img;
+                }
+            }
+        }
+
+        return $gallery2;
+    }
+
+    public function getSvision($limit = 4){
+
+        $arr_video = Svision::find()->where(['active' => 1, 'type' => 'svision'])->orderBy(['date' => SORT_DESC])->asArray()->limit($limit)->all();
+
         $i = 0;
         foreach($arr_video as $video){
             $j = 0;
@@ -162,172 +383,6 @@ class SiteController extends AppController
             }
         }
         return $photos;
-    }
-
-    /* action по умолчанию для типовых (тестовых) страниц */
-    public function actionText()
-    {
-
-        // определим данные главной страницы по ее url
-        $url = Url::to();
-
-        $data = Pages::find()->where(['url' => $url])->asArray()->one();
-
-        if(!$data){
-            $url = substr($url, 1);
-            //echo $url;
-            $data = Pages::find()->where(['url' => $url])->asArray()->one();
-        }
-
-
-        if($data){
-            // найдем главную картинку и галерею картинок, если они прикреплены к странице
-            $page = Pages::findOne($data['id']);
-            $img = $page->getImage();
-            $gallery = $page->getImages();
-
-            return $this->render('text', compact('data', 'img', 'gallery'));
-        }
-        else
-            return $this->render('error');
-    }
-
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-   /* public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    public function actionFranch()
-    {
-        return $this->render('franch');
-    }*/
-
-    /*public function actionPerson()
-    {
-        return $this->render('persons');
-    }*/
-
-    public function actionSupervision()
-    {
-        return $this->render('supervision');
-    }
-
-    // формирует главное меню
-    public function makeMainMenu()
-    {
-        $arr = [];
-
-        $pages = PagesController::mapTree(PagesController::getAllPages());
-
-        //debug($pages); die;
-
-        foreach($pages as $page){
-
-            if($page['url'] == '')
-                continue;
-
-            if($page['childs']){
-
-                $i = 0;
-                $arr_ch = [];
-
-                foreach($page['childs'] as $child){
-
-                    if($child['active']) {
-                        $i++;
-                        $arr_ch[] =  [
-                            'label' => $child['title'],
-                            'url' => ['/'.$child['url']],
-                            'options' => $i == 1 ? ['class' => 'first-item'] : []
-                        ];
-                    }
-                }
-                $arr[] = ['label' => $page['title'], 'items' => $arr_ch, 'options' => ['class' => 'submenu'],];
-            }
-            else
-                $arr[] = ['label' => $page['title'], 'url' => ['/'.$page['url']]];
-        }
-
-        //debug($arr); die;
-
-        return $arr;
-    }
-
-    /* сортировка картинок слайдера для страницы с ID = $id*/
-    public function makeSliderGallery($id)
-    {
-        $page = Pages::findOne($id);
-        $gallery = $page->getImages();
-        $gallery2 = [];
-        $arr = Image::find()->asArray()->where(['itemId' => $id])->orderBy(['sort' => SORT_ASC])->all();
-
-        foreach($arr as $row){
-            foreach($gallery as $img){
-                if($img->id == $row['id']){
-                    $gallery2[] = $img;
-                }
-            }
-        }
-
-        return $gallery2;
     }
 }
 

@@ -154,7 +154,7 @@ class PagesController extends Controller
     /*
         получим список шаблонов для выбора
     */
-    public function getTemplates(){
+    public static function getTemplates(){
         $arg = [];
 
         $templates = Tpl::find()->asArray()->all();
@@ -167,9 +167,9 @@ class PagesController extends Controller
     }
 
     /* получим все страницы в виде простого массива */
-    public function getAllPages()
+    public static function getAllPages()
     {
-        $cats = Pages::find()->asArray()->all();
+        $cats = Pages::find()->orderBy(['order_by' => SORT_ASC])->asArray()->all();
 
         $arr_cat = array();
 
@@ -181,7 +181,7 @@ class PagesController extends Controller
     }
 
     /* дерево страниц в виде массива */
-    public function mapTree($dataset)
+    public static function mapTree($dataset)
     {
         $tree = array();
 
@@ -196,7 +196,7 @@ class PagesController extends Controller
     }
 
     /* дерево страниц в виде списка SELECT  */
-    public function getPagesSelect($id = null)
+    public static function getPagesSelect($id = null)
     {
         $arr = [];
         $arr[0] = 'Самостоятельная страница';
@@ -220,7 +220,7 @@ class PagesController extends Controller
 
 
 
-    public function getNextSort()
+    public static function getNextSort()
     {
         $n = Pages::find()->max('order_by');
         $n++;

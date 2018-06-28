@@ -6,7 +6,7 @@
         foreach($gallery as $pic):
         ?>
             <div class="item">
-                <?= \yii\helpers\Html::img($pic->getUrl('847x486')) ?>
+                <?= \yii\helpers\Html::img($pic->getPath('847x486')) ?>
                 <div class="carousel-caption-nk">
                     <?=$pic['name']?>
                 </div>

@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\modules\admin\models\PersonCities;
 use Yii;
 use app\modules\admin\models\Persons;
 use app\modules\admin\models\Cities;
@@ -38,9 +39,8 @@ class PersonController extends AppController
     public function actionPerson(){
 
         $persons = [];
-        $cities = Cities::find()->select(['id'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
 
-        //debug($cities);
+        $cities = PersonCities::find()->select(['name'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
 
         $years = Persons::find()->select(['year'], 'DISTINCT')->where(['active' => 1])->asArray()->orderBy(['year' => SORT_DESC])->all();
 
@@ -70,11 +70,15 @@ class PersonController extends AppController
         if($year)
             $where['year'] = $year;
 
-        $persons = Persons::find()->where($where)->asArray()->orderBy(['year' => SORT_DESC])->all();
+        $persons = Persons::find()
+            ->where($where)
+            ->asArray()
+            ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
+            ->all();
 
         foreach($persons as $person){
-            if($person['city_id'])
-                $person['city_id'] = $this->getCity($person['city_id']);
+            /*if($person['city_id'])
+                $person['city_id'] = $this->getCity($person['city_id']);*/
 
             $photos = $this->getPhotos($person['id']);
 
@@ -93,8 +97,8 @@ class PersonController extends AppController
 
        $person = Persons::findOne($id);
 
-       if($person->city_id)
-           $person->city_id = $this->getCity($person->city_id);
+       /*if($person->city_id)
+           $person->city_id = $this->getCity($person->city_id);*/
 
        $photos = $this->getPhotos($id);
 
@@ -105,50 +109,98 @@ class PersonController extends AppController
        return $person;
     }
 
+    // список городов для навигации по участникам
+    public function getNav(){
+        $nav = [];
+
+        $cities = PersonCities::find()->select(['name'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
+
+        foreach($cities as $k => $v){
+            $arr = Persons::find()
+                ->select(['id', 'name', 'city_id'])
+                ->where(['active' => 1, 'city_id' => $v['name']])
+                ->indexBy('id')
+                ->asArray()
+                ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
+                ->all();
+
+            foreach($arr as $a)
+                array_push($nav, $a);
+        }
+
+        return $nav;
+    }
+
+    // вперед/назад между участниками
     public function getNavPerson($id = null, $dir = null){
 
-        $person = $this->getPerson($id);
+        $nav_person_id = false;
 
-        if($person && $dir){
-            switch($dir){
+        $nav = $this->getNav();
+
+        //$person = $this->getPerson($id);
+
+        //if($id && $dir){
+            /*switch($dir){
+               ase 'prev' :
+                   $nav_person = Persons::find()
+                       ->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
+                       ->andWhere('year = :year_this', [':year_this' => $person->year])
+                       ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
+                       ->asArray()
+                       ->one();
+
+                   if(!$nav_person)
+                       $nav_person = Persons::find()
+                           //->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
+                           ->andWhere('year = :year_this', [':year_this' => $person->year + 1])
+                           ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
+                           ->asArray()
+                           ->one();
+                   break;
+
+               case 'next' :
+                   $nav_person = Persons::find()
+                       ->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
+                       ->andWhere('year = :year_this', [':year_this' => $person->year])
+                       ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
+                       ->asArray()
+                       ->one();
+
+                   if(!$nav_person)
+                       $nav_person = Persons::find()
+                           //->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
+                           ->andWhere('year = :year_this', [':year_this' => $person->year - 1])
+                           ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
+                           ->asArray()
+                           ->one();
+                   break;*/
+
+
+        if($id && $dir) {
+            switch ($dir) {
+
                 case 'prev' :
-                    $nav_person = Persons::find()
-                        ->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
-                        ->andWhere('year = :year_this', [':year_this' => $person->year])
-                        ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
-                        ->asArray()
-                        ->one();
+                    foreach($nav as $k => $p){
+                        if($p['id'] == $id){
+                            $nav_person_id = $nav[$k-1]['id'];
+                        }
+                    }
 
-                    if(!$nav_person)
-                        $nav_person = Persons::find()
-                            //->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
-                            ->andWhere('year = :year_this', [':year_this' => $person->year + 1])
-                            ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
-                            ->asArray()
-                            ->one();
                     break;
 
                 case 'next' :
-                    $nav_person = Persons::find()
-                        ->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
-                        ->andWhere('year = :year_this', [':year_this' => $person->year])
-                        ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                        ->asArray()
-                        ->one();
-
-                    if(!$nav_person)
-                        $nav_person = Persons::find()
-                            //->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
-                            ->andWhere('year = :year_this', [':year_this' => $person->year - 1])
-                            ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                            ->asArray()
-                            ->one();
+                    foreach($nav as $k => $p){
+                        if($p['id'] == $id){
+                            $nav_person_id = $nav[$k+1]['id'];
+                        }
+                    }
                     break;
 
-                default: break;
+                default : break;
             }
 
-            return $nav_person['id'];
+            return $nav_person_id;
         }
         else
             return false;
@@ -204,7 +256,7 @@ class PersonController extends AppController
         $model = Svision::findOne($id);
         $cover = $model->getImage();
 
-        return $cover->getUrl('660x377');
+        return $cover->getPath('660x377');
     }
 
     // получим фото участника
@@ -218,16 +270,16 @@ class PersonController extends AppController
         foreach($images as $img){
             switch($img->role){
                 case $pfx.'_big'   :
-                    $photos[$pfx.'_big'] = [$img->getUrl('350x534'), $img->name]; break;
+                    $photos[$pfx.'_big'] = [$img->getPath('360x549'), $img->name]; break;
 
                 case $pfx.'_small' :
-                    $photos[$pfx.'_small'] = [$img->getUrl('350x197'), $img->name]; break;
+                    $photos[$pfx.'_small'] = [$img->getPath('360x217'), $img->name]; break;
 
                 case $pfx.'_cake'  :
-                    $photos[$pfx.'_cake'] = [$img->getUrl('350x327'), $img->name]; break;
+                    $photos[$pfx.'_cake'] = [$img->getPath('360x337'), $img->name]; break;
 
                 case $pfx.'_on_main'  :
-                    $photos[$pfx.'_on_main'] = [$img->getUrl('338x235'), $img->name]; break;
+                    $photos[$pfx.'_on_main'] = [$img->getPath('338x235'), $img->name]; break;
 
                 default : break;
             }
@@ -235,8 +287,5 @@ class PersonController extends AppController
 
         return $photos;
     }
-
-
-
 
 }

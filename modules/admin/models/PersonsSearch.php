@@ -60,7 +60,7 @@ class PersonsSearch extends Persons
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            //'id' => $this->id,
             'city_id' => $this->city_id,
             'year' => $this->year,
             'winner' => $this->winner,

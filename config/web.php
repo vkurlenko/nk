@@ -16,24 +16,11 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'layout'=> 'main',
-            /*'controllerMap' => [
-                'elfinder' => [
-                    'class' => 'mihaildev\elfinder\Controller',
-                    'access' => ['@', '?'], //глобальный доступ к фаил менеджеру @ - для авторизорованных , ? - для гостей , чтоб открыть всем ['@', '?']
-                    'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
-                    'roots' => [
-                        [
-                            'baseUrl'=>'@web',
-                            'basePath'=>'@webroot',
-                            'path' => 'upload/global',
-                            'name' => 'Global'
-                        ],
-
-                    ],
-
-                ]
+            /*'user' => [
+                'identityClass' => 'app\models\User',
+                'enableAutoLogin' => true,
+                //'loginUrl' => ['admin/default/login'],
             ],*/
-            /**/
         ],
         'yii2images' => [
             'class' => 'rico\yii2images\Module',
@@ -64,6 +51,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            //'loginUrl' => ['site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -73,7 +61,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'narodny.konditer@yandex.ru',
+                'password' => 'konditer',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -89,11 +85,23 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            //'suffix'    => '.html',
+            //'suffix'    => '/',
             'rules' => [
                 '/' => 'site/index',
                 //'<action:\w+>' => 'site/<action>',
                 //'<action:(person)>/' => 'site/<action>',
+                'admin' => 'admin/default/index',
+
+                '<action:(supervision|jury)>/' => 'site/<action>',
+
+                'contact' => 'site/contact',
+
+                'markets' => 'site/markets',
+                'markets/<id:\d+>' => 'site/markets',
+
+                'products' => 'products',
+                'product/<id:\d+>' => 'products/product',
+
                 'person/<id:\d+>' => 'person/index',
                 'persons/<year:\d+>' => 'person/person',
                 'persons' => 'person/person',
@@ -102,7 +110,7 @@ $config = [
 
                 //'defaultRoute' => 'site/text',
                 //'about' => 'site/about',
-                //'admin' => 'admin', 
+
                 //'admin/pages' => 'admin/pages',                              
                 //'<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',

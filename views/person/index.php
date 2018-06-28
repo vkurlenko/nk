@@ -17,7 +17,7 @@ $this->title = 'Лица проекта';
         <hr>
         <div class="container-fluid person-nav">
            <div class="row">
-               <div class="col-sm-1">
+               <div class="col-xs-3 col-sm-1">
                    <?php
                    if($person_nav['prev']):
                        ?>
@@ -26,12 +26,12 @@ $this->title = 'Лица проекта';
                    endif;
                    ?>
                </div>
-               <div class="col-sm-10">
+               <div class="col-xs-6 col-sm-10">
 
-                   <h2><?=$person['name']?>, <?=$person['city_id']?></h2>
+                   <h2><?=$person['name']?>, <span><?=$person['city_id']?></span></h2>
 
                </div>
-               <div class="col-sm-1">
+               <div class="col-xs-3 col-sm-1">
                    <?php
                    if($person_nav['next']):
                        ?>
@@ -43,15 +43,11 @@ $this->title = 'Лица проекта';
            </div>
        </div>
 
-        <?php
-        //debug($person);
-        ?>
 
         <div class="container-fluid person-images">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 person-img-1">
-                    <!--<img src="/images/person1.jpg" width="355">-->
-                    <?=Html::img($person['photo_big'][0], ['alt' => $person['photo_big'][1], 'title' => $person['photo_big'][1]])?>
+                <div class="col-xs-12 col-sm-6 col-md-6 person-img-1">
+                    <?=Html::img('/'.$person['photo_big'][0], ['alt' => $person['photo_big'][1], 'title' => $person['photo_big'][1]])?>
 
                     <?php
                     if($person['winner']):
@@ -64,11 +60,9 @@ $this->title = 'Лица проекта';
                     ?>
 
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 person-img-2">
-                    <?=Html::img($person['photo_small'][0], ['alt' => $person['photo_small'][1], 'title' => $person['photo_small'][1]])?>
-
-                    <?=Html::img($person['photo_cake'][0], ['alt' => $person['photo_cake'][1], 'title' => $person['photo_cake'][1]])?>
-                    <!--<img src="/tpl/bar1.jpg">-->
+                <div class="col-xs-12 col-sm-6 col-md-6 person-img-2">
+                    <?=Html::img('/'.$person['photo_small'][0], ['alt' => $person['photo_small'][1], 'title' => $person['photo_small'][1]])?>
+                    <?=Html::img('/'.$person['photo_cake'][0], ['alt' => $person['photo_cake'][1], 'class'  => 'person-img-cake', 'title' => $person['photo_cake'][1]])?>
                 </div>
             </div>
         </div>
@@ -102,21 +96,23 @@ $this->title = 'Лица проекта';
 
         <hr>
 
-        <?php
-        //debug($video);
-        ?>
-
         <div class="container-fluid">
             <div class="row">
 
                 <?php
                 $i = 0;
                 foreach($video as $v):
+                    if(!$video['size'])
+                        $i % 2 ? $align = 'align-right' : $align = 'align-left';
+                    else{
+                        $align = '';
+                        $i = 1;
+                    }
                 ?>
 
-                <div class="<?= $v['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $i % 2 ? 'align-right' : 'align-left';?>">
-                    <div class="yt-cover yt-start" data-src="<?=$v['video']?>">
-                        <img src="<?=$v['cover']?>">
+                <div class="<?= $v['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
+                    <div class="yt-cover yt-start" data-src="<?='/'.$v['video']?>">
+                        <img src="<?='/'.$v['cover']?>">
                         <div class="yt-container">
                             <i class="far fa-play-circle"></i>
                         </div>
@@ -153,18 +149,24 @@ $this->title = 'Лица проекта';
                     <?php
                     $i = 0;
                     foreach($s_video as $video):
+                        if(!$video['size'])
+                            $i % 2 ? $align = 'align-right' : $align = 'align-left';
+                        else{
+                            $align = '';
+                            $i = 1;
+                        }
                     ?>
 
-                    <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $i % 2 ? 'align-right' : 'align-left';?>">
-                        <div class="yt-cover yt-start" data-src="<?=$video['video']?>">
-                            <img src="<?=$video['cover']?>">
+                    <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
+                        <div class="yt-cover yt-start" data-src="<?='/'.$video['video']?>">
+                            <img src="<?='/'.$video['cover']?>">
                             <div class="yt-container">
                                 <i class="far fa-play-circle"></i>
                             </div>
                         </div>
 
                         <span class="video-title"><?=$video['title']?></span>
-                        <span class="video-date"><?=$video['date']?><!--10 сентября, 2018--></span>
+                        <span class="video-date"><?=$video['date']?></span>
                         <p><?=$video['descr']?></p>
                         <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
                     </div>

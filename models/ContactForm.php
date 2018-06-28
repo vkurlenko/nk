@@ -11,8 +11,9 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $name;
+    public $phone;
     public $email;
-    public $subject;
+    //public $subject;
     public $body;
     public $verifyCode;
 
@@ -24,9 +25,10 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', 'body', 'phone'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
+            //['phone', 'phone'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
@@ -38,7 +40,11 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'verifyCode' => 'Подтвердите код',
+            'name' => 'Ваше имя',
+            'phone' => 'Телефон',
+            'email' => 'Email',
+            'body' => 'Сообщение'
         ];
     }
 
@@ -49,12 +55,18 @@ class ContactForm extends Model
      */
     public function contact($email)
     {
+        $body = 'Сообщение от пользователя '.$this->name."\n";
+        $body .= 'Телефон: '.$this->phone."\n";
+        $body .= 'Email: '.$this->email."\n\n\n";
+        $body .= 'Сообщение: '.$this->body;
+
+
         if ($this->validate()) {
             Yii::$app->mailer->compose()
                 ->setTo($email)
-                ->setFrom([$this->email => $this->name])
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
+                ->setFrom(['narodny.konditer@yandex.ru' => $this->name])
+                ->setSubject('Сообщение от пользователя '.$this->name)
+                ->setTextBody($body)
                 ->send();
 
             return true;

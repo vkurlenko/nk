@@ -47,6 +47,7 @@ class CitiesSearch extends Cities
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['sort' => SORT_ASC]]
         ]);
 
         $this->load($params);
@@ -64,7 +65,6 @@ class CitiesSearch extends Cities
         ]);
 
         $query->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'logo', $this->logo])
             ->andFilterWhere(['like', 'active', $this->active]);
 
         return $dataProvider;

@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\models\PersonCities;
 use Yii;
 use app\modules\admin\models\Persons;
 use app\modules\admin\models\PersonsSearch;
@@ -12,6 +13,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use rico\yii2images\models\Image;
+use richardfan\sortable\SortableAction;
 
 /**
  * PersonsController implements the CRUD actions for Persons model.
@@ -70,15 +72,31 @@ class PersonsController extends Controller
     {
         $model = new Persons();
 
+        // person is active by default
+        $model->active = true;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                 $model->person_images = UploadedFile::getInstances($model, 'person_images');
                 $model->UploadImages();
 
+                // в таблицу городов участников добавим новый город, если его там нет
+                if(!PersonCities::find()->where(['name' => $model->city_id])->one()){
+                    $city = new PersonCities();
+                    $city->name = $model->city_id;
+                    $city->sort = PersonCities::find()->max('sort') + 1;
+                    $city->active = 1;
+
+                    if (!$city->save()){
+                        Yii::$app->session->setFlash('error', 'Страница не сохранена');
+                        var_dump($city->getErrors());
+                    }
+                }
+
                 Yii::$app->session->setFlash('success', 'Страницы сохранена');
 
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['update', 'id' => $model->id]);
             }
         }
 
@@ -106,9 +124,23 @@ class PersonsController extends Controller
             $model->person_video = UploadedFile::getInstances($model, 'person_video');
             $model->UploadVideo();
 
+            // в таблицу городов участников добавим новый город, если его там нет
+            if(!PersonCities::find()->where(['name' => $model->city_id])->one()){
+                $city = new PersonCities();
+                $city->name = $model->city_id;
+                $city->sort = PersonCities::find()->max('sort') + 1;
+                $city->active = 1;
+
+                if (!$city->save()){
+                    Yii::$app->session->setFlash('error', 'Страница не сохранена');
+                    var_dump($city->getErrors());
+                }
+            }
+
+
             Yii::$app->session->setFlash('success', 'Страница сохранена');
 
-            return $this->redirect(['update', 'id' => $model->id]);
+            //return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -146,13 +178,13 @@ class PersonsController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    /* название картинки */
+    /* сортировка записи */
     public function actionSetsort($id = null, $sort = null)
     {
         $person = Persons::findOne($id);
         $person->sort = $sort;
         $save = $person->save();
-
+        //$save = false;
         return $save;
     }
 
@@ -191,5 +223,16 @@ class PersonsController extends Controller
             }
         }
         return $save;
+    }
+
+    public function actions(){
+        return [
+            'sortItem' => [
+                'class' => SortableAction::className(),
+                'activeRecordClassName' => Persons::className(),
+                'orderColumn' => 'sort',
+            ],
+            // your other actions
+        ];
     }
 }

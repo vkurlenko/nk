@@ -23,10 +23,13 @@ mihaildev\elfinder\Assets::noConflict($this);
 
     <?= $form->field($model, 'city')->dropDownList(\yii\helpers\ArrayHelper::map(\app\modules\admin\models\Cities::find()->all(), 'id', 'city')) ?>
 
+    <?= $form->field($model, 'url')->textInput() ?>
+
+    <?/*= $form->field($model, 'sort')->textInput() */?>
+
 
     <?/*= $form->field($model, 'text')->textarea(['rows' => 6]) */?>
     <?= $form->field($model, 'text')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); ?>
-
 
     <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
     <div style="clear:both;"></div>

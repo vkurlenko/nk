@@ -1,5 +1,18 @@
+.group{
+    margin:10px;
+    border:1px solid #3c8dbc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 select{
     width:auto !important;
+}
+
+.form-group input{
+    width:auto;
 }
 .form-img{
     width:212px;
@@ -50,3 +63,24 @@ a.del_img{
 
 .save-success{border-color:green}
 .save-error{border-color:red}
+
+.grid-view table td, .grid-view table th{
+    text-align: center;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #ccc;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #ccc;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #ccc;
+}
+
+/*.sortable-grid-view{width:auto}*/
+.ui-sortable-handle{cursor: move}
+.ui-sortable-helper{width:100%; background: antiquewhite !important; border:1px dashed red}

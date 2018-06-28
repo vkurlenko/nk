@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $city
- * @property string $logo
+ * @property string $text
  * @property int $sort
  * @property string $active
  */
@@ -54,8 +54,8 @@ class Cities extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['city', 'sort', 'active'], 'required'],
-            [['city', 'active'], 'string'],
+            [['city', 'active'], 'required'],
+            [['city', 'text', 'active'], 'string'],
             [['sort'], 'integer'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
@@ -70,14 +70,17 @@ class Cities extends \yii\db\ActiveRecord
             'id' => 'ID',
             'city' => 'Город',
             'image' => 'Герб города',
+            'text' => 'Описание',
             'sort' => 'Сортировка',
             'active' => 'Показывать на сайте',
         ];
     }
     /* /для загрузки картинок */
 
-    public function getPerson()
+    /*public function getPerson()
     {
         return $this->hasMany(Persons::className(), ['city_id' => 'id']);
-    }
+    }*/
+
+
 }
