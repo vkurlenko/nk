@@ -29,7 +29,6 @@ $this->title = 'Где купить';
             <p><?=$city['text']?></p>
 
             <div class="flex-container">
-
             <?php
             if($city['logos']){
                 foreach($city['logos'] as $logo):?>
@@ -40,6 +39,14 @@ $this->title = 'Где купить';
                 endforeach;
             }
             ?>
+            </div>
+
+            <div class="markets-city-content">
+                <?php
+                if($city['content']){
+                    echo $city['content'];
+                }
+                ?>
             </div>
 
 

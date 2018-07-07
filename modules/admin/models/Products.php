@@ -75,7 +75,6 @@ class Products extends \yii\db\ActiveRecord
 
     public function uploadImages()
     {
-
         if ($this->validate()) {
             //echo 'up'; die;
             foreach($this->product_images as $file){

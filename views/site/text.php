@@ -3,15 +3,22 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use yii\captcha\Captcha;
 use rico\yii2images;
 use app\models\Pages;
+
+//debug($img);
 
 $this->title = $data['title'];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container main">
     <div class="container">
+        <section class="section-center">
         <h1><?= Html::encode($data['h1']) ?></h1>
+        <hr>
+        </section>
     </div>
 
     <?php
@@ -28,10 +35,10 @@ $this->title = $data['title'];
     endif;
     ?>
 
-
     <section id="about" class="section-center">
         <?=$data['content']?>
     </section>
+
 </div>
 
 <?php

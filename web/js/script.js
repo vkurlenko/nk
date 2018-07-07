@@ -55,9 +55,24 @@ function viewImg(e, obj){
         $(this).attr('src', src);
         $(this).fadeIn(500);
     })
+}
 
+function personNames(){
+    $('.face').each(function(){
+        if($(this).hasClass('align-left') && $(this).next('div').hasClass('align-right')){
 
-    //return false;
+            var obj_left = $(this).find('span');
+            var obj_right = $(this).next('div').find('span');
+
+            var h_left = $(obj_left).height();
+            var h_right = $(obj_right).height();
+
+            if(h_left > h_right)
+                $(obj_right).height(h_left)
+            else
+                $(obj_left).height(h_right)
+        }
+    })
 }
 
 
@@ -66,11 +81,13 @@ $(document).ready(function(){
 
     // left-margin for dropdown submenu
     setMarginLeft();
+    personNames();
 
     // on window resize
     $(window).on('resize', function(){
         setMarginLeft();
         setYouTubeSize();
+        personNames();
     });
 
     // youtube start
@@ -85,17 +102,11 @@ $(document).ready(function(){
         $(this).find('i').removeClass('over')
     });
 
-    /*$('.gallery-nav .item a').click(function(){
-        alert('a');
-        //viewImg(e, $(this));
 
-        return false;
-    })*/
 
     $('.link img').on('click', function (e) {
         viewImg(e, $(this).parent('.link'));
         return false;
-       //$(this).html('test');
     })
 
     // slider on main_page
@@ -103,11 +114,34 @@ $(document).ready(function(){
         mobileFirst: true,
         speed: 1500,
         arrows: true,
-        autoplay: true,
+        autoplay: false,
         autoplaySpeed: 3000,
         nextArrow: '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"><img src="/web/tpl/slider_button_next.png" ></a>',
         prevArrow: '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"><img src="/web/tpl/slider_button_prev.png" ></a>'
     });
+
+    $('#phone-mask').click(function(){
+
+        var action = $(this).attr('data-action')
+
+        if(action == 'false'){
+            $("#franchform-phone").inputmask({ mask: "+7 (999) 999-99-99"});
+            $(this).removeClass('nomask');
+            action = 'true';
+        }
+        else{
+            $("#franchform-phone").inputmask('remove');
+            $(this).addClass('nomask');
+            action = 'false';
+        }
+
+        $(this).attr('data-action', action);
+
+        return false;
+    })
+
+
+
 
 
 

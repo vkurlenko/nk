@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ceaf2cff3b6fcf1cf6f7a60ba7e89fc1",
+    "content-hash": "79eb1591e718e9eaa0035483a6830672",
     "packages": [
         {
             "name": "abeautifulsite/simpleimage",
@@ -240,6 +240,28 @@
                 "shasum": null
             },
             "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/treegrid",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dkhlystov/jquery-treegrid.git",
+                "reference": "6457005f995fb301581d89daefa353d8746729de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dkhlystov/jquery-treegrid/zipball/6457005f995fb301581d89daefa353d8746729de",
+                "reference": "6457005f995fb301581d89daefa353d8746729de",
+                "shasum": null
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.1"
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "bower-asset/yii2-pjax",
@@ -545,6 +567,50 @@
             "time": "2017-11-21T20:46:30+00:00"
         },
         {
+            "name": "dkhlystov/yii2-treegrid",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dkhlystov/yii2-treegrid.git",
+                "reference": "4962a13571299fdbe2e1c1835cb99b84d201c694"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dkhlystov/yii2-treegrid/zipball/4962a13571299fdbe2e1c1835cb99b84d201c694",
+                "reference": "4962a13571299fdbe2e1c1835cb99b84d201c694",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/treegrid": ">= 0.1.6",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dkhlystov\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Khlystov",
+                    "email": "dkhlystov@gmail.com"
+                }
+            ],
+            "description": "TreeGrid widget for Yii PHP Framework Version 2",
+            "keywords": [
+                "extension",
+                "grid",
+                "tree",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-04-23T16:36:31+00:00"
+        },
+        {
             "name": "dmstr/yii2-adminlte-asset",
             "version": "2.6.0",
             "source": {
@@ -698,6 +764,50 @@
                 "icon"
             ],
             "time": "2016-10-24T15:52:54+00:00"
+        },
+        {
+            "name": "himiklab/yii2-recaptcha-widget",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/himiklab/yii2-recaptcha-widget.git",
+                "reference": "35c9a4ae38ad20e0b4db8e9030c3744f2572dda7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/himiklab/yii2-recaptcha-widget/zipball/35c9a4ae38ad20e0b4db8e9030c3744f2572dda7",
+                "reference": "35c9a4ae38ad20e0b4db8e9030c3744f2572dda7",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-httpclient": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "himiklab\\yii2\\recaptcha\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "HimikLab",
+                    "homepage": "https://github.com/himiklab/"
+                }
+            ],
+            "description": "Yii2 Google reCAPTCHA widget",
+            "keywords": [
+                "captcha",
+                "google",
+                "recaptcha",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-04-03T08:17:47+00:00"
         },
         {
             "name": "imagine/imagine",
@@ -1487,6 +1597,53 @@
                 "yii2"
             ],
             "time": "2018-03-21T16:15:55+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-httpclient",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-httpclient.git",
+                "reference": "95fc8a943e8abb86e3d0f4eace6f6d1f4ba4f028"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/95fc8a943e8abb86e3d0f4eace6f6d1f4ba4f028",
+                "reference": "95fc8a943e8abb86e3d0f4eace6f6d1f4ba4f028",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\httpclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "HTTP client extension for the Yii framework",
+            "keywords": [
+                "curl",
+                "http",
+                "httpclient",
+                "yii2"
+            ],
+            "time": "2018-02-13T15:11:30+00:00"
         },
         {
             "name": "yiisoft/yii2-imagine",

@@ -9,10 +9,13 @@ $this->title = 'Авторский надзор';
 <div class="container main">
 
 <div class="container">
+    <section class="section-center">
     <h1><?= Html::encode($this->title) ?></h1>
+        <hr>
+    </section>
 </div>
 
-<hr>
+
 
 <section id="supervision" class="section-center alignment-block">
 

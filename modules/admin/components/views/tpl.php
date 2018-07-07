@@ -1,32 +1,60 @@
 <?php
 use yii\helpers\Html;
+//debug($img);
 ?>
 
-<div class="form-img">
-    <a class="btn del_img" title="Удалить?" href="<?=$url_delete?>" data-id="<?=$img->id?>">
-        <span class="glyphicon glyphicon-remove"></span>
-    </a>
+<div class="form-img" data-id="<?=$img->id?>">
+
+    <div class="form-img-top">
+        <a class="del_img" title="Удалить?" href="<?=$url_delete?>" data-id="<?=$img->id?>">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+
+        <?php
+        if($fields['active']):?>
+            <input type="checkbox" class="img-active" <?=$img->active ? 'checked' : ''?>>
+        <?php
+        endif;
+        ?>
+    </div>
+
+
+
+    <div class="img-cont"><?/*=$img->id*/?>
+        <?=Html::img($img->getUrl('200x200'));?>
+    </div>
 
     <?php
     if($fields['sort']):?>
-    <input type="text" title="Порядковый номер" placeholder="Порядковый номер" value="<?=$img->sort?>" class="img-sort" size="5">
+        <input type="hidden" title="Порядковый номер" placeholder="Порядковый номер" value="<?=$img->sort?>" class="img-sort" size="5">
     <?php
     endif;
     ?>
 
 
-    <a class="btn set_name"  title="Сохранить?" href="<?=$url_setname?>" data-id="<?=$img->id?>">
+    <a class="btn set_name" style="display: none;"  title="Сохранить?" href="<?=$url_setname?>" data-id="<?=$img->id?>">
         <span class="glyphicon glyphicon-floppy-disk"></span>
     </a>
+
+
+    <span class="label label-primary">Название картинки (alt, title)</span>
     <input type="text" title="Название" placeholder="Название" value="<?=$img->name?>" class="img-name">
 
-    <div class="img-cont">
-    <?=Html::img($img->getUrl('x200'));?>
-    </div>
+    <?php
+    if($fields['url']):?>
+        <span class="label label-primary">Url ссылки</span>
+        <input type="text" title="Url" placeholder="url" value="<?=$img->url?>" class="img-url">
+    <?php
+    endif;
+    ?>
+
+
+
 
     <div class="img-role">
         <?php
         if($role && count($role) > 1):?>
+            <span class="label label-primary">Назначение</span>
         <select>
             <option value="">Назначение картинки</option>
         <?php

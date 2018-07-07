@@ -20,19 +20,23 @@ select{
     padding:5px;
     margin:5px;
     border:1px solid #ccc;
-    text-align: center;
+    text-align: left;
+    position: relative;
 }
 .form-img img,
 .form-img input{
     max-width: 100%;
 }
 
-.form-img input{
+.form-img input,
+.form-img select{
     /*margin:2px;*/
+    font-size:12px;
 }
 
 .form-img .del_img .glyphicon-remove{
-    color:red;
+    /*color:red;*/
+
 }
 
 .img-cont{
@@ -41,8 +45,8 @@ select{
 .img-cont img{
     max-width: 100%;
     max-height: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+   /* margin-top: 5px;
+    margin-bottom: 5px;*/
 }
 
 .img-role{margin-top:5px}
@@ -54,9 +58,13 @@ a.set_name{
     display: block;}
 
 a.del_img{
-    float: left;
-    position: relative;
-    display: block;}
+    /*float: left;*/
+    position: absolute;
+    display: block;
+    right:0;
+    padding:0 5px;
+    color:red;
+}
 
 .success{color:green}
 .danger{color:red}
@@ -84,3 +92,9 @@ a.del_img{
 /*.sortable-grid-view{width:auto}*/
 .ui-sortable-handle{cursor: move}
 .ui-sortable-helper{width:100%; background: antiquewhite !important; border:1px dashed red}
+
+.data-align-left{text-align: left}
+
+.current-menu{
+    font-weight: bold;
+    color:#000}

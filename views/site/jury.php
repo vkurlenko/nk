@@ -48,6 +48,8 @@ $this->title = 'Жюри';
             ?>
 
         </div>
+
+        <hr>
     </section>
 </div>
 

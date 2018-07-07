@@ -1,3 +1,6 @@
+<?php
+use yii\helpers\Html;
+?>
 <section id="slider1">
     <div class="slider-main">
 
@@ -6,7 +9,7 @@
         foreach($gallery as $pic):
         ?>
             <div class="item">
-                <?= \yii\helpers\Html::img($pic->getPath('847x486')) ?>
+                <?= $pic['url'] ? Html::a(Html::img($pic->getPath('847x486')), $pic['url']) : Html::img($pic->getPath('847x486')) ?>
                 <div class="carousel-caption-nk">
                     <?=$pic['name']?>
                 </div>

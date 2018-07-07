@@ -5,15 +5,17 @@ function delImg(obj, e){
         var href = $(obj).attr('href');
         var res = false;
 
+        //alert(href);
+
         $.ajax({
             type: "POST",
             dataType: "html",
             url: href,
             //data: "id="+id+"&uid="+uid,
             success: function(res){
-                //console.log(res);
+                console.log(res);
                 if(res)
-                    $(obj).parent('.form-img').remove();
+                    $(obj).parents('.form-img').remove();
                 else
                     alert('Ошибка удаления файла');
             }
@@ -21,7 +23,7 @@ function delImg(obj, e){
     }
 }
 
-function setImgName(obj, e){
+function setImgParam(obj, e){
 
     e.preventDefault();
 
@@ -29,23 +31,32 @@ function setImgName(obj, e){
     var name = $(obj).parents('.form-img').find('.img-name').val();
     var sort = $(obj).parents('.form-img').find('.img-sort').val();
     var role = $(obj).parents('.form-img').find('.img-role select').val();
+    var url1  = $(obj).parents('.form-img').find('.img-url').val();
+    var active  = $(obj).parents('.form-img').find('.img-active').is(":checked");
+    //alert(href+'&name='+name+'&sort='+sort+'&role='+role+'&url1='+url1+'&active='+active);
+
+    if(active)
+        active = 1;
+    else
+        active = 0;
 
     $.ajax({
         type: "POST",
         dataType: "html",
-        url: href+'&name='+name+'&sort='+sort+'&role='+role,
+        url: href+'&name='+name+'&sort='+sort+'&role='+role+'&url1='+url1+'&active='+active,
         //data: "name="+name
         success: function(res){
             if(res){
-                alert('Сохранено');
+                return true;
             }
-
-            else
+            else{
                 alert('Ошибка');
+                return false;
+            }
         }
     });
 }
-
+//'app\modules\admin\models\Pages'
 function setSort(obj, e){
 
     e.preventDefault();
@@ -104,11 +115,13 @@ function massSave(e){
         });
     });
 
-
     location.reload();
-
 }
 
+function sbt(){
+    alert('submit');
+    $('#w0').submit();
+}
 
 
 $(document).ready(function () {
@@ -134,5 +147,25 @@ $(document).ready(function () {
         return false;
     });
 
+    $('.form-gallery').sortable( {
+        update : function(event, ui) {
+            var i = 1;
+            $(this).find('.form-img').each(function(){
+                $(this).find('.img-sort').attr('value',  i++);
+            })
+        }
+    });
 
-})
+    $('button').click(function (e) {
+        if($('.form-gallery').length > 0) {
+            //alert('isGallery')
+            $('.set_name').each(function(){
+                setImgParam($(this), e);
+            });
+            $('#w0').submit();
+        }
+        else
+            $('#w0').submit();
+    })
+
+});

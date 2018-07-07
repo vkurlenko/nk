@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\controllers\AppController;
 use app\modules\admin\models\PersonCities;
 use Yii;
 use app\modules\admin\models\Persons;
@@ -18,7 +19,7 @@ use richardfan\sortable\SortableAction;
 /**
  * PersonsController implements the CRUD actions for Persons model.
  */
-class PersonsController extends Controller
+class PersonsController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -179,51 +180,14 @@ class PersonsController extends Controller
     }
 
     /* сортировка записи */
-    public function actionSetsort($id = null, $sort = null)
+   /* public function actionSetsort($id = null, $sort = null)
     {
         $person = Persons::findOne($id);
         $person->sort = $sort;
         $save = $person->save();
         //$save = false;
         return $save;
-    }
-
-    /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Persons::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null, $role = null)
-    {
-        $page = Persons::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort, $role);
-            }
-        }
-        return $save;
-    }
+    }*/
 
     public function actions(){
         return [

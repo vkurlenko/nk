@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\modules\admin\controllers\MenuController;
 use app\modules\admin\models\Brands;
 use app\modules\admin\models\Cities;
 use app\modules\admin\models\Jury;
@@ -13,6 +14,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\FranchForm;
 use app\models\Pages;
 use rico\yii2images\models\Image;
 use yii\helpers\Url;
@@ -21,6 +23,8 @@ use app\controllers\PersonController;
 use app\modules\admin\controllers\SvisionController;
 use app\modules\admin\models\Svision;
 use yii\web\UploadedFile;
+use yii\web\Request;
+use app\modules\admin\models\Options;
 
 
 
@@ -186,6 +190,41 @@ class SiteController extends AppController
         ]);
     }
 
+    public function actionFranch()
+    {
+        // определим данные главной страницы по ее url
+        $url = Url::to();
+
+        $data = Pages::find()->where(['url' => $url])->asArray()->one();
+
+
+
+        if(!$data){
+            $url = substr($url, 1);
+            //echo $url;
+            $data = Pages::find()->where(['url' => $url])->asArray()->one();
+        }
+
+        //debug ($data);
+
+
+        if($data){
+            // найдем главную картинку и галерею картинок, если они прикреплены к странице
+            $page = Pages::findOne($data['id']);
+            $img = $page->getImage();
+            $gallery = $page->getImages();
+        }
+
+
+        $model = new FranchForm();
+        if (Yii::$app->request->isAjax) {
+            if ($model->load(Yii::$app->request->post()) && $model->franch(Yii::$app->params['adminEmail'])){
+                return 'Запрос принят';
+            }
+        }
+        return $this->render('franch', compact('model', 'data', 'img', 'gallery'));
+    }
+
 
 
     public function actionSupervision()
@@ -219,6 +258,7 @@ class SiteController extends AppController
                 'name' => $model->city,
                 'herb' => $herb->getUrl('x200'),
                 'text' => $model->text,
+                'content' => $model->content,
             ];
 
             $logos = Brands::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
@@ -250,7 +290,9 @@ class SiteController extends AppController
     {
         $arr = [];
 
-        $pages = PagesController::mapTree(PagesController::getAllPages());
+        //$pages = PagesController::mapTree(PagesController::getAllPages());
+
+        $pages = SiteController::getMenu(1);
 
         foreach($pages as $page){
 
@@ -271,8 +313,6 @@ class SiteController extends AppController
                     ];
                 }
             }
-
-
 
             if($page['childs']){
 
@@ -296,8 +336,6 @@ class SiteController extends AppController
                 $arr[] = ['label' => $page['title'], 'url' => ['/'.$page['url']]];
         }
 
-        //debug($arr); die;
-
         return $arr;
     }
 
@@ -307,7 +345,7 @@ class SiteController extends AppController
         $page = Pages::findOne($id);
         $gallery = $page->getImages();
         $gallery2 = [];
-        $arr = Image::find()->asArray()->where(['itemId' => $id])->orderBy(['sort' => SORT_ASC])->all();
+        $arr = Image::find()->asArray()->where(['itemId' => $id, 'active' => 1])->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($arr as $row){
             foreach($gallery as $img){
@@ -383,6 +421,74 @@ class SiteController extends AppController
             }
         }
         return $photos;
+    }
+
+    // получим email-адреса в виде массива из опции $option_name
+    public static function getEmails($option_name = null){
+        if($option_name){
+            $option = Options::find()->where(['name' => $option_name])->asArray()->one();
+            $emails = $option['value'];
+            $users = explode(',', $emails);
+            $users[] = Yii::$app->params['adminEmail'];
+            return $users;
+        }
+
+        return false;
+    }
+
+
+   /* public static function mapTree($dataset, $pid)
+    {
+        $tree = array();
+
+        foreach ($dataset as $id=>&$node) {
+
+            if (!$node['pid']){
+                $tree[$id] = &$node;
+            }else{
+                $dataset[$node['pid']]['childs'][$id] = &$node;
+            }
+        }
+
+        return $tree;
+    }*/
+
+    public static function getMenu($pid = null){
+        $tree = [];
+
+        $menus = MenuController::getAllMenu();
+
+        $tree = MenuController::mapTree($menus);
+
+        $arr = [];
+
+        foreach($tree as $node){
+            if($node['id'] != $pid || !$node['active'])
+                continue;
+
+            if($node['childs']){
+                foreach ($node['childs'] as $child){
+                    if($child['active']){
+                        $arr[$child['id']] = $child;
+
+                        if($child['childs']){
+                            foreach($child['childs'] as $child2){
+
+                                if($child2['active'])
+                                    $arr[$child['id']][$child2['id']] = $child2;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        /*debug($arr); die;
+
+        debug($tree);  debug($arr); die;*/
+
+        return $arr;
     }
 }
 

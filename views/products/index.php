@@ -32,35 +32,31 @@ $this->title = 'Продукция';
 
                     <?php
                     if($product['size']){
-                        $col_size = 'col-sm-12';
+                        $col_size = 'col-sm-12 big-size';
                         $align = '';
-                        $i = 0;
+                        $i = 1;
                     }
                     else{
                         $col_size = 'col-sm-6 col-xs-6';
-                        $align = $i % 2 ? 'align-left' : 'align-right';
+                        $align = $i % 2 ? 'align-right' : 'align-left';
                     }
 
                     $first = array_shift($product['gallery']);
 
                     ?>
 
-                    <div class="product <?= $col_size?> <?= $align ?>">
-
+                    <div class="product <?= $col_size?> <?= $align ?> <?= $i ?>">
                         <span><?= $product['name'] ?></span>
-
                         <a href="<?= Url::to(['product/' . $product['id']]) ?>">
                             <?=Html::img($first['img'])?>
                         </a>
-
                         <!--<div style="clear: both"></div>-->
                     </div>
 
                 <?php
                 //echo $product['size'];
-                if(!$i % 2)
+                if($i % 2)
                     echo '<div style="clear: both"></div><hr>';
-
                 $i++;
                 endforeach;
                 ?>
@@ -71,6 +67,6 @@ $this->title = 'Продукция';
 
         </div>
 
-        <hr>
     </section>
 
+</div>

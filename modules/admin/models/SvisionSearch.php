@@ -48,6 +48,9 @@ class SvisionSearch extends Svision
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 1000,
+            ],
             'sort'=> ['defaultOrder' => ['date' => SORT_DESC]]
         ]);
 

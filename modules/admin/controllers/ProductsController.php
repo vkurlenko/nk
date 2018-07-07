@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
+use app\controllers\AppController;
 use app\modules\admin\models\Products;
 use app\modules\admin\models\ProductsSearch;
 use yii\web\Controller;
@@ -15,7 +16,7 @@ use richardfan\sortable\SortableAction;
 /**
  * ProductsController implements the CRUD actions for Products model.
  */
-class ProductsController extends Controller
+class ProductsController extends AppController
 {
     public $cover;
     /**
@@ -175,49 +176,12 @@ class ProductsController extends Controller
     }
 
     /* сортировка записи */
-    public function actionSetsort($id = null, $sort = null)
+    /*public function actionSetsort($id = null, $sort = null)
     {
         $person = Products::findOne($id);
         $person->sort = $sort;
         $save = $person->save();
         //$save = false;
         return $save;
-    }
-
-    /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Products::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null, $role = null)
-    {
-        $page = Products::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort, $role);
-            }
-        }
-        return $save;
-    }
+    }*/
 }

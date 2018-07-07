@@ -18,45 +18,74 @@ use app\modules\admin\components\ImageWidget;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'pid')->dropDownList(PagesController::getPagesSelect($model->id),  ['prompt' => 'Выберите родительский раздел']); ?>
+    <div class="container-fluid">
 
-    <?= $form->field($model, 'url')->textarea(['rows' => 1]) ?>
+        <div class="row group">
+            <div class="col-md-6">
+                <?= $form->field($model, 'active')->checkbox([1, 0]); ?>
 
-    <?= $form->field($model, 'h1')->textarea(['rows' => 1]) ?>
+                <?= $form->field($model, 'pid')->dropDownList(PagesController::getPagesSelect($model->id),  ['prompt' => 'Выберите родительский раздел']); ?>
 
-    <?= $form->field($model, 'title')->textarea(['rows' => 1]) ?>
+                <?= $form->field($model, 'order_by')->textInput() ?>
 
-    <?= $form->field($model, 'anons')->widget(CKEditor::className(), ['options' => ['rows' => 3]]); ?>
+                <?= $form->field($model, 'url')->textInput(['style' => 'width:100%']) ?>
 
-    <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6]]);?>
+                <?= $form->field($model, 'h1')->textInput(['style' => 'width:100%']) ?>
 
+                <?= $form->field($model, 'title')->textInput(['style' => 'width:100%']) ?>
 
-    <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
-    <div style="clear:both;"></div>
-    <?= $form->field($model, 'image')->fileInput(); ?>
+               <!-- --><?/*= $form->field($model, 'tpl')->dropDownList(PagesController::getTemplates(), ['prompt' => 'Выберите шаблон']);                */?>
 
-    <?= ImageWidget::widget(['model' => $model, 'mode' => 'gallery']) ?>
-    <div style="clear:both;"></div>
-    <?= $form->field($model, 'gallery[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+            </div>
 
-    <?= $form->field($model, 'kwd')->textarea(['rows' => 3]) ?>
+            <div class="col-md-6">
+                <?= $form->field($model, 'anons')->widget(CKEditor::className(), ['options' => ['rows' => 3]]); ?>
+            </div>
+        </div>
 
-    <?= $form->field($model, 'dscr')->textarea(['rows' => 3]) ?>
+        <div class="row group">
+            <div class="col-md-12">
+                <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6]]);?>
+            </div>
+        </div>
 
-    <?  /*echo$form->field($model, 'tpl')->textInput()*/ ?>
+        <div class="row group">
+            <div class="col-md-12">
+                <?/*= $form->field($model, 'image')->fileInput(); */?><!--
+                <?/*= ImageWidget::widget(['model' => $model, 'mode' => 'image']) */?>
+                <div style="clear:both;"></div>-->
 
-    <?php
-        echo $form->field($model, 'tpl')->dropDownList(PagesController::getTemplates(), ['prompt' => 'Выберите шаблон']);
-    ?>
+                <?= $form->field($model, 'file_img')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
-    <?= $form->field($model, 'params')->textarea(['rows' => 6]) ?>
+                <?php if(!empty($model->thumbnail)){
+                    echo Html::img($model->thumbnail, $options = ['class' => 'postImg', 'style' => ['width' => '180px']]);
+                } ?>
 
-    <?= $form->field($model, 'order_by')->textInput() ?>
+            </div>
+        </div>
+        <div class="row group">
+            <div class="col-md-12">
+                <?= $form->field($model, 'gallery[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+                <?= ImageWidget::widget(['model' => $model, 'mode' => 'gallery']) ?>
+                <div style="clear:both;"></div>
 
-    <?= $form->field($model, 'active')->checkbox(['0', '1']); ?>
+            </div>
+        </div>
+
+        <div class="row group">
+            <div class="col-md-12">
+                <?= $form->field($model, 'kwd')->textInput(['style' => 'width:100%']) ?>
+
+                <?= $form->field($model, 'dscr')->textarea(['rows' => 2]) ?>
+
+                <?= $form->field($model, 'params')->textarea(['rows' => 6]) ?>
+            </div>
+        </div>
+
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-save']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

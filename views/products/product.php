@@ -31,19 +31,25 @@ $this->title = $product['name'];
 
             <hr>
 
+            <?php
+            if(count($product['gallery']) > 1):
+            ?>
+
             <div class="gallery-nav row">
                 <?php
                 $i = 0;
                 foreach($product['gallery'] as $img):
-                ?>
-                <div class="item col-xs-4 col-sm-4 col-md-4">
-                    <a href="#" class="link <?=!$i ? 'selected' : ''?>">
-                        <?=Html::img('/'.$img['img'])?>
+                    if($img['active']){
+                    ?>
+                    <div class="item col-xs-4 col-sm-4 col-md-4">
+                        <a href="#" class="link <?=!$i ? 'selected' : ''?>">
+                            <?=Html::img('/'.$img['img'])?>
 
-                    </a>
-                </div>
-                <?php
-                $i++;
+                        </a>
+                    </div>
+                    <?php
+                    $i++;
+                    }
                 endforeach;
                 ?>
             </div>
@@ -51,10 +57,14 @@ $this->title = $product['name'];
             <hr>
 
             <?php
+            endif;
+            ?>
+
+            <?php
             if($product['video']):
                 ?>
 
-            <h3>Видео торта</h3>
+            <h2>Видео торта</h2>
 
             <hr>
 
@@ -90,4 +100,4 @@ $this->title = $product['name'];
 
         <hr>
     </section>
-
+</div>

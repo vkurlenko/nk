@@ -47,6 +47,9 @@ class PersonsSearch extends Persons
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 1000,
+            ],
             'sort'=> ['defaultOrder' => ['year' => SORT_DESC, 'sort' => SORT_ASC]]
         ]);
 

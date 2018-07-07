@@ -188,7 +188,7 @@ class CitiesController extends Controller
     }
 
     /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null)
+    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null, $role = null, $url = null)
     {
         $page = Cities::find()
             ->where(['id' => $page_id])
@@ -199,7 +199,7 @@ class CitiesController extends Controller
 
         foreach($images as $img){
             if($img->id == $img_id){
-                $save = $img->setName($name, $sort);
+                $save = $img->setName($name, $sort, $role, $url);
             }
         }
         return $save;

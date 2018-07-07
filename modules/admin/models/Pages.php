@@ -4,6 +4,7 @@ namespace app\modules\admin\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use app\controllers\AppController;
 
 
 /**
@@ -30,6 +31,7 @@ class Pages extends \yii\db\ActiveRecord
 {
     public $image;
     public $gallery;
+    public $file_img;
     /**
      * {@inheritdoc}
      */
@@ -55,14 +57,27 @@ class Pages extends \yii\db\ActiveRecord
             [['url', 'h1', 'tpl', 'title', 'anons', 'content', 'images',  'kwd', 'dscr', 'params', 'active'], 'string'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
             [['gallery'], 'file', 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['file_img'], 'file', 'extensions' => 'png, jpg',],
         ];
     }
 
+//    public function upload()
+//    {
+//        if ($this->validate()) {
+//            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
+//            $this->image->saveAs($path);
+//            $this->attachImage($path, true);
+//            unlink($path);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
     public function upload()
     {
         if ($this->validate()) {
-            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
-            $this->image->saveAs($path);
+            $path = 'upload/store/' . $this->thumbnail->baseName . '.' . $this->image->extension;
+            $this->thumbnail->saveAs($path);
             $this->attachImage($path, true);
             unlink($path);
             return true;
@@ -73,6 +88,9 @@ class Pages extends \yii\db\ActiveRecord
 
     public function uploadGallery()
     {
+        //debug($this->gallery); die;
+        //AppController::log('uploadGallery');
+
         if ($this->validate()) {
             foreach($this->gallery as $file){
                 $path = 'upload/store/' . $file->baseName . '.' . $file->extension;
@@ -119,6 +137,7 @@ class Pages extends \yii\db\ActiveRecord
             'params' => 'Параметры',
             'order_by' => 'Сортировка',
             'active' => 'Показывать на сайте',
+            'file_img' => 'File'
         ];
     }
 }

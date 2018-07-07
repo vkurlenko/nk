@@ -279,7 +279,8 @@ class PersonController extends AppController
                     $photos[$pfx.'_cake'] = [$img->getPath('360x337'), $img->name]; break;
 
                 case $pfx.'_on_main'  :
-                    $photos[$pfx.'_on_main'] = [$img->getPath('338x235'), $img->name]; break;
+                    //$photos[$pfx.'_on_main'] = [$img->getPath('338x235'), $img->name]; break;
+                    $photos[$pfx.'_on_main'] = [$img->getPath('350x243'), $img->name]; break;
 
                 default : break;
             }

@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 'id',
                 //'pid',
-                [
+                /*[
                     'attribute' => 'title',
                     'value' => function($data){
                         if($data->pid != 0)
@@ -47,14 +47,25 @@ $this->params['breadcrumbs'][] = $this->title;
                         else
                             return $data->title;
                     }
+                ],*/
+                [
+                    'attribute' => 'title',
+                    'value' => function($data){
+                        if($data->pid != 0)
+                            $space = '-&nbsp;';
+                        else
+                            $space = '';
+                        return Html::a($space.$data->title, \yii\helpers\Url::to('/admin/pages/update?id='.$data->id));
+                    },
+                    'format' => 'html'
                 ],
                 [
                     'attribute' => 'url',
                     'value' => function($data){
-                        return Html::a($data->url, Url::to($data->url, true));
+                        return Html::a($data->url, Url::to($data->url, true), ['target'=>'blank']);
 
                     },
-                    'format' => 'html'
+                    'format' => 'raw'
                 ],
                 [
                     'attribute' => 'active',
@@ -69,7 +80,6 @@ $this->params['breadcrumbs'][] = $this->title;
                /* [
                     'attribute' => 'order_by',
                     'value' => function($data){
-
                         return SortWidget::widget(['data' => $data, 'model_name' => 'pages']);
                     },
                     'format' => 'raw'

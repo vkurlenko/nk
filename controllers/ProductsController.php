@@ -86,10 +86,13 @@ class ProductsController extends AppController
             $images = $model->getImages();
 
             foreach($images as $img){
-                $gallery[$img->sort] = [
-                    'img' => $img->getPath('460x330'),
-                    'sort' => $img->sort
-                ];
+                if($img->active){
+                    $gallery[$img->sort] = [
+                        'img' => $img->getPath('460x330'),
+                        'sort' => $img->sort,
+                        'active' => $img->active
+                    ];
+                }
             }
 
             ksort($gallery);

@@ -25,7 +25,9 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "mihaildev/yii2-elfinder": "*",
         "richardfan1126/yii2-sortable-gridview": "*",
-        "yiisoft/yii2-imagine": "^2.1"
+        "yiisoft/yii2-imagine": "^2.1",
+        "himiklab/yii2-recaptcha-widget": "*",
+        "dkhlystov/yii2-treegrid": "^0.1.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

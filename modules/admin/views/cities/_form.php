@@ -23,26 +23,31 @@ mihaildev\elfinder\Assets::noConflict($this);
 
         <?= $form->field($model, 'active')->checkbox([1, 0]); ?>
         <?/*= $form->field($model, 'sort')->textInput(['maxlength' => 5, 'size' => 5]) */?>
+        <?= $form->field($model, 'city')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
     </div>
 
     <div class="group">
-        <?= $form->field($model, 'city')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
 
         <?= $form->field($model, 'text')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+        <?= $form->field($model, 'content')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); ?>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
     </div>
 
 
     <?php
     if($model->id):?>
     <div class="group">
-
-
         <div style="clear:both;"></div>
         <?= $form->field($model, 'image')->fileInput(); ?>
         <?= ImageWidget::widget(['model' => $model, 'mode' => 'image']) ?>
-
         <div style="clear: both"></div>
     </div>
+        <div style="clear: both"></div>
     <?php
     endif;
     ?>

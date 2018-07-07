@@ -68,9 +68,20 @@ $this->title = $page['title'];
                         ?>
                         <div class="col-sm-6 col-xs-6 face <?= $i % 2 ? 'align-right' : 'align-left'; ?>">
                             <span><?= $person['name'] ?></span>
-                            <a href="<?= Url::to(['person/' . $person['id']]) ?>">
-                                <?= Html::img('/'.$person[$img_key][0], ['alt' => $person[$img_key][1], 'title' => $person[$img_key][1]]) ?>
-                            </a>
+                            <div class="face-wrap">
+                                <a href="<?= Url::to(['person/' . $person['id']]) ?>">
+                                    <?= Html::img('/'.$person[$img_key][0], ['alt' => $person[$img_key][1], 'title' => $person[$img_key][1]]) ?>
+                                    <?php
+                                    if($person['winner']):
+                                        ?>
+                                        <div class="person-winner">
+                                            <?=$person['winner_text']?>
+                                        </div>
+                                    <?php
+                                    endif;
+                                    ?>
+                                </a>
+                            </div>
                             <div style="clear: both"></div>
                         </div>
                         <?php
@@ -88,4 +99,4 @@ $this->title = $page['title'];
 
         <hr>
     </section>
-
+</div>

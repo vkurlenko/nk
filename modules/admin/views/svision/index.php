@@ -46,9 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'title',
                 'value' => function($data){
-                    return Html::a($data->title, \yii\helpers\Url::to('/admin/svision/update?id='.$data->id));
+                    return Html::a($data->title, \yii\helpers\Url::to('/admin/svision/update?id='.$data->id), ['target'=>'blank']);
                 },
-                'format' => 'html'
+                'format' => 'raw'
             ],
             //'descr:ntext',
             //'video:ntext',

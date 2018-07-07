@@ -47,6 +47,9 @@ class MarketsSearch extends Markets
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 1000,
+            ],
         ]);
 
         $this->load($params);

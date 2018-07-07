@@ -14,9 +14,19 @@ use yii\helpers\Url;
 
 $this->title = 'Торговые сети';
 $this->params['breadcrumbs'][] = $this->title;
-//debug($model);
 
-//debug($image);
+$btn_sort_active = $btn_edit_active = '';
+
+if(Yii::$app->request->get('mode')){
+    $mode = Yii::$app->request->get('mode');
+
+    if($mode == 'sort')
+        $btn_sort_active = 'btn-primary active';
+    else
+        $btn_edit_active = 'btn-primary active';
+}
+else
+    $btn_edit_active = 'btn-primary active';
 ?>
 <div class="brands-index">
 
@@ -24,69 +34,81 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
+    <div class="flex-container" style="display: -webkit-flex;    display: flex;    justify-content: space-between;    flex-wrap: wrap;">
+        <div class="btn-group" role="group" aria-label="...">
+            <p>
+                <?= Html::a('Новая торговая сеть', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
+        </div>
 
-    <p>
-    <div class="btn-group" role="group" aria-label="...">
-        <?= Html::a('Новая торговая сеть', ['create'], ['class' => 'btn btn-success']) ?>
-        <?/*= Html::a('Сохранить сортировку и обновить страницу', [''], ['class' => 'btn btn-primary mass-save']) */?>
+        <div class="btn-group" role="group" aria-label="...">
+            <p>
+                <?= Html::a('Режим редактирования', ['?mode=edit'], ['class' => 'btn btn-primary '. $btn_edit_active]) ?>
+                <?= Html::a('Режим сортировки', ['?mode=sort'], ['class' => 'btn btn-primary '. $btn_sort_active]) ?>
+            </p>
+        </div>
     </div>
-    </p>
 
-    <?= SortableGridView::widget([
-        'dataProvider' => $dataProvider,
-        'sortUrl' => Url::to(['sortItem']),
-        'sortingPromptText' => 'Загрузка ...',
-        'failText' => 'Ошибка сортировки',
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            [
-                'attribute' => 'name',
-                'value' => function($data){
-                    return Html::a($data->name, \yii\helpers\Url::to('/admin/brands/update?id='.$data->id));
-                },
-                'format' => 'html'
-            ],
-            [
-                'attribute' => 'logo',
-                'value' => function($data){
-                        //$brand = new Brands();
-                        $model = Brands::findOne($data->id);//$this->findModel($data->id);
-                        $image = $model->getImage();
-
-                        return Html::img($image->getUrl('50x'));},//Html::img($image->getUrl('50x')),
-                'format' => 'raw'
-            ],
-            //'city',
-            [
-                'attribute' => 'city',
-                'value' => function($data){
-                    return $data->cities->city;
-                }
-            ],
-            //'text:ntext',
-            //'active',
-            /*[
-                'attribute' => 'sort',
-                'value' => function($data){
-                    return SortWidget::widget(['data' => $data, 'model_name' => 'brands']);
-                },
-                'format' => 'raw'
-            ],*/
-            [
-                'attribute' => 'active',
-                'value' => function($data){
-                    if($data->active == '1')
-                        return '<span class="success">Да</span>';
-                    else
-                        return '<span class="danger">Нет</span>';
-                },
-                'format' => 'html'
-            ],
-
-            ['class' => 'yii\grid\ActionColumn'],
+    <?php
+    $columns = [
+        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'attribute' => 'name',
+            'value' => function($data){
+                return Html::a($data->name, \yii\helpers\Url::to('/admin/brands/update?id='.$data->id), ['target'=>'blank']);
+            },
+            'format' => 'raw'
         ],
-    ]); ?>
+        [
+            'attribute' => 'logo',
+            'value' => function($data){
+                $model = Brands::findOne($data->id);
+                $image = $model->getImage();
+
+                return Html::img($image->getUrl('50x'));},
+            'format' => 'raw'
+        ],
+        [
+            'attribute' => 'city',
+            'value' => function($data){
+                return $data->cities->city;
+            }
+        ],
+
+        [
+            'attribute' => 'active',
+            'value' => function($data){
+                if($data->active == '1')
+                    return '<span class="success">Да</span>';
+                else
+                    return '<span class="danger">Нет</span>';
+            },
+            'format' => 'html'
+        ],
+
+        ['class' => 'yii\grid\ActionColumn'],
+    ];
+    ?>
+
+    <?php
+    if($mode == 'sort'){
+
+        echo SortableGridView::widget([
+            'dataProvider' => $dataProvider,
+            'sortUrl' => Url::to(['sortItem']),
+            'sortingPromptText' => 'Загрузка ...',
+            'failText' => 'Ошибка сортировки',
+            //'filterModel' => $searchModel,
+            'columns' => $columns,
+        ]);
+    }
+    else
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            //'filterModel' => $searchModel,
+            'columns' => $columns,
+        ]);
+    ?>
+
+
 </div>

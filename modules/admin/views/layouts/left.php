@@ -51,7 +51,15 @@ use yii\helpers\Html;
                             ['label' => 'Авторский надзор', 'icon' => '', 'url' => ['/admin/svision?type=svision']],
                             ['label' => 'Видео с участниками', 'icon' => '', 'url' => ['/admin/svision?type=video']],
                         ]
-                        ],
+                    ],
+                    ['label' => 'Меню', 'icon' => 'user-circle', 'url' => ['/admin/menu'],
+                        /*'items' => [
+                                ['label' => 'Главное меню', 'icon' => '', 'url' => ['/admin/menu?pid=1']],
+                                ['label' => 'Нижнее меню (слева)', 'icon' => '', 'url' => ['/admin/menu?pid=2']],
+                                ['label' => 'Нижнее меню (справа)', 'icon' => '', 'url' => ['/admin/menu?pid=3']],
+                            ]*/
+                    ],
+                    ['label' => 'Настройки', 'icon' => 'user-circle', 'url' => ['/admin/options']],
 
                    // ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],
                     //['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

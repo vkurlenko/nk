@@ -49,7 +49,7 @@ class BrandsSearch extends Brands
             'query' => $query,
             'pagination' => [
                 // количество пунктов на странице
-                'pageSize' => 100,
+                'pageSize' => 1000,
             ],
             'sort'=> ['defaultOrder' => ['sort' => SORT_ASC]]
         ]);

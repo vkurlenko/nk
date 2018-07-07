@@ -12,7 +12,9 @@ use app\modules\admin\controllers\PagesController;
 
     $fields = [
             'name' => true,
-            'sort' => true
+            'sort' => true,
+            'url'  => true,
+            'active'  => true,
     ];
 
     $gallery = $model->getImages();
@@ -27,11 +29,12 @@ use app\modules\admin\controllers\PagesController;
         }
     }
 
-
     foreach($gallery2 as $img){
-        $url_delete     = Url::toRoute([$modelName.'/deleteimg',  'page_id' => $model->id, 'img_id' => $img->id]);
-        $url_setname    = Url::toRoute([$modelName.'/setnameimg', 'page_id' => $model->id, 'img_id' => $img->id]);
+        $url_delete     = Url::toRoute([$modelName.'/deleteimg',  'page_id' => $model->id, 'img_id' => $img->id, 'model_name' => $modelName]);
+        $url_setname    = Url::toRoute([$modelName.'/setnameimg', 'page_id' => $model->id, 'img_id' => $img->id, 'model_name' => $modelName]);
         require 'tpl.php';
     }
     ?>
+    <div style="clear:both;"></div>
 </div>
+<!--<a class="save-gallery">Сохранить</a>-->

@@ -48,6 +48,12 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'reCaptcha' => [
+            'name' => 'reCaptcha',
+            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
+            'siteKey' => '6LfanGEUAAAAAFIS5OyAFgrlAvnbt9nSRnTHP1sA',
+            'secret' => '6LfanGEUAAAAAK0CHtHFopiAzIzmGoKK4H3LX3qK',
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
@@ -92,7 +98,7 @@ $config = [
                 //'<action:(person)>/' => 'site/<action>',
                 'admin' => 'admin/default/index',
 
-                '<action:(supervision|jury)>/' => 'site/<action>',
+                '<action:(supervision|jury|franch)>/' => 'site/<action>',
 
                 'contact' => 'site/contact',
 

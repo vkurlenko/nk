@@ -12,6 +12,8 @@ $this->title = 'О проекте';
 <div class="container main">
     <div class="container">
         <h1><?= Html::encode($this->title) ?></h1>
+        <hr>
+
     </div>
 
     <?php

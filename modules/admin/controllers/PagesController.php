@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\controllers\AppController;
 use Yii;
 use app\modules\admin\models\Pages;
 use app\modules\admin\models\Tpl;
@@ -11,13 +12,15 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
-use rico\yii2images\models\Image;
+//use rico\yii2images\models\Image;
 
 /**
  * PagesController implements the CRUD actions for Pages model.
  */
-class PagesController extends Controller
+class PagesController extends AppController
 {
+
+    public $thumbnail;
     /**
      * {@inheritdoc}
      */
@@ -48,7 +51,9 @@ class PagesController extends Controller
             ]
         ]);
 
+        /*echo $model = __CLASS__;
 
+        die;*/
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -77,8 +82,32 @@ class PagesController extends Controller
     {
         $model = new Pages();
 
+        $model->active = 1;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+           /* $model->image = UploadedFile::getInstance($model, 'image');
+
+            if($model->image){
+                $model->upload();
+            }
+
+            unset($model->image);*/
+
+            $img_name = time();
+
+            $file = UploadedFile::getInstance($model, 'file_img');
+
+            if(!empty($file)) {
+                $file->saveAs('upload/global/' . $img_name . '.' . $file->extension);
+                $model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+                $model->save();
+            }
+
+            $model->gallery = UploadedFile::getInstances($model, 'gallery');
+            $model->UploadGallery();
+
+            Yii::$app->session->setFlash('success', 'Страница сохранена');
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -97,17 +126,27 @@ class PagesController extends Controller
     {
         $model = $this->findModel($id);
 
+        //debug($model); die;
+
+        //$this->log('update');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $model->image = UploadedFile::getInstance($model, 'image');
+            $img_name = time();
 
-            if($model->image){
-                $model->upload();
+            $file = UploadedFile::getInstance($model, 'file_img');
+
+            //debug($file); //die;
+
+            if(!empty($file)) {
+                $file->saveAs('upload/global/' . $img_name . '.' . $file->extension);
+                $model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+                $model->save();
             }
 
-            unset($model->image);
-
             $model->gallery = UploadedFile::getInstances($model, 'gallery');
+
+
             $model->UploadGallery();
 
             Yii::$app->session->setFlash('success', 'Страница сохранена');
@@ -226,60 +265,5 @@ class PagesController extends Controller
         $n++;
         return $n;
     }
-
-    /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Pages::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null)
-    {
-        $page = Pages::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort);
-            }
-        }
-        return $save;
-    }
-
-    /*public function sortImages($model_id, $gallery){
-
-        $gallery_sorted = [];
-
-        $arr = Image::find()->asArray()->where(['itemId' => $$model_id])->orderBy(['sort' => SORT_ASC])->all();
-
-        foreach($arr as $row){
-            foreach($gallery as $img){
-                if($img->id == $row['id']){
-                    $gallery_sorted[] = $img;
-                }
-            }
-        }
-
-        return $gallery_sorted;
-    }*/
-
 
 }

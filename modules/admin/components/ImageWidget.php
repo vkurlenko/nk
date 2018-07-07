@@ -26,6 +26,8 @@ class ImageWidget extends Widget
         $mode = $this->mode;
         $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
 
+        //echo $modelName; die;
+
         return $this->render($mode.'_block', compact('model', 'modelName'));
 
     }

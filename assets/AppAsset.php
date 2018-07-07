@@ -24,15 +24,16 @@ class AppAsset extends AssetBundle
         'js/slick-master/slick/slick.css',
         'js/slick-master/slick/slick-theme.css',
         'fonts/web-fonts-with-css/css/fontawesome-all.min.css',
-        'css/style.css?v=1.5',
+        'css/style.css?v=1.7',
     ];
     public $js = [
         'js/slick-master/slick/slick.min.js',
         'js/picturefill.js',
-        'js/script.js?v=1.3'
+        'js/script.js?v=1.4'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'yii\jui\JuiAsset',
     ];
 }

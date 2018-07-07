@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'sortUrl' => Url::to(['sortItem']),
         'sortingPromptText' => 'Загрузка ...',
         'failText' => 'Ошибка сортировки',
@@ -34,9 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'name',
                 'value' => function($data){
-                    return Html::a($data->name, \yii\helpers\Url::to('/admin/jury/update?id='.$data->id));
+                    return Html::a($data->name, \yii\helpers\Url::to('/admin/jury/update?id='.$data->id), ['target'=>'blank']);
                 },
-                'format' => 'html'
+                'format' => 'raw'
             ],
             //'descr:ntext',
             //'sort',
