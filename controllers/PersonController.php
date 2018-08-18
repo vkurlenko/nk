@@ -13,6 +13,7 @@ use Yii;
 use app\modules\admin\models\Persons;
 use app\modules\admin\models\Cities;
 use app\modules\admin\models\Svision;
+use yii\helpers\Url;
 
 class PersonController extends AppController
 {
@@ -23,8 +24,14 @@ class PersonController extends AppController
     // если есть ID участника ($_GET['id'])
     public function actionIndex(){
 
+       /* $page_data = SiteController::getPageDataByUrl(Url::to());
+
+        debug($page_data);*/
+
         if(Yii::$app->request->get('id')){
-            $id = Yii::$app->request->get('id');
+            $id = $this->getPersonId(Yii::$app->request->get('id'));
+
+            //echo $id;
             $person = $this->getPerson($id);
             $s_video = $this->getSvision($id, 'svision');
             $video = $this->getSvision($id, 'video');
@@ -37,6 +44,8 @@ class PersonController extends AppController
 
     // если нет ID участника, то выводим всех
     public function actionPerson(){
+
+        $page_data = SiteController::getPageDataByUrl();
 
         $persons = [];
 
@@ -52,7 +61,7 @@ class PersonController extends AppController
             $persons[] = $this->getPersons($v, $year);
         }
 
-        return $this->render('persons', compact(['persons', 'years']));
+        return $this->render('persons', compact(['persons', 'years', 'page_data']));
     }
 
     // получим данные всех участников
@@ -92,13 +101,20 @@ class PersonController extends AppController
         return $arr;
     }
 
+    public function getPersonId($id){
+
+        if(!intval($id)){
+            $person = Persons::find()->where(['url_alias' => $id])->one();
+            $id = $person->id;
+        }
+
+        return $id;
+    }
+
     // получим данные участика по его ID
    public function getPerson($id = null){
 
        $person = Persons::findOne($id);
-
-       /*if($person->city_id)
-           $person->city_id = $this->getCity($person->city_id);*/
 
        $photos = $this->getPhotos($id);
 
@@ -117,7 +133,7 @@ class PersonController extends AppController
 
         foreach($cities as $k => $v){
             $arr = Persons::find()
-                ->select(['id', 'name', 'city_id'])
+                ->select(['id', 'name', 'url_alias', 'city_id'])
                 ->where(['active' => 1, 'city_id' => $v['name']])
                 ->indexBy('id')
                 ->asArray()
@@ -127,6 +143,8 @@ class PersonController extends AppController
             foreach($arr as $a)
                 array_push($nav, $a);
         }
+
+        //debug($nav);
 
         return $nav;
     }
@@ -183,7 +201,10 @@ class PersonController extends AppController
                 case 'prev' :
                     foreach($nav as $k => $p){
                         if($p['id'] == $id){
-                            $nav_person_id = $nav[$k-1]['id'];
+                            if($nav[$k-1]['url_alias'] != '')
+                                $nav_person_id = $nav[$k-1]['url_alias'];
+                            else
+                                $nav_person_id = $nav[$k-1]['id'];
                         }
                     }
 
@@ -192,7 +213,10 @@ class PersonController extends AppController
                 case 'next' :
                     foreach($nav as $k => $p){
                         if($p['id'] == $id){
-                            $nav_person_id = $nav[$k+1]['id'];
+                            if($nav[$k+1]['url_alias'] != '')
+                                $nav_person_id = $nav[$k+1]['url_alias'];
+                            else
+                                $nav_person_id = $nav[$k+1]['id'];
                         }
                     }
                     break;

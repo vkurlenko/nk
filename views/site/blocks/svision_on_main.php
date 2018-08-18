@@ -11,6 +11,7 @@
 
             <?php
             $i = 0;
+            //debug($s_vision);
             foreach($s_vision as $video):
                 if(!$video['size'])
                     $i % 2 ? $align = 'align-right' : $align = 'align-left';
@@ -22,7 +23,7 @@
                 ?>
 
                 <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
-                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>">
+                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>" data-source="<?=$video['source']?>">
                         <img src="<?=$video['cover']?>">
                         <div class="yt-container">
                             <i class="far fa-play-circle"></i>

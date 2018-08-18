@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\controllers\AppController;
 use Yii;
 use app\modules\admin\models\Markets;
 use app\modules\admin\models\MarketsSearch;
@@ -12,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * MarketsController implements the CRUD actions for Markets model.
  */
-class MarketsController extends Controller
+class MarketsController extends AppController
 {
     /**
      * {@inheritdoc}

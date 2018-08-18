@@ -57,7 +57,8 @@ a.set_name{
     position: relative;
     display: block;}
 
-a.del_img{
+a.del_img,
+a.del_one_img{
     /*float: left;*/
     position: absolute;
     display: block;
@@ -69,8 +70,9 @@ a.del_img{
 .success{color:green}
 .danger{color:red}
 
-.save-success{border-color:green}
+.save-success{border-color:green; color:green}
 .save-error{border-color:red}
+
 
 .grid-view table td, .grid-view table th{
     text-align: center;

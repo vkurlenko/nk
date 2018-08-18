@@ -78,12 +78,9 @@ else
         [
             'attribute' => 'active',
             'value' => function($data){
-                if($data->active == '1')
-                    return '<span class="success">Да</span>';
-                else
-                    return '<span class="danger">Нет</span>';
+                return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'active', 'model_name' => 'brands']);
             },
-            'format' => 'html'
+            'format' => 'raw'
         ],
 
         ['class' => 'yii\grid\ActionColumn'],

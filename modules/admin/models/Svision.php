@@ -20,6 +20,8 @@ class Svision extends \yii\db\ActiveRecord
 {
 
     public $image;
+    public $year;
+    public $city;
 
     /**
      * {@inheritdoc}

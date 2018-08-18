@@ -78,8 +78,8 @@ class SvisionSearch extends Svision
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'descr', $this->descr])
-            ->andFilterWhere(['like', 'video', $this->video]);
+                ->andFilterWhere(['like', 'descr', $this->descr])
+                ->andFilterWhere(['like', 'video', $this->video]);
 
         return $dataProvider;
     }

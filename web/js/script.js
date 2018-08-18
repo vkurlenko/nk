@@ -32,11 +32,20 @@ function insertYouTubeIframe(e, obj){
     var b = $(obj).parents('.video').find('.yt-cover');
 
     var src = $(b).attr('data-src');
+    var source = $(b).attr('data-source');
     var w = $(b).width();
     var h = $(b).height();
-   
+
     if (src) {
-        var yt_code = '<iframe width="'+w+'" height="'+h+'" src="https://www.youtube.com/embed/'+src+'?autoplay=1" frameborder="0" allowfullscreen></iframe>';
+        switch(source){
+            case 'rutube' :
+                var yt_code = '<iframe width="' + w + '" height="' + h + '" src="//rutube.ru/play/embed/'+src+'?autoStart=true" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowfullscreen></iframe>';
+                break;
+
+            default:
+                var yt_code = '<iframe width="'+w+'" height="'+h+'" src="https://www.youtube.com/embed/'+src+'?autoplay=1" frameborder="0" allowfullscreen></iframe>';
+                break;
+        }
         var to = $(b).find('.yt-container');
         to.html(yt_code);
         e.preventDefault();
@@ -110,15 +119,16 @@ $(document).ready(function(){
     })
 
     // slider on main_page
+
     $('.slider-main').slick({        
         mobileFirst: true,
         speed: 1500,
         arrows: true,
-        autoplay: false,
-        autoplaySpeed: 3000,
+        /*autoplay: false,*/
         nextArrow: '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"><img src="/web/tpl/slider_button_next.png" ></a>',
         prevArrow: '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"><img src="/web/tpl/slider_button_prev.png" ></a>'
     });
+    $('#slider1').fadeIn()
 
     $('#phone-mask').click(function(){
 

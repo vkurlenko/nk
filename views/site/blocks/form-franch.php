@@ -5,13 +5,6 @@ use yii\captcha\Captcha;
 use app\modules\admin\models\Options;
 ?>
 
-<?php /*if (Yii::$app->session->hasFlash('franchFormSubmitted')): */?><!--
-    <div class="alert alert-success">
-        Спасибо за обращение к нам. Мы постараемся ответить вам как можно скорее.
-    </div>
---><?php /*else: */?>
-
-
 <div id="form">
     <?php $form = ActiveForm::begin(['id' => 'franch-form', 'options' => [
             'class' => 'nk-form']]); ?>
@@ -69,7 +62,7 @@ use app\modules\admin\models\Options;
                 $('#form').prepend('<div class="progress">  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">    <span class="">Идет отправка сообщения</span>  </div></div>')
                 
                 $.ajax({
-                    url: '/site/franch',
+                    url: '/site/casting',
                     type: 'POST',
                     data: data,
                     success: function(res){

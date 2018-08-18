@@ -4,7 +4,9 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Франчайзинг';
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container main">
@@ -31,7 +33,7 @@ $this->title = 'Франчайзинг';
 
 
     <section id="about" class="section-center">
-        <?=$data['content']?>
+        <?=$page_data['content']?>
 
         <?php
         echo $this->render('/site/blocks/form-franch', compact('model'));

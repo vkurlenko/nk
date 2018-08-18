@@ -4,7 +4,9 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Жюри';
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 //$this->params['breadcrumbs'][] = $this->title;
 
 //debug($jury);

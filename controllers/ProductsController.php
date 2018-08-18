@@ -22,13 +22,15 @@ class ProductsController extends AppController
 
     public function actionIndex(){
 
+        $page_data = SiteController::getPageDataByUrl();
+
         $products = Products::find()->where(['active' => 1])->asArray()->indexBy('id')->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($products as $product){
             $products[$product['id']]['gallery'] = $this->getGallery($product['id']);
 
         }
-        return $this->render('index', compact('products'));
+        return $this->render('index', compact('products', 'page_data'));
     }
 
     public function actionProduct(){
@@ -42,35 +44,27 @@ class ProductsController extends AppController
             $product['gallery'] = $this->getGallery($id);
 
             if($product['video']){
-                $sl = strrpos($product['video'], '/');
-                $product['video'] = substr($product['video'], $sl+1);
+               /* $sl = strrpos($product['video'], '/');
+                $product['video'] = substr($product['video'], $sl+1);*/
+
+                $arr = explode('/', $product['video']);
+                foreach($arr as $el){
+                    if($el != ''){
+
+                        if(stripos($el, 'rutube') !== false)
+                            $product['source'] = 'rutube';
+                        elseif(stripos($el, 'you') !== false)
+                            $product['source'] = 'youtube';
+
+                        $product['video'] = $el;
+                    }
+                }
             }
 
             if($product['cover']){
+                $arr = unserialize($product['cover']);
 
-                /*$filePath = $_SERVER['DOCUMENT_ROOT']. '/web/upload/cover';
-                $img = Image::getImagine()->open(Yii::getAlias($_SERVER['DOCUMENT_ROOT']. '/web'.$product['cover']));
-
-                $size = $img->getSize();
-                $ratio = $size->getWidth()/$size->getHeight();
-
-                $width = 560;
-                $height = 315;
-
-                if($size->getWidth() > $width){
-
-                }
-
-                $box = new Box($width, $height);
-                $img->crop(new Point(0, 0), new Box(560, 315))->save($filePath.'/thumb/' . 'test.jpg');*/
-
-                /*echo $_SERVER['DOCUMENT_ROOT']. '/web'.$product['cover'];
-                echo $ratio; die;*/
-
-                /*Image::frame($_SERVER['DOCUMENT_ROOT']. '/web'.$product['cover'], 5, '666', 0)
-                    ->rotate(-8)
-                    ->save('upload/image.jpg', ['jpeg_quality' => 50]);*/
-
+                $product['cover'] = $arr['src'];
             }
         }
 

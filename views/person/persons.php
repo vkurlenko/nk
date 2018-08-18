@@ -5,8 +5,9 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$page = $page_data;
-$this->title = $page['title'];
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 
 //debug($persons);
 ?>
@@ -65,9 +66,15 @@ $this->title = $page['title'];
                             <?php
                         }
 
+                        if($person['url_alias'] != '')
+                            $person['id'] = $person['url_alias'];
                         ?>
                         <div class="col-sm-6 col-xs-6 face <?= $i % 2 ? 'align-right' : 'align-left'; ?>">
                             <span><?= $person['name'] ?></span>
+                            <?/*= $person['url_alias'] */?>
+
+
+
                             <div class="face-wrap">
                                 <a href="<?= Url::to(['person/' . $person['id']]) ?>">
                                     <?= Html::img('/'.$person[$img_key][0], ['alt' => $person[$img_key][1], 'title' => $person[$img_key][1]]) ?>

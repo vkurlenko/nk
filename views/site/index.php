@@ -9,8 +9,8 @@ use app\controllers\AppController;
 
 $page = $page_data;
 $this->title = $page['title'];
-
-
+$this->registerMetaTag(['name' => 'description', 'content' => $page['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page['kwd']]);
 ?>
 
 <?= $this->render('/site/blocks/_slider1', compact('gallery')) ?>

@@ -6,6 +6,7 @@ use leandrogehlen\treegrid\TreeGrid;
 use richardfan\sortable\SortableGridView;
 use yii\helpers\Url;
 use app\modules\admin\components\SortWidget;
+use app\modules\admin\components\CheckboxWidget;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\MenuSearch */
@@ -13,19 +14,7 @@ use app\modules\admin\components\SortWidget;
 
 $this->title = 'Меню';
 $this->params['breadcrumbs'][] = $this->title;
-
-/*$btn_sort_active = $btn_edit_active = '';
-
-if(Yii::$app->request->get('mode')){
-    $mode = Yii::$app->request->get('mode');
-
-    if($mode == 'sort')
-        $btn_sort_active = 'btn-primary active';
-    else
-        $btn_edit_active = 'btn-primary active';
-}
-else
-    $btn_edit_active = 'btn-primary active';*/
+$pages = \app\modules\admin\controllers\PagesController::getAllPages();
 ?>
 <div class="menu-index">
 
@@ -34,9 +23,6 @@ else
 
     <p>
         <?= Html::a('Создать меню', ['create'], ['class' => 'btn btn-success']) ?>
-
-       <!-- <?/*= Html::a('Режим редактирования', ['?mode=edit'], ['class' => 'btn btn-primary '. $btn_edit_active]) */?>
-        --><?/*= Html::a('Режим сортировки', ['?mode=sort'], ['class' => 'btn btn-primary '. $btn_sort_active]) */?>
     </p>
 
     <?php
@@ -63,12 +49,22 @@ else
             },
             'format' => 'html'
         ],
-        'url:url',
+        [
+            'attribute' => 'url',
+            'value' => function($data){
+                $url =  \app\controllers\SiteController::getUrlFromId($data->url, \app\modules\admin\controllers\PagesController::getAllPages());
+
+                if(stripos($url, 'http') === false && stripos($url, '/') !== 0)
+                    $url = '/'.$url;
+
+                return Html::a($url, $url, ['target'=>'_blank']);
+            },
+            'format' => 'raw'
+        ],
         //'class',
         [
             'attribute' => 'sort',
             'value' => function($data){
-
                 return SortWidget::widget(['data' => $data, 'model_name' => 'menu']);
             },
             'format' => 'raw'
@@ -76,12 +72,13 @@ else
         [
             'attribute' => 'active',
             'value' => function($data){
-                if($data->active == '1')
+                return CheckboxWidget::widget(['data' => $data, 'attr' => 'active', 'model_name' => 'menu']);
+                /*if($data->active == '1')
                     return '<span class="success">Да</span>';
                 else
-                    return '<span class="danger">Нет</span>';
+                    return '<span class="danger">Нет</span>';*/
             },
-            'format' => 'html'
+            'format' => 'raw'
         ],
 
         ['class' => 'yii\grid\ActionColumn'],
@@ -108,7 +105,7 @@ else
             'parentRootValue' => Yii::$app->request->get('pid') ? Yii::$app->request->get('pid') : '0', //first parentId value
             //'filterModel' => $searchModel,
             'pluginOptions' => [
-                'initialState' => 'collapsed',
+                //'initialState' => 'collapsed',
             ],
             'columns' => $colomns,
     ]);

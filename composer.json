@@ -27,7 +27,10 @@
         "richardfan1126/yii2-sortable-gridview": "*",
         "yiisoft/yii2-imagine": "^2.1",
         "himiklab/yii2-recaptcha-widget": "*",
-        "dkhlystov/yii2-treegrid": "^0.1.7"
+        "dkhlystov/yii2-treegrid": "^0.1.7",
+        "kartik-v/dependent-dropdown": "dev-master",
+        "kartik-v/yii2-widget-depdrop": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

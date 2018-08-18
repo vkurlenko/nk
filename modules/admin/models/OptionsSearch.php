@@ -47,6 +47,9 @@ class OptionsSearch extends Options
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 1000,
+            ],
             'sort'=> ['defaultOrder' => ['sort' => SORT_ASC]]
         ]);
 

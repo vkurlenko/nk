@@ -7,6 +7,7 @@ use mihaildev\ckeditor\CKEditor;
 use yii\web\UploadedFile;
 use \yii\helpers\Url;
 use app\modules\admin\components\ImageWidget;
+use app\modules\admin\components\ImageOneWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Pages */
@@ -57,15 +58,17 @@ use app\modules\admin\components\ImageWidget;
 
                 <?= $form->field($model, 'file_img')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
-                <?php if(!empty($model->thumbnail)){
+                <?php /*if(!empty($model->thumbnail)){
                     echo Html::img($model->thumbnail, $options = ['class' => 'postImg', 'style' => ['width' => '180px']]);
-                } ?>
+                } */?>
+                <?= ImageOneWidget::widget(['model' => $model, 'field' => 'thumbnail']) ?>
 
             </div>
         </div>
         <div class="row group">
             <div class="col-md-12">
                 <?= $form->field($model, 'gallery[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+
                 <?= ImageWidget::widget(['model' => $model, 'mode' => 'gallery']) ?>
                 <div style="clear:both;"></div>
 

@@ -23,6 +23,31 @@ function delImg(obj, e){
     }
 }
 
+function delOneImg(obj, e){
+    //alert('delOneImg');
+    e.preventDefault();
+    if(confirm("Удалить изображение?")){
+        var href = $(obj).attr('href');
+        var res = false;
+
+       // alert(href);
+
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: href,
+            //data: "id="+id+"&uid="+uid,
+            success: function(res){
+                console.log(res);
+                if(res)
+                    $(obj).parents('.form-img').remove();
+                else
+                    alert('Ошибка удаления файла');
+            }
+        });
+    }
+}
+
 function setImgParam(obj, e){
 
     e.preventDefault();
@@ -86,6 +111,42 @@ function setSort(obj, e){
 
 }
 
+function setCheckbox(obj, e){
+    //e.preventDefault();
+
+    var model = $(obj).attr('data-model');
+    var field = $(obj).attr('data-attr');
+    var id = $(obj).attr('data-id');
+    var status = $(obj).is(':checked');
+
+    if(status)
+        status = 1;
+    else
+        status = 0;
+
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        url: '/admin/'+model+'/set-checkbox?model_name='+model+'&field='+field+'&id='+id+'&status='+status,
+        //data: "name="+name
+        success: function(res){
+            if(res){
+                //alert('Сохранено');
+                $(obj).addClass('save-success');
+            }
+            else{
+                //alert('Ошибка');
+                $(obj).addClass('save-error');
+            }
+
+            console.log(res);
+
+        }
+    });
+
+
+}
+
 function massSave(e){
 
     e.preventDefault();
@@ -119,9 +180,27 @@ function massSave(e){
 }
 
 function sbt(){
-    alert('submit');
+    //alert('submit');
     $('#w0').submit();
 }
+
+/*function parseQueryString(queryString) {
+    if (!queryString) {
+        return false;
+    }
+
+    let queries = queryString.split("&"), params = {}, temp;
+
+    for (let i = 0, l = queries.length; i < l; i++) {
+        temp = queries[i].split('=');
+        if (temp[1] !== '') {
+            params[temp[0]] = temp[1];
+        }
+    }
+    return params;
+}*/
+
+
 
 
 $(document).ready(function () {
@@ -130,9 +209,14 @@ $(document).ready(function () {
         delImg($(this), e);
     });
 
-    $('.set_name').click(function (e) {
-        setImgName($(this), e);
+    $('.del_one_img').click(function (e) {
+        delOneImg($(this), e);
+        return false;
     });
+
+    /*$('.set_name').click(function (e) {
+        setImgName($(this), e);
+    });*/
 
     $('.sort-widget-input').click(function(){
         $(this).select()
@@ -141,6 +225,10 @@ $(document).ready(function () {
     $('.set_sort').click(function (e) {
         setSort($(this), e);
     });
+
+    $('.ajax-checkbox').click(function (e) {
+        setCheckbox($(this), e);
+    })
 
     $('.mass-save').click(function (e) {
         massSave(e);
@@ -157,15 +245,85 @@ $(document).ready(function () {
     });
 
     $('button').click(function (e) {
+
         if($('.form-gallery').length > 0) {
-            //alert('isGallery')
+
             $('.set_name').each(function(){
+                //alert('click')
                 setImgParam($(this), e);
             });
-            $('#w0').submit();
+
+            //$('#w0').submit();
+            sbt();
         }
         else
-            $('#w0').submit();
+            //$('#w0').submit();
+            sbt();
+
+        return false;
+    })
+
+    if($('#menu-url').val() == 'new_url') {
+        $('.new-url').attr({
+            'disabled': false,
+            'style': 'display:inline'
+        })
+    }
+    else {
+        $('.new-url').attr({
+            'disabled': true,
+            'style': 'display:none'
+        })
+    }
+
+    $('#menu-url').on('change', function(e){
+        //alert($(this).val());
+        if($(this).val() == 'new_url')
+            $('.new-url').attr({
+                'disabled': false,
+                'style': 'display:inline'
+            });
+        else
+            $('.new-url').attr({
+                'disabled': true,
+                'style': 'display:none'
+            });
+
+    })
+
+    $('#person-city').on('change', function (e) {
+
+        var year = '';
+        var city = '';
+
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+
+            if(results == null)
+                return null;
+            else
+                return results[1] || 0;
+        }
+
+        if(!$.urlParam('year'))
+            year = 'all';
+        else
+            year = $.urlParam('year');
+
+        if($(this).val())
+            city = $(this).val();
+
+
+        window.location.replace(document.location.pathname + '?year='+ year +'&city=' + city);
+       /* console.log("document.URL : "+document.URL);
+        console.log("document.location.href : "+document.location.href);
+        console.log("document.location.origin : "+document.location.origin);
+        console.log("document.location.hostname : "+document.location.hostname);
+        console.log("document.location.host : "+document.location.host);
+        console.log("document.location.pathname : "+document.location.pathname);*/
+
+       // var params = parseQueryString(queryString)
+
     })
 
 });

@@ -5,10 +5,14 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+if(!$product['title'])
+    $product['title'] = $product['name'];
 
-$this->title = $product['name'];
+$this->title = $product['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $product['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $product['kwd']]);
 
-//debug($product);
+//debug($product); die;
 ?>
 
 <div class="container main">
@@ -73,7 +77,7 @@ $this->title = $product['name'];
                 <!--<iframe width="640" src="https://www.youtube.com/embed/<?/*=$product['video']*/?>?autoplay=1" frameborder="0" allowfullscreen></iframe>-->
 
 
-               <div class="yt-cover yt-start" data-src="<?=$product['video']?>">
+               <div class="yt-cover yt-start" data-src="<?=$product['video']?>"  data-source="<?=$product['source']?>">
                     <img src="<?=$product['cover']?>">
                     <div class="yt-container">
                         <i class="far fa-play-circle"></i>

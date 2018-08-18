@@ -55,7 +55,7 @@ class Cities extends \yii\db\ActiveRecord
     {
         return [
             [['city', 'active'], 'required'],
-            [['city', 'text', 'content', 'active'], 'string'],
+            [['city', 'text', 'content', 'active', 'title', 'kwd', 'dscr'], 'string'],
             [['sort'], 'integer'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
@@ -74,6 +74,9 @@ class Cities extends \yii\db\ActiveRecord
             'content' => 'Полный текст',
             'sort' => 'Сортировка',
             'active' => 'Показывать на сайте',
+            'title' => 'Meta title',
+            'kwd' => 'Meta keywords',
+            'dscr' => 'Meta description',
         ];
     }
     /* /для загрузки картинок */

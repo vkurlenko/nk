@@ -10,11 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use richardfan\sortable\SortableAction;
+use app\controllers\AppController;
 
 /**
  * BrandsController implements the CRUD actions for Brands model.
  */
-class BrandsController extends Controller
+class BrandsController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -68,7 +69,7 @@ class BrandsController extends Controller
     public function actionCreate()
     {
         $model = new Brands();
-
+        AppController::log('createBrand');
         $model->active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -155,41 +156,7 @@ class BrandsController extends Controller
     }
 
     /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Brands::find()
-            ->where(['id' => $page_id])
-            ->one();
 
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null, $role = null, $url = null, $active = null)
-    {
-        $page = Brands::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort, $role, $url, $active);
-            }
-        }
-        return $save;
-    }
 
     public function actions(){
         return [

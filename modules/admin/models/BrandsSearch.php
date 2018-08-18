@@ -62,6 +62,19 @@ class BrandsSearch extends Brands
             return $dataProvider;
         }
 
+        $session = Yii::$app->session;
+        if(Yii::$app->request->get('city')){
+            if(Yii::$app->request->get('city') == 'all'){
+                unset($session['brand_city']);
+            }
+            else{
+                $this->city = Yii::$app->request->get('city');
+                $session->set('brand_city', $this->city);
+            }
+        }
+        elseif(isset($session['brand_city']))
+            $this->city = $session['brand_city'];
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

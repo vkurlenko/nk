@@ -75,6 +75,13 @@ class ProductsController extends AppController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->name, $modelName);
+                $model->save();
+            }
+
             $cover_name = time();
 
             $file = UploadedFile::getInstance($model, 'cover_file');
@@ -82,7 +89,13 @@ class ProductsController extends AppController
             if(!empty($file)) {
                 $file->saveAs('upload/cover/' . $cover_name . '.' . $file->extension);
 
-                $model->cover = '/upload/cover/'.$cover_name.'.'.$file->extension;;
+                //$model->cover = '/upload/cover/'.$cover_name.'.'.$file->extension;;
+                $model->cover = serialize([
+                    'src' => '/upload/cover/'.$cover_name.'.'.$file->extension,
+                    'name'=> '',
+                    'url' => '',
+                    'active' => 1
+                ]);
                 $model->save();
             }
 
@@ -112,6 +125,13 @@ class ProductsController extends AppController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->name, $modelName);
+                $model->save();
+            }
+
             $cover_name = time();
 
             $file = UploadedFile::getInstance($model, 'cover_file');
@@ -119,7 +139,10 @@ class ProductsController extends AppController
             if(!empty($file)) {
                 $file->saveAs('upload/cover/' . $cover_name . '.' . $file->extension);
 
-                $model->cover = '/upload/cover/'.$cover_name.'.'.$file->extension;;
+                //$model->cover = '/upload/cover/'.$cover_name.'.'.$file->extension;;
+                $model->cover = serialize([
+                    'src' => '/upload/cover/'.$cover_name.'.'.$file->extension
+                ]);
                 $model->save();
             }
 

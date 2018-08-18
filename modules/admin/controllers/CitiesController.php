@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\controllers\AppController;
 use Yii;
 use app\modules\admin\models\Cities;
 use app\modules\admin\models\CitiesSearch;
@@ -14,7 +15,7 @@ use richardfan\sortable\SortableAction;
 /**
  * CitiesController implements the CRUD actions for Cities model.
  */
-class CitiesController extends Controller
+class CitiesController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -168,42 +169,7 @@ class CitiesController extends Controller
         return $save;
     }
 
-    /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Cities::find()
-            ->where(['id' => $page_id])
-            ->one();
 
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null, $role = null, $url = null)
-    {
-        $page = Cities::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort, $role, $url);
-            }
-        }
-        return $save;
-    }
 
     public function actions(){
         return [

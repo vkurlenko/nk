@@ -3,16 +3,22 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+$meta = ['title', 'kwd', 'dscr', 'h1'];
 
-$this->title = 'Где купить';
-//$this->params['breadcrumbs'][] = $this->title;
+foreach($meta as $k){
+    if(!$city[$k])
+        $city[$k] = $page_data[$k];
+}
 
-//debug($city);
+
+$this->title = $city['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $city['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $city['kwd']]);
 
 ?>
 <div class="container main">
     <div class="container">
-        <h1><?= Html::encode($this->title) ?></h1>
+        <h1><?= Html::encode($city['h1']) ?></h1>
     </div>
 
     <section id="markets" class="section-center">

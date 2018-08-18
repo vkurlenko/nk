@@ -98,7 +98,7 @@ $config = [
                 //'<action:(person)>/' => 'site/<action>',
                 'admin' => 'admin/default/index',
 
-                '<action:(supervision|jury|franch)>/' => 'site/<action>',
+                '<action:(supervision|jury|franch|casting)>/' => 'site/<action>',
 
                 'contact' => 'site/contact',
 
@@ -109,6 +109,12 @@ $config = [
                 'product/<id:\d+>' => 'products/product',
 
                 'person/<id:\d+>' => 'person/index',
+                //'person/<id:\[a-z0-9_\-]+>' => 'person/index',
+                [
+                    'pattern' => 'person/<id:[a-z0-9_\-()]+>',
+                    'route' => 'person/index',
+                    //'mode' =>  \yii\web\UrlRule::PARSING_ONLY
+                ],
                 'persons/<year:\d+>' => 'person/person',
                 'persons' => 'person/person',
 

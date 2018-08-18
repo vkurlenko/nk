@@ -29,37 +29,43 @@ use yii\helpers\Html;
         </form>-->
         <!-- /.search form -->
 
+
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Страницы', 'icon' => 'file-code-o', 'url' => ['/admin/pages']],
-                    ['label' => 'Лица проекта', 'icon' => 'user-circle', 'url' => ['/admin/persons']],
+                    ['label' => 'Лица проекта', 'icon' => 'users', 'url' => ['/admin/persons'],
+                        'items' =>  \app\modules\admin\controllers\DefaultController::getPersonYearSubMenu()
+                    ],
                     ['label' => 'Жюри', 'icon' => 'user-circle', 'url' => ['/admin/jury']],
 
                     ['label' => 'Города', 'icon' => 'hospital-o', 'url' => '#',
                         'items' => [
                             ['label' => 'Города участников', 'icon' => '', 'url' => ['/admin/personcities']],
                             ['label' => 'Города производств', 'icon' => '', 'url' => ['/admin/cities']],
-                        ]],
+                        ]
+                    ],
 
-                    ['label' => 'Торговые сети', 'icon' => 'trademark', 'url' => ['/admin/brands']],
-                    ['label' => 'Продукция', 'icon' => 'user-circle', 'url' => ['/admin/products']],
+                    ['label' => 'Торговые сети', 'icon' => 'trademark', 'url' => ['/admin/brands'],
+                        'items' => \app\modules\admin\controllers\DefaultController::getBrandsCitiesSubMenu()
+                    ],
+                    ['label' => 'Продукция', 'icon' => 'birthday-cake', 'url' => ['/admin/products']],
                     ['label' => 'Видео', 'icon' => 'file-video-o', 'url' => ['#'],
                         'items' => [
                             ['label' => 'Авторский надзор', 'icon' => '', 'url' => ['/admin/svision?type=svision']],
                             ['label' => 'Видео с участниками', 'icon' => '', 'url' => ['/admin/svision?type=video']],
                         ]
                     ],
-                    ['label' => 'Меню', 'icon' => 'user-circle', 'url' => ['/admin/menu'],
+                    ['label' => 'Меню', 'icon' => 'bars', 'url' => ['/admin/menu'],
                         /*'items' => [
                                 ['label' => 'Главное меню', 'icon' => '', 'url' => ['/admin/menu?pid=1']],
                                 ['label' => 'Нижнее меню (слева)', 'icon' => '', 'url' => ['/admin/menu?pid=2']],
                                 ['label' => 'Нижнее меню (справа)', 'icon' => '', 'url' => ['/admin/menu?pid=3']],
                             ]*/
                     ],
-                    ['label' => 'Настройки', 'icon' => 'user-circle', 'url' => ['/admin/options']],
+                    ['label' => 'Настройки', 'icon' => 'cogs', 'url' => ['/admin/options']],
 
                    // ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],
                     //['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

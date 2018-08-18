@@ -52,6 +52,15 @@ mihaildev\elfinder\Assets::noConflict($this);
     endif;
     ?>
 
+    <div class="row group">
+        <div class="col-md-12">
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+            <?= $form->field($model, 'kwd')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+            <?= $form->field($model, 'dscr')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>

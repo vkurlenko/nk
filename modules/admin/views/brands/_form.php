@@ -11,6 +11,10 @@ mihaildev\elfinder\Assets::noConflict($this);
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Brands */
 /* @var $form yii\widgets\ActiveForm */
+
+$session = Yii::$app->session;
+/*if(isset($session['brand_city']))
+    echo $session['brand_city'];*/
 ?>
 
 <div class="brands-form">
@@ -21,7 +25,9 @@ mihaildev\elfinder\Assets::noConflict($this);
 
     <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'city')->dropDownList(\yii\helpers\ArrayHelper::map(\app\modules\admin\models\Cities::find()->all(), 'id', 'city')) ?>
+    <?= $form->field($model, 'city')->dropDownList(\yii\helpers\ArrayHelper::map(\app\modules\admin\models\Cities::find()->all(), 'id', 'city'), ['options' => [
+        $session['brand_city'] => ['Selected' => true]
+    ]]) ?>
 
     <?= $form->field($model, 'url')->textInput() ?>
 

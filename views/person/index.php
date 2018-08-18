@@ -3,43 +3,24 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 
-$this->title = 'Лица проекта';
-
+if(!$person['title'])
+    $person['title'] = $person['name'].', '.$person['city_id'];
+$this->title = $person['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $person['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $person['kwd']]);
 ?>
 
 <div class="container main">
 
     <div class="container">
-        <h1><?= Html::encode($this->title) ?></h1>
+        <h1>Лица проекта</h1>
     </div>
 
     <section id="person" class="section-center">
         <hr>
         <div class="container-fluid person-nav">
            <div class="row">
-               <!--<div class="col-xs-3 col-sm-1">
-                   <?php
-/*                   if($person_nav['prev']):
-                       */?>
-                       <a href="/person/<?/*=$person_nav['prev']*/?>" class="person-prev">&lt;&nbsp;Назад </a>
-                   <?php
-/*                   endif;
-                   */?>
-               </div>
-               <div class="col-xs-6 col-sm-10">
 
-                   <h2><?/*=$person['name']*/?>, <span><?/*=$person['city_id']*/?></span></h2>
-
-               </div>
-               <div class="col-xs-3 col-sm-1">
-                   <?php
-/*                   if($person_nav['next']):
-                       */?>
-                       <a href="/person/<?/*=$person_nav['next']*/?>" class="person-next"> Вперед&nbsp;&gt;</a>
-                   <?php
-/*                   endif;
-                   */?>
-               </div>-->
 
                <div class="col-xs-6 col-sm-2 nav-arrow-prev">
                    <?php

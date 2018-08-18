@@ -64,6 +64,7 @@ mihaildev\elfinder\Assets::noConflict($this);
                 <div class="row">
                     <div class="col-md-12">
                         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'style' => 'width:100%' ]) ?>
+                        <?= $form->field($model, 'url_alias')->textInput(['maxlength' => true, 'style' => 'width:100%' ]) ?>
                     </div>
                     <div class="col-md-3">
                         <?/*= $form->field($model, 'city_id')->dropDownList(\yii\helpers\ArrayHelper::map(\app\modules\admin\models\Cities::find()->all(), 'id', 'city')) */?>
@@ -96,7 +97,7 @@ mihaildev\elfinder\Assets::noConflict($this);
                     </div>
 
                     <div class="col-md-3">
-                        <?= $form->field($model, 'year')->dropDownList(arrDropDown(date('Y'), 2018 )); ?>
+                        <?= $form->field($model, 'year')->dropDownList(arrDropDown(date('Y'), 2017 )); ?>
                     </div>
                 </div>
             </div>
@@ -120,6 +121,15 @@ mihaildev\elfinder\Assets::noConflict($this);
                 <?= $form->field($model, 'person_images[]')->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
                 <div style="clear:both;"></div>
                 <?= ImageWidget::widget(['model' => $model, 'mode' => 'person']) ?>
+            </div>
+        </div>
+
+        <div class="row group">
+            <div class="col-md-12">
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+                <?= $form->field($model, 'kwd')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+                <?= $form->field($model, 'dscr')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+
             </div>
         </div>
 

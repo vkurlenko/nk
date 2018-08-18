@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
 /**
  * OptionsController implements the CRUD actions for Options model.
  */
-class OptionsController extends Controller
+class OptionsController extends AppController
 {
     public $value;
     /**

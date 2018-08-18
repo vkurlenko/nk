@@ -70,12 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'active',
                     'value' => function($data){
-                        if($data->active == '1')
-                            return '<span class="success">Да</span>';
-                        else
-                            return '<span class="danger">Нет</span>';
+                        return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'active', 'model_name' => 'pages']);
                     },
-                    'format' => 'html'
+                    'format' => 'raw'
                 ],
                /* [
                     'attribute' => 'order_by',

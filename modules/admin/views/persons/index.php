@@ -27,6 +27,19 @@ if(Yii::$app->request->get('mode')){
 }
 else
     $btn_edit_active = 'btn-primary active';
+
+$cities = \app\modules\admin\controllers\DefaultController::getPersonCities();
+$arrCities = [];
+foreach($cities as $k => $v){
+    $arrCities[$v['id']] = $v['name'];
+}
+
+$q = '';
+if(Yii::$app->request->get('year'))
+    $q .= '&year='.Yii::$app->request->get('year');
+if(Yii::$app->request->get('city'))
+    $q .= '&city='.Yii::$app->request->get('city');
+
 ?>
 <div class="persons-index">
 
@@ -43,8 +56,21 @@ else
 
         <div class="btn-group" role="group" aria-label="...">
             <p>
-                <?= Html::a('Режим редактирования', ['?mode=edit'], ['class' => 'btn btn-primary '. $btn_edit_active]) ?>
-                <?= Html::a('Режим сортировки', ['?mode=sort'], ['class' => 'btn btn-primary '. $btn_sort_active]) ?>
+                <select id="person-city">
+                    <option value="">Все города</option>
+                    <?php
+                    $i = 0;
+                    foreach($arrCities as $k => $v){
+                        $s = '';
+                        if(Yii::$app->request->get('city') && Yii::$app->request->get('city') == $v)
+                            $s = 'selected';
+                        echo '<option value="'.$v.'" '.$s.'>'.$v.'</option>';
+                    }
+                    ?>
+                </select>
+
+                <?= Html::a('Режим редактирования', ['?mode=edit'.$q], ['class' => 'btn btn-primary '. $btn_edit_active]) ?>
+                <?= Html::a('Режим сортировки', ['?mode=sort'.$q], ['class' => 'btn btn-primary '. $btn_sort_active]) ?>
             </p>
         </div>
     </div>
@@ -55,7 +81,7 @@ else
         [
             'attribute' => 'name',
             'value' => function($data){
-                return Html::a($data->name, \yii\helpers\Url::to('/admin/persons/update?id='.$data->id), ['target'=>'blank']);
+                return Html::a($data->name, \yii\helpers\Url::to('/admin/persons/update?id='.$data->id), ['target'=>'_blank']);
             },
             'format' => 'raw',
             'options' => ['class' => 'align-left']
@@ -84,7 +110,7 @@ else
             }
         ],
         'year',
-        [
+        /*[
             'attribute' => 'winner',
             'value' => function($data){
                 if($data->winner == '1')
@@ -93,9 +119,16 @@ else
                     return '<span class="danger">Нет</span>';
             },
             'format' => 'html'
+        ],*/
+        [
+            'attribute' => 'winner',
+            'value' => function($data){
+                return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'winner', 'model_name' => 'persons']);
+            },
+            'format' => 'raw'
         ],
 
-        [
+        /*[
             'attribute' => 'on_main',
             'value' => function($data){
                 if($data->on_main == '1')
@@ -104,18 +137,19 @@ else
                     return '<span class="danger">Нет</span>';
             },
             'format' => 'html'
+        ],*/
+        [
+            'attribute' => 'on_main',
+            'value' => function($data){
+                return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'on_main', 'model_name' => 'persons']);
+            },
+            'format' => 'raw'
         ],
         [
             'attribute' => 'active',
             'value' => function($data){
-                if($data->active == '1')
-                    return '<span class="success">Да</span>';
-                else
-                    return '<span class="danger">Нет</span>';
+                return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'active', 'model_name' => 'persons']);
             },
-            /*'value' => function($data){
-                return CheckboxWidget::widget(['data' => $data]);
-            },*/
             'format' => 'raw'
         ],
 

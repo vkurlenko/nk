@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 ?>
 <section id="slider1">
-    <div class="slider-main">
+    <div class="slider-main" data-slick='{"autoplay": <?=\app\controllers\AppController::getOption('slider_auto_play') ?  'true' :  'false'?>, "autoplaySpeed": <?=\app\controllers\AppController::getOption('slider_delay')?>}'>
 
         <?php
         $i = 1;

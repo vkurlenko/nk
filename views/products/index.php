@@ -6,19 +6,17 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 
-$this->title = 'Продукция';
-
-//debug($products);
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 ?>
 
 <div class="container main">
 
-    <h1>Продукция</h1>
-
+    <h1><?=$page_data['h1']?></h1>
 
 
     <section id="products" class="section-center alignment-block">
-
 
         <div class="container-fluid">
 

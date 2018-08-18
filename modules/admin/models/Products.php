@@ -45,7 +45,7 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             [['name', ], 'required'],
-            [['descr', 'video', 'cover'], 'string'],
+            [['descr', 'video', 'cover', 'title', 'kwd', 'dscr', 'url_alias'], 'string'],
             [['sort', 'active', 'size'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['product_images'], 'file', 'extensions' => 'png, jpg', 'maxFiles' => 4],
@@ -69,7 +69,11 @@ class Products extends \yii\db\ActiveRecord
             'active' => 'Показывать',
             'product_images' => 'Картинки',
             'cover_file' => 'Обложка видео',
-            'photo' => 'Фото'
+            'photo' => 'Фото',
+            'title' => 'Meta title',
+            'kwd' => 'Meta keywords',
+            'dscr' => 'Meta description',
+            'url_alias' => 'ЧПУ'
         ];
     }
 

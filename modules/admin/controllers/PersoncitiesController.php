@@ -9,11 +9,12 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use richardfan\sortable\SortableAction;
+use app\controllers\AppController;
 
 /**
  * PersoncitiesController implements the CRUD actions for PersonCities model.
  */
-class PersoncitiesController extends Controller
+class PersoncitiesController extends AppController
 {
     /**
      * {@inheritdoc}

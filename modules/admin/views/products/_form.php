@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\modules\admin\components\ImageWidget;
+use app\modules\admin\components\ImageOneWidget;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 
@@ -36,6 +37,8 @@ use mihaildev\elfinder\ElFinder;
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
 
+        <?= $form->field($model, 'url_alias')->textInput(['maxlength' => true, 'style' => 'width:100%' ]) ?>
+
         <?= $form->field($model, 'descr')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); ?>
     </div>
 
@@ -44,9 +47,10 @@ use mihaildev\elfinder\ElFinder;
             <div class="col-md-4">
                 <div class="">
                     <?= $form->field($model, 'cover_file')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
-                    <?php if(!empty($model->cover)){
+                    <?php /*if(!empty($model->cover)){
                         echo Html::img($model->cover, $options = ['class' => 'postImg', 'style' => ['width' => '180px']]);
-                    } ?>
+                    }*/ ?>
+                    <?= ImageOneWidget::widget(['model' => $model, 'field' => 'cover']) ?>
 
                     <div style="clear:both;"></div>
 
@@ -69,6 +73,15 @@ use mihaildev\elfinder\ElFinder;
         <?= ImageWidget::widget(['model' => $model, 'mode' => 'products']) ?>
 
         <div style="clear:both;"></div>
+    </div>
+
+    <div class="row group">
+        <div class="col-md-12">
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+            <?= $form->field($model, 'kwd')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+            <?= $form->field($model, 'dscr')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+
+        </div>
     </div>
 
 

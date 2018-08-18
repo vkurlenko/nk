@@ -11,11 +11,12 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
 use richardfan\sortable\SortableAction;
+use app\controllers\AppController;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
  */
-class MenuController extends Controller
+class MenuController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -85,7 +86,7 @@ class MenuController extends Controller
     {
         $model = new Menu();
 
-
+        $model->active = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);

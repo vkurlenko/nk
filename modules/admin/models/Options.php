@@ -49,7 +49,7 @@ class Options extends \yii\db\ActiveRecord
             'name' => 'Ключ опции',
             'value' => 'Значение',
             'type' => 'Тип',
-            'comment' => 'Пояснение',
+            'comment' => 'Опция',
             'sort' => 'Sort',
             'file_img' => 'File'
         ];

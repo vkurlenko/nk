@@ -99,7 +99,13 @@ class PagesController extends AppController
 
             if(!empty($file)) {
                 $file->saveAs('upload/global/' . $img_name . '.' . $file->extension);
-                $model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+                //$model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+                $model->thumbnail = serialize([
+                    'src' => '/upload/global/'.$img_name.'.'.$file->extension,
+                    'name'=> '',
+                    'url' => '',
+                    'active' => 1
+                ]);
                 $model->save();
             }
 
@@ -140,7 +146,11 @@ class PagesController extends AppController
 
             if(!empty($file)) {
                 $file->saveAs('upload/global/' . $img_name . '.' . $file->extension);
-                $model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+                //$model->thumbnail = '/upload/global/'.$img_name.'.'.$file->extension;;
+
+                $model->thumbnail = serialize([
+                    'src' => '/upload/global/'.$img_name.'.'.$file->extension
+                ]);
                 $model->save();
             }
 

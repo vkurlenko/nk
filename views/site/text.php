@@ -10,13 +10,15 @@ use app\models\Pages;
 
 //debug($img);
 
-$this->title = $data['title'];
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container main">
     <div class="container">
         <section class="section-center">
-        <h1><?= Html::encode($data['h1']) ?></h1>
+        <h1><?= Html::encode($page_data['h1']) ?></h1>
         <hr>
         </section>
     </div>
@@ -36,7 +38,7 @@ $this->title = $data['title'];
     ?>
 
     <section id="about" class="section-center">
-        <?=$data['content']?>
+        <?=$page_data['content']?>
     </section>
 
 </div>

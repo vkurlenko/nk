@@ -30,7 +30,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'type',
+
+            [
+                'attribute' => 'comment',
+                'value' => function($data){
+
+                    return '<div class="data-align-left">'.$data->comment.'</div>';
+                },
+                'format' => 'raw',
+                //'filterRowOptions' => ['class' => 'filters']
+
+            ],
+            [
+                'attribute' => 'value',
+                'value' => function($data){
+                    switch($data->type){
+                        case 'texthtml' :
+                            return '<div class="data-align-left"><em>{HTML}</em></div>';
+                            break;
+
+                        case 'img':
+                            return '<div class="data-align-left">'.Html::img($data->value, ['width' => 50]).'</div>';
+                            break;
+
+                        case 'checkbox':
+                            return '<div class="data-align-left">'.\app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'value', 'model_name' => 'options']).'</div>';
+                            break;
+
+
+                        default :
+                            return '<div class="data-align-left">'.$data->value.'</div>';
+                            break;
+                    }
+                },
+                'format' => 'raw',
+                //'filterRowOptions' => ['class' => 'filters']
+
+            ],
             [
                 'attribute' => 'name',
                 'value' => function($data){
@@ -38,44 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],
-            [
-                'attribute' => 'value',
-                'value' => function($data){
+            'type',
 
-                switch($data->type){
-                    case 'texthtml' :
-                        return '<div class="data-align-left"><em>{HTML}</em></div>';
-                        break;
-
-                    case 'img':
-                        return '<div class="data-align-left">'.Html::img($data->value, ['width' => 50]).'</div>';
-                        break;
-
-
-                    default :
-                        return '<div class="data-align-left">'.$data->value.'</div>';
-                        break;
-                }
-
-                    /*if($data->type != 'texthtml')
-                        return '<div class="data-align-left">'.$data->value.'</div>';
-                    else
-                        return '<div class="data-align-left"><em>{HTML}</em></div>';*/
-                },
-                'format' => 'raw',
-                //'filterRowOptions' => ['class' => 'filters']
-
-            ],
-            [
-                'attribute' => 'comment',
-                'value' => function($data){
-
-                        return '<div class="data-align-left">'.$data->comment.'</div>';
-                },
-                'format' => 'raw',
-                //'filterRowOptions' => ['class' => 'filters']
-
-            ],
             //'sort',
 
             ['class' => 'yii\grid\ActionColumn'],

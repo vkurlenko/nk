@@ -3,7 +3,9 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 
-$this->title = 'Авторский надзор';
+$this->title = $page_data['title'];
+$this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
+$this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 ?>
 
 <div class="container main">
@@ -44,7 +46,7 @@ $this->title = 'Авторский надзор';
                 ?>
 
                 <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
-                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>">
+                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>" data-source="<?=$video['source']?>">
                         <img src="<?=$video['cover']?>">
                         <div class="yt-container">
                             <i class="far fa-play-circle"></i>

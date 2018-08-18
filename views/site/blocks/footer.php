@@ -115,3 +115,10 @@ $left_menu = \app\controllers\AppController::getOption('foot-menu-1');
     </div>
     </div>
 </footer>
+
+<section id="copyright" class="container section-center">
+    <!--Официальный сайт "Народный кондитер". Копирование материалов только с разрешения владельца сайта-->
+    <?=\app\controllers\AppController::getOption('copyright')?>
+</section>
+
+<hr class="hr-bottom">

@@ -12,6 +12,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\controllers\SiteController;
 
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -26,6 +27,10 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
+    <?=\app\controllers\AppController::getOption('ya_metrika')?>
+    <?=\app\controllers\AppController::getOption('ga')?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -46,8 +51,6 @@ AppAsset::register($this);
         ?>
     </header>
 
-    
-
     <!-- <div class="container main"> -->
     <?php
     echo $content;
@@ -56,12 +59,6 @@ AppAsset::register($this);
 </div>
 
 <?= $this->render('/site/blocks/footer') ?>
-
-<section id="copyright" class="container section-center">
-    Официальный сайт "Народный кондитер". Копирование материалов только с разрешения владельца сайта
-</section>
-
-<hr class="hr-bottom">
 
 <?php $this->endBody() ?>
 

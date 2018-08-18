@@ -54,7 +54,8 @@ hr{
     height: 1px;
 }
 
-.main section button, .main section button:hover, .main section button:active
+.main section .form-group button, .main section .form-group button:hover, .main section .form-group button:active,
+button.nk-button, button.nk-button:hover, button.nk-button:active
 {
     color: #fff;
     background: #ff325b url(/web/tpl/arrow_tr.png) no-repeat right;
@@ -213,6 +214,10 @@ picture img{
 /* /NavBar */
 
 /* slider1 */
+
+#slider1{
+    display: none;}
+
 .slick-slide img {
     max-width: 100%;
 }
@@ -709,6 +714,14 @@ footer .laces{
 .nk-form input,
 .nk-form textarea,
 .nk-form .input-group-addon{
+    border:1px solid #f9a0ca;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.form-control{
+    height: auto;
     border:1px solid #f9a0ca;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;

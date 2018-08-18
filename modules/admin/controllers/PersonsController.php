@@ -73,33 +73,42 @@ class PersonsController extends AppController
     {
         $model = new Persons();
 
+        //AppController::log('createPerson');
         // person is active by default
         $model->active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-                $model->person_images = UploadedFile::getInstances($model, 'person_images');
-                $model->UploadImages();
+            $model->person_images = UploadedFile::getInstances($model, 'person_images');
+            $model->UploadImages();
 
-                // в таблицу городов участников добавим новый город, если его там нет
-                if(!PersonCities::find()->where(['name' => $model->city_id])->one()){
-                    $city = new PersonCities();
-                    $city->name = $model->city_id;
-                    $city->sort = PersonCities::find()->max('sort') + 1;
-                    $city->active = 1;
+            //echo $model->name; die;
 
-                    if (!$city->save()){
-                        Yii::$app->session->setFlash('error', 'Страница не сохранена');
-                        var_dump($city->getErrors());
-                    }
-                }
-
-                Yii::$app->session->setFlash('success', 'Страницы сохранена');
-
-                return $this->redirect(['update', 'id' => $model->id]);
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->name, $modelName);
+                $model->save();
             }
+
+            // в таблицу городов участников добавим новый город, если его там нет
+            if(!PersonCities::find()->where(['name' => $model->city_id])->one()){
+                $city = new PersonCities();
+                $city->name = $model->city_id;
+                $city->sort = PersonCities::find()->max('sort') + 1;
+                $city->active = 1;
+
+                if (!$city->save()){
+                    Yii::$app->session->setFlash('error', 'Страница не сохранена');
+                    var_dump($city->getErrors());
+                }
+            }
+
+            Yii::$app->session->setFlash('success', 'Страницы сохранена');
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
+        //}
 
         return $this->render('create', [
             'model' => $model,
@@ -124,6 +133,13 @@ class PersonsController extends AppController
 
             $model->person_video = UploadedFile::getInstances($model, 'person_video');
             $model->UploadVideo();
+
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->name, $modelName);
+                $model->save();
+            }
 
             // в таблицу городов участников добавим новый город, если его там нет
             if(!PersonCities::find()->where(['name' => $model->city_id])->one()){
@@ -179,15 +195,6 @@ class PersonsController extends AppController
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    /* сортировка записи */
-   /* public function actionSetsort($id = null, $sort = null)
-    {
-        $person = Persons::findOne($id);
-        $person->sort = $sort;
-        $save = $person->save();
-        //$save = false;
-        return $save;
-    }*/
 
     public function actions(){
         return [

@@ -137,7 +137,7 @@ class Pages extends \yii\db\ActiveRecord
             'params' => 'Параметры',
             'order_by' => 'Сортировка',
             'active' => 'Показывать на сайте',
-            'file_img' => 'File'
+            'file_img' => 'Картинка'
         ];
     }
 }

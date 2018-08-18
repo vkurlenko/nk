@@ -12,7 +12,7 @@ use yii\helpers\Html;
 
         <?php
         if($fields['active']):?>
-            <input type="checkbox" class="img-active" <?=$img->active ? 'checked' : ''?>>
+            <input type="checkbox" title="Показывать на сайте" class="img-active" <?=$img->active ? 'checked' : ''?>>
         <?php
         endif;
         ?>

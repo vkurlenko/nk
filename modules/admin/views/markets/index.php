@@ -31,7 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'brands:ntext',
             //'anons:ntext',
             //'text',
-            'active',
+            [
+                'attribute' => 'active',
+                'value' => function($data){
+                    return \app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'active', 'model_name' => 'jury']);
+                },
+                'format' => 'raw'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

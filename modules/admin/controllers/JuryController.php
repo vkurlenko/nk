@@ -11,11 +11,12 @@ use yii\filters\VerbFilter;
 
 use yii\web\UploadedFile;
 use richardfan\sortable\SortableAction;
+use app\controllers\AppController;
 
 /**
  * JuryController implements the CRUD actions for Jury model.
  */
-class JuryController extends Controller
+class JuryController extends AppController
 {
     /**
      * {@inheritdoc}
@@ -150,42 +151,7 @@ class JuryController extends Controller
         return $save;
     }
 
-    /* удаление картинки */
-    public function actionDeleteimg($page_id, $img_id)
-    {
-        $page = Jury::find()
-            ->where(['id' => $page_id])
-            ->one();
 
-        $images = $page->getImages();
-        $del = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $del = $page->removeImage($img);
-            }
-        }
-
-        return $del;
-    }
-
-    /* название картинки */
-    public function actionSetnameimg($page_id, $img_id, $name = null, $sort = null)
-    {
-        $page = Jury::find()
-            ->where(['id' => $page_id])
-            ->one();
-
-        $images = $page->getImages();
-        $save = false;
-
-        foreach($images as $img){
-            if($img->id == $img_id){
-                $save = $img->setName($name, $sort);
-            }
-        }
-        return $save;
-    }
 
     public function actions(){
         return [

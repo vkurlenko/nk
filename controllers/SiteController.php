@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\models\CastingForm;
 use app\modules\admin\controllers\MenuController;
 use app\modules\admin\models\Brands;
 use app\modules\admin\models\Cities;
@@ -89,7 +90,18 @@ class SiteController extends AppController
         // создадим набор картинок для галереи
         $gallery = $this->makeSliderGallery($page_data['id']);
 
-        $persons = Persons::find()->where(['active' => 1, 'on_main' => 1])->orderBy('on_main_sort')->limit(4)->all();
+        $mode = AppController::getOption('persons_on_main_random') ?  true :  false;
+
+
+        if($mode){
+            $year =  Persons::find()->max('year');
+            $persons = Persons::find()->where(['active' => 1, 'year' => $year])->orderBy('RAND()')->limit(4)->all();
+        }
+        else
+            $persons = Persons::find()->where(['active' => 1, 'on_main' => 1])->orderBy('on_main_sort')->limit(4)->all();
+
+
+
         $persons_on_main = [];
 
         foreach($persons as $person){
@@ -103,43 +115,30 @@ class SiteController extends AppController
         return $this->render('index', compact('page_data', 'gallery', 'persons_on_main', 's_vision'));
     }
 
-
-
-
     /* action по умолчанию для типовых (тестовых) страниц */
     public function actionText()
     {
 
         // определим данные главной страницы по ее url
-        $url = Url::to();
+        $page_data = $this->getPageDataByUrl();
 
-        $data = Pages::find()->where(['url' => $url])->asArray()->one();
-
-        if(!$data){
-            $url = substr($url, 1);
-            //echo $url;
-            $data = Pages::find()->where(['url' => $url])->asArray()->one();
-        }
-
-
-        if($data){
+        //debug($page_data);
+        if($page_data){
             // найдем главную картинку и галерею картинок, если они прикреплены к странице
-            $page = Pages::findOne($data['id']);
+            $page = Pages::findOne($page_data['id']);
             $img = $page->getImage();
             $gallery = $page->getImages();
 
-            return $this->render('text', compact('data', 'img', 'gallery'));
+            if($page->active)
+                return $this->render('text', compact('page_data', 'img', 'gallery'));
+            else
+                return $this->redirect(['site/index']);
+
         }
         else
             return $this->render('error');
     }
 
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
     public function actionLogin()
     {
         $this->layout = '@app/modules/admin/views/layouts/main-login';
@@ -160,11 +159,6 @@ class SiteController extends AppController
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -172,11 +166,6 @@ class SiteController extends AppController
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -193,24 +182,14 @@ class SiteController extends AppController
     public function actionFranch()
     {
         // определим данные главной страницы по ее url
-        $url = Url::to();
+        $page_data = $this->getPageDataByUrl();
 
-        $data = Pages::find()->where(['url' => $url])->asArray()->one();
+        if(!$page_data['active'])
+            return $this->redirect(['site/index']);
 
-
-
-        if(!$data){
-            $url = substr($url, 1);
-            //echo $url;
-            $data = Pages::find()->where(['url' => $url])->asArray()->one();
-        }
-
-        //debug ($data);
-
-
-        if($data){
+        if($page_data){
             // найдем главную картинку и галерею картинок, если они прикреплены к странице
-            $page = Pages::findOne($data['id']);
+            $page = Pages::findOne($page_data['id']);
             $img = $page->getImage();
             $gallery = $page->getImages();
         }
@@ -222,19 +201,67 @@ class SiteController extends AppController
                 return 'Запрос принят';
             }
         }
-        return $this->render('franch', compact('model', 'data', 'img', 'gallery'));
+        return $this->render('franch', compact('model', 'page_data', 'img', 'gallery'));
     }
 
+    public function actionCasting()
+    {
+        // определим данные главной страницы по ее url
+        $page_data = $this->getPageDataByUrl();
 
+        if(!$page_data['active'])
+            return $this->redirect(['site/index']);
+
+        if($page_data){
+            // найдем главную картинку и галерею картинок, если они прикреплены к странице
+            $page = Pages::findOne($page_data['id']);
+            $img = $page->getImage();
+            $gallery = $page->getImages();
+        }
+
+        $model = new CastingForm();
+
+        $model->arr_path = [];
+
+        if (Yii::$app->request->isPost) {
+
+            $arr_f = ['file1', 'file2', 'file3'];
+
+            foreach($arr_f as $f){
+                $model->$f = UploadedFile::getInstance($model, $f);
+                if($model->$f){
+                    $model->$f->saveAs('upload/' . $model->$f->baseName . '.' . $model->$f->extension);
+                    $model->path = 'upload/' . $model->$f->baseName . '.' . $model->$f->extension;
+                    $model->arr_path[] = $model->path;
+                }
+            }
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->casting(Yii::$app->params['adminEmail'], $model->arr_path)){
+            Yii::$app->session->setFlash('success', 'Ваше сообщение отправлено');
+            return $this->refresh();
+        }
+        return $this->render('casting', compact('model', 'page_data', 'img', 'gallery'));
+    }
 
     public function actionSupervision()
     {
+        $page_data = $this->getPageDataByUrl();
+
+        if(!$page_data['active'])
+            return $this->redirect(['site/index']);
+
         $svision = $this->getSvision(100);
-        return $this->render('supervision', compact('svision'));
+        return $this->render('supervision', compact('svision', 'page_data'));
     }
 
     public function actionJury()
     {
+        $page_data = $this->getPageDataByUrl();
+
+        if(!$page_data['active'])
+            return $this->redirect(['site/index']);
+
         $jury = Jury::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
 
         foreach($jury as $m){
@@ -242,10 +269,15 @@ class SiteController extends AppController
             $photo = $p->getImage();
             $jury[$m['id']]['photo'] = $photo->getUrl('460x360');
         }
-        return $this->render('jury', compact('jury'));
+        return $this->render('jury', compact('jury', 'page_data'));
     }
 
     public function actionMarkets(){
+
+        $page_data = $this->getPageDataByUrl();
+
+        if(!$page_data['active'])
+            return $this->redirect(['site/index']);
 
         $city = [];
         if(Yii::$app->request->get('id')){
@@ -259,6 +291,9 @@ class SiteController extends AppController
                 'herb' => $herb->getUrl('x200'),
                 'text' => $model->text,
                 'content' => $model->content,
+                'title' => $model->title,
+                'kwd' => $model->kwd,
+                'dscr' => $model->dscr
             ];
 
             $logos = Brands::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
@@ -280,9 +315,23 @@ class SiteController extends AppController
             }
         }
 
-        //debug($city); die;
+        return $this->render('markets', compact('city', 'page_data'));
+    }
 
-        return $this->render('markets', compact('city'));
+    public static function getPageDataByUrl($url = null){
+
+        if(!$url)
+            $url = Url::to();
+
+        if(stripos($url,'/' ) !== false){
+            $arr = explode('/', $url);
+            $url = $arr[1];
+        }
+            //$url = substr($url, 1);
+
+        $page_data = Pages::find()->where(['url' => $url])->asArray()->one();
+
+        return $page_data;
     }
 
     // формирует главное меню
@@ -290,9 +339,10 @@ class SiteController extends AppController
     {
         $arr = [];
 
-        //$pages = PagesController::mapTree(PagesController::getAllPages());
 
         $pages = SiteController::getMenu(1);
+
+        //debug($pages);
 
         foreach($pages as $page){
 
@@ -323,17 +373,26 @@ class SiteController extends AppController
 
                     if($child['active']) {
                         $i++;
+
+                        if(stripos($child['url'], 'http') === false && stripos($child['url'], '/') !== 0)
+                            $child['url'] = '/'.$child['url'];
+
                         $arr_ch[] =  [
                             'label' => $child['title'],
-                            'url' => ['/'.$child['url']],
+                            'url' => [$child['url']],
                             'options' => $i == 1 ? ['class' => 'first-item'] : []
                         ];
                     }
                 }
                 $arr[] = ['label' => $page['title'], 'items' => $arr_ch, 'options' => ['class' => 'submenu'],];
             }
-            else
-                $arr[] = ['label' => $page['title'], 'url' => ['/'.$page['url']]];
+            else{
+                if(stripos($page['url'], 'http') === false && stripos($page['url'], '/') !== 0)
+                    $page['url'] = '/'.$page['url'];
+
+                $arr[] = ['label' => $page['title'], 'url' => $page['url']];
+            }
+
         }
 
         return $arr;
@@ -361,27 +420,46 @@ class SiteController extends AppController
     public function getSvision($limit = 4){
 
         $arr_video = Svision::find()->where(['active' => 1, 'type' => 'svision'])->orderBy(['date' => SORT_DESC])->asArray()->limit($limit)->all();
-
         $i = 0;
+
         foreach($arr_video as $video){
             $j = 0;
             foreach($video as $k => $v){
                 if($k == 'video'){
-                    $sl = strrpos($v, '/');
+                    /*$sl = strrpos($v, '/');
                     if($sl){
-                        //$model = Svision::findOne($arr_video[$i]['id']);
                         $arr_video[$i]['video'] = substr($v, $sl+1);
+                        if($arr_video[$i]['video'] == ''){
+                            $arr = explode('/', $v);
+                            debug($arr);
+                            $arr_video[$i]['video'] = $arr[count($arr) - 2];
+                        }
                         $arr_video[$i]['cover'] = $this->getPhoto($arr_video[$i]['id']);
+                    }*/
+
+                    if($v != ''){
+                        $arr = explode('/', $v);
+
+                        foreach($arr as $el){
+                            if($el != ''){
+
+                                if(stripos($el, 'rutube') !== false)
+                                   $arr_video[$i]['source'] = 'rutube';
+                                elseif(stripos($el, 'you') !== false)
+                                    $arr_video[$i]['source'] = 'youtube';
+
+                                $arr_video[$i]['video'] = $el;
+                            }
+                        }
+
+                        $arr_video[$i]['cover'] = $this->getPhoto($arr_video[$i]['id']);
+                        $arr_video[$i]['date'] = AppController::formatDate($arr_video[$i]['date']);
                     }
-
-                    $arr_video[$i]['date'] = AppController::formatDate($arr_video[$i]['date']);
-
                 }
                 $j++;
             }
             $i++;
         }
-
         return $arr_video;
     }
 
@@ -436,7 +514,6 @@ class SiteController extends AppController
         return false;
     }
 
-
    /* public static function mapTree($dataset, $pid)
     {
         $tree = array();
@@ -453,41 +530,63 @@ class SiteController extends AppController
         return $tree;
     }*/
 
+   public static function getUrlFromId($url = null, $pages){
+
+       if(intval($url) && array_key_exists(intval($url), $pages))
+           return $pages[intval($url)]['url'];
+       else
+           return $url;
+   }
+
+
     public static function getMenu($pid = null){
-        $tree = [];
 
         $menus = MenuController::getAllMenu();
+
+        $pages = PagesController::getAllPages();
 
         $tree = MenuController::mapTree($menus);
 
         $arr = [];
-
         foreach($tree as $node){
             if($node['id'] != $pid || !$node['active'])
                 continue;
 
+
             if($node['childs']){
+
                 foreach ($node['childs'] as $child){
+
                     if($child['active']){
+
+                        if(intval($child['url']) && !$pages[$child['url']]['active'])
+                            continue;
+
+
+                        $child['url'] = self::getUrlFromId($child['url'], $pages);
                         $arr[$child['id']] = $child;
 
                         if($child['childs']){
+                            $arr[$child['id']]['childs'] = [];
+
                             foreach($child['childs'] as $child2){
 
-                                if($child2['active'])
-                                    $arr[$child['id']][$child2['id']] = $child2;
+                                if($child2['active'] ){
+
+                                    if(intval($child2['url']) && !$pages[$child2['url']]['active'])
+                                        continue;
+
+                                    $child2['url'] = self::getUrlFromId($child2['url'], $pages);
+
+                                    $arr[$child['id']]['childs'][] = $child2;
+                                }
                             }
                         }
                     }
-
                 }
             }
         }
-
-        /*debug($arr); die;
-
-        debug($tree);  debug($arr); die;*/
-
+        //debug($arr);
         return $arr;
     }
 }

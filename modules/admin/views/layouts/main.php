@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
+echo $string;
 
 if (Yii::$app->controller->action->id === 'login') { 
 /**
@@ -50,7 +50,8 @@ if (Yii::$app->controller->action->id === 'login') {
 
         <?= $this->render(
             'left.php',
-            ['directoryAsset' => $directoryAsset]
+            ['directoryAsset' => $directoryAsset,
+                'string' => $string]
         )
         ?>
 

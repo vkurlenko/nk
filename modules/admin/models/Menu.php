@@ -25,13 +25,17 @@ class Menu extends \yii\db\ActiveRecord
         return 'menu';
     }
 
+    public function getPages(){
+        return $this->hasOne(Pages::className(), ['id' => 'url']);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['pid', 'title', 'url'], 'required'],
+            [['pid', 'title'], 'required'],
             [['pid', 'active', 'sort'], 'integer'],
             [['title', 'url', 'class'], 'string', 'max' => 255],
         ];
@@ -44,12 +48,12 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'pid' => 'Pid',
-            'title' => 'Заголовок',
-            'url' => 'Url',
-            'class' => 'Class',
+            'pid' => 'Родительский пункт меню',
+            'title' => 'Заголовок меню',
+            'url' => 'Выберите url из списка',
+            'class' => 'CSS class',
             'sort' => 'Сортировка',
-            'active' => 'Active',
+            'active' => 'Показывать',
         ];
     }
 }

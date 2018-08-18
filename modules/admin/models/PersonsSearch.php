@@ -61,6 +61,35 @@ class PersonsSearch extends Persons
             return $dataProvider;
         }
 
+        //$y = '';
+        $session = Yii::$app->session;
+        if(Yii::$app->request->get('year')){
+            if(Yii::$app->request->get('year') == 'all'){
+                unset($session['person_year']);
+            }
+            else{
+                $this->year = Yii::$app->request->get('year');
+                $session->set('person_year', $this->year);
+            }
+        }
+        elseif(isset($session['person_year']))
+            $this->year = $session['person_year'];
+
+
+        if(Yii::$app->request->get('city')){
+            if(Yii::$app->request->get('city') == 'all'){
+                unset($session['person_city']);
+            }
+            else{
+                $this->city_id = Yii::$app->request->get('city');
+                $session->set('person_city', $this->city_id);
+            }
+        }
+        elseif(isset($session['person_year']))
+            $this->year = $session['person_year'];
+
+
+
         // grid filtering conditions
         $query->andFilterWhere([
             //'id' => $this->id,

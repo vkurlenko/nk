@@ -105,7 +105,7 @@ class Persons extends \yii\db\ActiveRecord
         return [
             [['name', 'city_id', 'year'], 'required'],
             [['year', 'winner', 'on_main', 'on_main_sort', 'sort', 'active'], 'integer'],
-            [['city_id', 'text',  'photo_cake', 'photo_on_main'], 'string'],
+            [['city_id', 'text',  'photo_cake', 'photo_on_main', 'title', 'kwd', 'dscr', 'url_alias'], 'string'],
             [['name', 'winner_text'], 'string', 'max' => 255],
             [['photo_big'], 'file', 'extensions' => 'png, jpg'],
             [['photo_small'], 'file', 'extensions' => 'png, jpg'],
@@ -133,8 +133,12 @@ class Persons extends \yii\db\ActiveRecord
             'person_images' => 'Фотографии участника',
             'on_main' => 'Разместить на главной',
             'on_main_sort' => 'Порядок на главной',
+            'title' => 'Meta title',
+            'kwd' => 'Meta keywords',
+            'dscr' => 'Meta description',
             'sort' => 'Сортировка на сайте',
             'active' => 'Показывать на сайте',
+            'url_alias' => 'ЧПУ'
         ];
     }
 }
