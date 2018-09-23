@@ -5,9 +5,11 @@ namespace app\controllers;
 
 use app\models\CastingForm;
 use app\modules\admin\controllers\MenuController;
+use app\modules\admin\controllers\SeasonsController;
 use app\modules\admin\models\Brands;
 use app\modules\admin\models\Cities;
 use app\modules\admin\models\Jury;
+use app\modules\admin\models\Markets;
 use Yii;
 use app\modules\admin\controllers\PagesController;
 use yii\filters\AccessControl;
@@ -77,6 +79,8 @@ class SiteController extends AppController
         ];
     }
 
+
+
     /**
      * Displays homepage.
      *
@@ -90,17 +94,23 @@ class SiteController extends AppController
         // создадим набор картинок для галереи
         $gallery = $this->makeSliderGallery($page_data['id']);
 
-        $mode = AppController::getOption('persons_on_main_random') ?  true :  false;
+        $random = AppController::getOption('persons_on_main_random') ?  true :  false;
 
+        // в случайном порядке Лица выбираются за последний сезон
+        if($random){
+            $seasons = SeasonsController::getSeasons(true);
 
-        if($mode){
-            $year =  Persons::find()->max('year');
-            $persons = Persons::find()->where(['active' => 1, 'year' => $year])->orderBy('RAND()')->limit(4)->all();
+            foreach($seasons as $s){
+                $year = $s['id'];
+                $persons = Persons::find()->where(['active' => 1, 'year' => $year])->orderBy('RAND()')->limit(4)->all();
+
+                if($persons)
+                    break;
+            }            //$year =  Persons::find()->max('year');
+
         }
         else
             $persons = Persons::find()->where(['active' => 1, 'on_main' => 1])->orderBy('on_main_sort')->limit(4)->all();
-
-
 
         $persons_on_main = [];
 
@@ -273,27 +283,38 @@ class SiteController extends AppController
     }
 
     public function actionMarkets(){
-
         $page_data = $this->getPageDataByUrl();
 
         if(!$page_data['active'])
             return $this->redirect(['site/index']);
 
         $city = [];
+
         if(Yii::$app->request->get('id')){
             $id = Yii::$app->request->get('id');
+            $city = Cities::find()->where(['url_alias' => $id, 'active' => 1])->one();
+            if(!$city)
+                return $this->render('error');
+        }
+        else{
+            $cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->limit(1)->one();
+            if($cities)
+                $id = $cities['url_alias'];//$id = $cities['id'];
+        }
 
-            $model = Cities::findOne($id);
+        if($id){
+            //$model = Cities::findOne($id);
+            $model = Cities::find()->where(['url_alias' => $id, 'active' => 1])->one();
             $herb = $model->getImage();
             $city = [
-                'id' => $model->id,
-                'name' => $model->city,
-                'herb' => $herb->getUrl('x200'),
-                'text' => $model->text,
-                'content' => $model->content,
-                'title' => $model->title,
-                'kwd' => $model->kwd,
-                'dscr' => $model->dscr
+                'id'        => $model->id,
+                'name'      => $model->city,
+                'herb'      => $herb->getUrl('x200'),
+                'text'      => $model->text,
+                'content'   => $model->content,
+                'title'     => $model->title,
+                'kwd'       => $model->kwd,
+                'dscr'      => $model->dscr
             ];
 
             $logos = Brands::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
@@ -303,7 +324,8 @@ class SiteController extends AppController
                     $model = Brands::findOne($logo['id']);
                     $img = $model->getImage();
 
-                    if($model->city == $id){
+                    //if($model->city == $id){
+                    if($model->city == $city['id']){
                         $city['logos'][] =
                             [
                                 'brand' => $model->name,
@@ -339,10 +361,9 @@ class SiteController extends AppController
     {
         $arr = [];
 
-
         $pages = SiteController::getMenu(1);
 
-        //debug($pages);
+        //debug($pages);die;
 
         foreach($pages as $page){
 
@@ -350,16 +371,16 @@ class SiteController extends AppController
                 continue;
 
             // подменю Где купить
-            if($page['url'] == 'markets'){
+            if($page['url'] == 'markets' || $page['url'] == '/markets'){
 
                 $cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
-
+                //debug($cities); die;
                 foreach($cities as $city){
 
                     $page['childs'][] = [
                         'active' => $city['active'],
                         'title' => $city['city'],
-                        'url' => '/markets/'.$city['id'],
+                        'url' => '/markets/'.$city['url_alias'],
                     ];
                 }
             }
@@ -394,6 +415,8 @@ class SiteController extends AppController
             }
 
         }
+
+        //debug($arr); die;
 
         return $arr;
     }
@@ -533,9 +556,14 @@ class SiteController extends AppController
    public static function getUrlFromId($url = null, $pages){
 
        if(intval($url) && array_key_exists(intval($url), $pages))
-           return $pages[intval($url)]['url'];
+           $u = $pages[intval($url)]['url'];
        else
-           return $url;
+           $u = $url;
+
+       if(stripos($u, 'http') === false && stripos($u, '/') === false)
+           $u = '/'.$u;
+
+       return $u;
    }
 
 

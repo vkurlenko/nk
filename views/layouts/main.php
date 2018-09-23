@@ -30,6 +30,7 @@ AppAsset::register($this);
 
     <?=\app\controllers\AppController::getOption('ya_metrika')?>
     <?=\app\controllers\AppController::getOption('ga')?>
+    <?=\app\controllers\AppController::getOption('ya_webmaster')?>
 
 </head>
 <body>

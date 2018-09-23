@@ -74,7 +74,23 @@ class CitiesController extends AppController
         $model->active = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->city, $modelName);
+                $model->save();
+            }
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+
+            if($model->image){
+                $model->upload();
+            }
+
+            unset($model->image);
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -95,6 +111,12 @@ class CitiesController extends AppController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+            if(empty($model->url_alias))
+            {
+                $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($model)));
+                $model->url_alias = AppController::makePrettyUrl($model->city, $modelName);
+                $model->save();
+            }
             $model->image = UploadedFile::getInstance($model, 'image');
 
             if($model->image){

@@ -20,9 +20,8 @@ use app\modules\admin\models\Options;
                 [
                     'inputTemplate' => '<div class="input-group">{input}<div class="input-group-addon"><span id="phone-mask" data-action="true">'.Html::img('/tpl/mask.jpg').'</span></div></div>',
                 ])
-                ->widget(\yii\widgets\MaskedInput::className(), [
-                    'mask' => '+7 (999) 999-99-99',
-                ])->textInput(['placeholder' => $model->getAttributeLabel('phone'), 'style' => 'border-right:0'])
+                ->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+7 (999) 999-99-99'])
+                ->textInput(['placeholder' => $model->getAttributeLabel('phone'), 'style' => 'border-right:0'])
                 ->label(false)
         ?>
 

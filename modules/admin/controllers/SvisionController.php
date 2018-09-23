@@ -165,18 +165,19 @@ class SvisionController extends AppController
     }
 
     public static function getCity($year){
-        $city = Persons::find()->select(['city_id', 'id'])->where(['year' => $year] )->orderBy(['id' => SORT_ASC])->asArray()->all();
+        $city = Persons::find()->select(['city_id', 'id'])->where(['year' => $year] )->orderBy(['city_id' => SORT_ASC])->asArray()->all();
 
         $arr = [];
         foreach($city as $c){
-            $arr[] = ['id' => $c['city_id'], 'name' => $c['city_id']];
+            $arr[$c['city_id']] = ['id' => $c['city_id'], 'name' => $c['city_id']];
+            //$arr[$c['city_id']] = $c['city_id'];
         }
 
         return $arr;
     }
 
     public static function getCity2($year){
-        $city = Persons::find()->select(['city_id', 'id'])->where(['year' => $year] )->orderBy(['id' => SORT_ASC])->asArray()->all();
+        $city = Persons::find()->select(['city_id', 'id'])->where(['year' => $year] )->orderBy(['city_id' => SORT_ASC])->asArray()->all();
 
         $arr = [];
         foreach($city as $c){

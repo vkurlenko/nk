@@ -30,7 +30,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $city['kwd']]);
 
             <h2 class="markets-city-name"><?=$city['name']?></h2>
 
-            <h3>Где можно купить наши торты</h3>
+           <!-- <h3>Где можно купить наши торты</h3>-->
 
             <p><?=$city['text']?></p>
 
@@ -47,7 +47,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $city['kwd']]);
             ?>
             </div>
 
-            <div class="markets-city-content">
+            <div class="markets-city-content content">
                 <?php
                 if($city['content']){
                     echo $city['content'];

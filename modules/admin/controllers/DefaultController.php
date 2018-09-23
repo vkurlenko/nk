@@ -76,7 +76,7 @@ class DefaultController extends Controller
 
 
 
-    public static function getPersonYearSubMenu(){
+    /*public static function getPersonYearSubMenu(){
         $year = Persons::find()->select(['year'])->orderBy(['year' => SORT_DESC])->asArray()->distinct()->all();
         $arrPersonY = [];
         $session = Yii::$app->session;
@@ -88,6 +88,41 @@ class DefaultController extends Controller
 
             $n = Persons::find()->where(['year' => $v['year'], 'active' => 1])->count();
             $arrPersonY[] = ['label' => $v['year'].' ('.$n.')', 'icon' => '', 'options' => $arrOptions, 'url' => ['/admin/persons?year='.$v['year']]];
+        }
+
+        $n = Persons::find()->where(['active' => 1])->count();
+        $arrPersonY[] = ['label' => 'Все ('.$n.')', 'icon' => '', 'options' => isset($session['person_year']) ? [] : ['class' => 'active'], 'url' => ['/admin/persons?year=all']];
+
+        return $arrPersonY;
+    }*/
+
+    public static function getPersonYearSubMenu(){
+        $year = [];
+        $seasons = SeasonsController::getSeasons();
+        foreach($seasons as $s => $v){
+            $year[] = [
+                'year'      => $v['id'],
+                'season'    => $v['name']
+            ];
+        }
+
+        $arrPersonY = [];
+
+        $session = Yii::$app->session;
+
+        foreach($year as $y => $v){
+            $arrOptions = [];
+
+            if(isset($session['person_year']) && $session['person_year'] == $v['year'])
+                $arrOptions = ['class' => 'active'];
+
+            $n = Persons::find()->where(['year' => $v['year'], 'active' => 1])->count();
+
+            $season = SeasonsController::getSeasonById($v['year']);
+            $season_name = $season['name'];
+
+            //$arrPersonY[] = ['label' => $v['year'].' ('.$n.')', 'icon' => '', 'options' => $arrOptions, 'url' => ['/admin/persons?year='.$v['year']]];
+            $arrPersonY[] = ['label' => $season_name.' ('.$n.')', 'icon' => '', 'options' => $arrOptions, 'url' => ['/admin/persons?year='.$v['year']]];
         }
 
         $n = Persons::find()->where(['active' => 1])->count();

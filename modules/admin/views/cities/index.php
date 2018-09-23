@@ -61,7 +61,7 @@ else
         [
             'attribute' => 'city',
             'value' => function($data){
-                return Html::a($data->city, \yii\helpers\Url::to('/admin/cities/update?id='.$data->id), ['target'=>'blank']);
+                return Html::a($data->city, \yii\helpers\Url::to('/admin/cities/update?id='.$data->id), ['target'=>'_blank']);
             },
             'format' => 'raw'
         ],

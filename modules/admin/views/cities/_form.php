@@ -24,11 +24,13 @@ mihaildev\elfinder\Assets::noConflict($this);
         <?= $form->field($model, 'active')->checkbox([1, 0]); ?>
         <?/*= $form->field($model, 'sort')->textInput(['maxlength' => 5, 'size' => 5]) */?>
         <?= $form->field($model, 'city')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+        <?= $form->field($model, 'url_alias')->textInput(['maxlength' => true, 'style' => 'width:100%' ]) ?>
     </div>
 
     <div class="group">
 
-        <?= $form->field($model, 'text')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+        <?/*= $form->field($model, 'text')->textInput(['maxlength' => true, 'style' => 'width:100%']) */?>
+        <?= $form->field($model, 'text')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]) ?>
         <?= $form->field($model, 'content')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); ?>
     </div>
 

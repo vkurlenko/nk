@@ -2,12 +2,23 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use yii\helpers\Url;
+
+//debug($person);
+
+if(empty($person)){
+    Yii::$app->response->redirect(Url::to(['/persons']));
+}
+
 
 if(!$person['title'])
     $person['title'] = $person['name'].', '.$person['city_id'];
+
 $this->title = $person['title'];
 $this->registerMetaTag(['name' => 'description', 'content' => $person['dscr']]);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $person['kwd']]);
+
+//debug($person_nav);
 ?>
 
 <div class="container main">

@@ -165,7 +165,7 @@ class AppController extends Controller
             'с' => 's',   'т' => 't',   'у' => 'u',
             'ф' => 'f',   'х' => 'kh',   'ц' => 'ts',
             'ч' => 'ch',  'ш' => 'sh',  'щ' => 'sch',
-            'ь' => '',  'ы' => 'y',   'ъ' => '',
+            'ь' => '',     'ы' => 'y',   'ъ' => '',
             'э' => 'e',   'ю' => 'yu',  'я' => 'ya',
 
             'А' => 'A',   'Б' => 'B',   'В' => 'V',
@@ -207,6 +207,11 @@ class AppController extends Controller
 
         return $url;
     }
+
+    /*public static function getVersion(){
+        $version = Options::find('value')->where(['name' => 'version'])->one();
+        return $version;
+    }*/
 
 
 }

@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'url',
                     'value' => function($data){
-                        return Html::a($data->url, Url::to($data->url, true), ['target'=>'blank']);
+                        return Html::a($data->url, Url::to($data->url, true), ['target'=>'_blank']);
 
                     },
                     'format' => 'raw'

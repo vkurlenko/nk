@@ -90,6 +90,8 @@ class Svision extends \yii\db\ActiveRecord
             'size' => 'Размер блока',
             'type' => 'Тип записи',
             'active' => 'Показывать на сайте',
+            'city' => 'Город участника',
+            'year' => 'Год'
         ];
     }
 }

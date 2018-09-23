@@ -18,6 +18,9 @@ $left_menu = \app\controllers\AppController::getOption('foot-menu-1');
                     <?php
                     $arr = \app\controllers\SiteController::getMenu(\app\controllers\AppController::getOption('foot-menu-1'));
 
+                    //debug($arr);
+                    //die;
+
                     if($arr):?>
                     <ul class="footer-menu">
                         <?php
@@ -31,16 +34,9 @@ $left_menu = \app\controllers\AppController::getOption('foot-menu-1');
                     <?
                     endif;
                     ?>
-
-                    <!--<span class="footer-menu-title">Информация</span>
-                    <ul class="footer-menu">
-                        <li><a href="">Правовая информация</a></li>
-                        <li><a href="">Условия участия</a></li>
-                        <li><a href="">Кастинги</a></li>
-                        <li><a href="">Отправить заявку</a></li>
-                    </ul>-->
-
                 </div>
+
+
                 <div class="col-md-4 col-sm-4 col-xs-6  align-left footer-menu">
 
                     <span class="footer-menu-title"><?=\app\controllers\AppController::getOption('foot-menu-2-title')?></span>
@@ -61,27 +57,12 @@ $left_menu = \app\controllers\AppController::getOption('foot-menu-1');
                     <?
                     endif;
                     ?>
-                    <!--<span class="footer-menu-title">Информация</span>
-                    <ul class="footer-menu">
-                        <li><a href="">Правовая информация</a></li>
-                        <li><a href="">Условия участия</a></li>
-                        <li><a href="">Кастинги</a></li>
-                        <li><a href="">Отправить заявку</a></li>
-                    </ul>-->
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-12 align-left footer-menu footer-menu-social">
-                    <!--
-                    <ul class="footer-menu social-menu">
-                        <li class="social"><a href=""><img src="/tpl/icons/vk.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/fb.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/tw.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/ok.jpg"></a></li>
 
-                        <li class="social" style="clear:both;"><a href=""><img src="/tpl/icons/in.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/go.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/ms.jpg"></a></li>
-                        <li class="social"><a href=""><img src="/tpl/icons/yt.jpg"></a></li>
-                    </ul>-->
+
+
+                <div class="col-md-4 col-sm-4 col-xs-12 align-left footer-menu footer-menu-social">
+
                     <span class="footer-menu-title"><?=\app\controllers\AppController::getOption('foot-menu-3-title')?></span>
                     <?php
                     $arr = \app\controllers\SiteController::getMenu(\app\controllers\AppController::getOption('foot-menu-3'));

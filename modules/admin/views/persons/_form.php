@@ -27,6 +27,20 @@ mihaildev\elfinder\Assets::noConflict($this);
             $arr[$i] = $i;
         return $arr;
     }
+
+    function arrDropDownSeasons(){
+        $arr = [];
+        $seasons = \app\modules\admin\controllers\SeasonsController::getSeasons();
+
+        foreach($seasons as $s => $v){
+            $arr[$v['id']] = $v['name'];
+        }
+
+        //debug($arr); die;
+        return $arr;
+    }
+
+
     ?>
 
 
@@ -97,7 +111,8 @@ mihaildev\elfinder\Assets::noConflict($this);
                     </div>
 
                     <div class="col-md-3">
-                        <?= $form->field($model, 'year')->dropDownList(arrDropDown(date('Y'), 2017 )); ?>
+                        <?/*= $form->field($model, 'year')->dropDownList(arrDropDown(date('Y'), 2017 )); */?>
+                        <?= $form->field($model, 'year')->dropDownList(arrDropDownSeasons()); ?>
                     </div>
                 </div>
             </div>

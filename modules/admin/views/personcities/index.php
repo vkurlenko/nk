@@ -55,7 +55,7 @@ else
         [
             'attribute' => 'name',
             'value' => function($data){
-                return Html::a($data->name, \yii\helpers\Url::to('/admin/personcities/update?id='.$data->id), ['target'=>'blank']);
+                return Html::a($data->name, \yii\helpers\Url::to('/admin/personcities/update?id='.$data->id), ['target'=>'_blank']);
             },
             'format' => 'raw'
         ],

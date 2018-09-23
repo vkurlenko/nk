@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\admin\controllers\PagesController;
 use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 use yii\web\UploadedFile;
 use \yii\helpers\Url;
 use app\modules\admin\components\ImageWidget;
@@ -40,7 +41,9 @@ use app\modules\admin\components\ImageOneWidget;
             </div>
 
             <div class="col-md-6">
-                <?= $form->field($model, 'anons')->widget(CKEditor::className(), ['options' => ['rows' => 3]]); ?>
+                <?= $form->field($model, 'anons')->widget(CKEditor::className(), ['options' => ['rows' => 3], 'editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); ?>
+                <?/*= $form->field($model, 'text')->widget(CKEditor::className(), ['editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]); */?>
+
             </div>
         </div>
 

@@ -25,8 +25,10 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
     //debug($svision);
     ?>
 
-    <p>Мы тщательно контролируем качество нашей продукции. Наши победители часто бывают на производстве и следят за соблюдением рецептуры</p>
-
+    <!--<p>Мы тщательно контролируем качество нашей продукции. Наши победители часто бывают на производстве и следят за соблюдением рецептуры</p>-->
+    <div class="content">
+        <?= $page_data['content']?>
+    </div>
     <hr>
 
     <div class="container-fluid">
@@ -37,30 +39,34 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
             $i = 0;
             foreach($svision as $video):
 
-                if(!$video['size'])
-                    $i % 2 ? $align = 'align-right' : $align = 'align-left';
-                else{
-                    $align = '';
-                    $i = 1;
-                }
-                ?>
+                if($video['source']):
 
-                <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
-                    <div class="yt-cover yt-start" data-src="<?=$video['video']?>" data-source="<?=$video['source']?>">
-                        <img src="<?=$video['cover']?>">
-                        <div class="yt-container">
-                            <i class="far fa-play-circle"></i>
+                    if(!$video['size'])
+                        $i % 2 ? $align = 'align-right' : $align = 'align-left';
+                    else{
+                        $align = '';
+                        $i = 1;
+                    }
+                    ?>
+
+                    <div class="<?= $video['size'] ? 'col-sm-12' : 'col-sm-6'?> video <?= $align;?>">
+                        <div class="yt-cover yt-start" data-src="<?=$video['video']?>" data-source="<?=$video['source']?>">
+                            <img src="<?=$video['cover']?>">
+                            <div class="yt-container">
+                                <i class="far fa-play-circle"></i>
+                            </div>
                         </div>
+
+                        <span class="video-title"><?=$video['title']?></span>
+                        <span class="video-date"><?=$video['date']?><!--10 сентября, 2018--></span>
+                        <p><?=$video['descr']?></p>
+                        <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
                     </div>
 
-                    <span class="video-title"><?=$video['title']?></span>
-                    <span class="video-date"><?=$video['date']?><!--10 сентября, 2018--></span>
-                    <p><?=$video['descr']?></p>
-                    <a href="/" class="yt-start">Смотрите видео репортаж <i class="far fa-play-circle"></i></a>
-                </div>
+                    <?php
+                    $i++;
+                 endif;
 
-                <?php
-                $i++;
             endforeach;
             ?>
         </div>

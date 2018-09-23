@@ -23,6 +23,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
             <div class="row">
 
                 <hr>
+                <?=$page_data['anons']?>
+                <div style="clear:both;"></div>
 
                 <?php
                 $i = 0;
@@ -45,7 +47,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
 
                     <div class="product <?= $col_size?> <?= $align ?> <?= $i ?>">
                         <span><?= $product['name'] ?></span>
-                        <a href="<?= Url::to(['product/' . $product['id']]) ?>">
+                        <a href="<?= Url::to(['product/' . $product['url_alias']]) ?>">
                             <?=Html::img($first['img'])?>
                         </a>
                         <!--<div style="clear: both"></div>-->
@@ -58,6 +60,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
                 $i++;
                 endforeach;
                 ?>
+                <div style="clear:both;"></div>
+                <?=$page_data['content']?>
 
 
 

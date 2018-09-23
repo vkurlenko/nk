@@ -5,7 +5,12 @@
 /* @var $message string */
 /* @var $exception Exception */
 
+//use Yii;
+
 use yii\helpers\Html;
+use yii\helpers\Url;
+Yii::$app->response->redirect(Url::to('/'));
+//$this->redirect(['user/index']);
 
 $this->title = $name;
 ?>
@@ -18,6 +23,7 @@ $this->title = $name;
     </div>
 
     <p>
+        404
         The above error occurred while the Web server was processing your request.
     </p>
     <p>

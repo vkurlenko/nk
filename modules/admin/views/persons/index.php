@@ -109,7 +109,19 @@ if(Yii::$app->request->get('city'))
                 return $data->city_id;
             }
         ],
-        'year',
+        [
+            'attribute' => 'year',
+            'value' => function($data){
+                $seasons = \app\modules\admin\controllers\SeasonsController::getSeasons();
+                if($seasons){
+                    foreach($seasons as $s => $v){
+                        if($data->year == $v['id'])
+                            return $v['name'];
+                    }
+                }
+            }
+        ],
+        //'year',
         /*[
             'attribute' => 'winner',
             'value' => function($data){

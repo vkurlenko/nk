@@ -25,7 +25,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
             foreach($jury as $m):
             ?>
 
-            <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="col-xs-6 col-sm-6 col-md-4">
 
                 <div class="j-img">
                     <?=Html::img($m['photo'])?>
@@ -43,7 +43,6 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
             $d = $i % 3;
             if($d == 2)
                 echo '<div class="clear-3"></div>';
-
 
             $i++;
             endforeach;

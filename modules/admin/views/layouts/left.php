@@ -36,6 +36,7 @@ use yii\helpers\Html;
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Страницы', 'icon' => 'file-code-o', 'url' => ['/admin/pages']],
+                    ['label' => 'Сезоны', 'icon' => 'user-circle', 'url' => ['/admin/seasons']],
                     ['label' => 'Лица проекта', 'icon' => 'users', 'url' => ['/admin/persons'],
                         'items' =>  \app\modules\admin\controllers\DefaultController::getPersonYearSubMenu()
                     ],

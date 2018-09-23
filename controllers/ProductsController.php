@@ -40,8 +40,8 @@ class ProductsController extends AppController
         }
 
         if($id){
-            $product = Products::find()->where(['id' => $id])->asArray()->one();
-            $product['gallery'] = $this->getGallery($id);
+            $product = Products::find()->where(['url_alias' => $id])->asArray()->one();
+            $product['gallery'] = $this->getGallery($product['id']);
 
             if($product['video']){
                /* $sl = strrpos($product['video'], '/');

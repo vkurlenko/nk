@@ -27,8 +27,10 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
                     <ul>
                         <?php
                         if($years && count($years) > 1){
-                            foreach($years as $k => $v):?>
-                            <li <?= Yii::$app->request->get('year') == $v['year'] ? 'class="active"' : '';?>><?=Html::a($v['year'], '/persons/'.$v['year']);?></li>
+                            foreach($years as $k => $v):
+                                $season = \app\modules\admin\controllers\SeasonsController::getSeasonById($v['year']);
+                                ?>
+                            <li <?= Yii::$app->request->get('year') == $v['year'] ? 'class="active"' : '';?>><?=Html::a($season['name'], '/persons/'.$v['year']);?></li>
                             <?php
                             endforeach;
                         }

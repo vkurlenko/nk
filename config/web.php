@@ -1,4 +1,5 @@
 <?php
+use yii\web\UrlNormalizer;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -92,31 +93,43 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'suffix'    => '/',
+           /* 'normalizer' => [
+                'class' => 'yii\web\UrlNormalizer',
+                'action' => UrlNormalizer::ACTION_REDIRECT_TEMPORARY, // используем временный редирект вместо постоянного
+            ],*/
             'rules' => [
                 '/' => 'site/index',
                 //'<action:\w+>' => 'site/<action>',
                 //'<action:(person)>/' => 'site/<action>',
                 'admin' => 'admin/default/index',
 
+                'sitemap.xml' => 'sitemap/index',
+
                 '<action:(supervision|jury|franch|casting)>/' => 'site/<action>',
 
                 'contact' => 'site/contact',
 
                 'markets' => 'site/markets',
-                'markets/<id:\d+>' => 'site/markets',
+                //'markets/<id:\d+>' => 'site/markets',
+                'markets/<id:[a-z0-9_\-()]+>' => 'site/markets',
 
                 'products' => 'products',
-                'product/<id:\d+>' => 'products/product',
+                //'product/<id:\d+>' => 'products/product',
+                'product/<id:[a-z0-9_\-()]+>' => 'products/product',
 
-                'person/<id:\d+>' => 'person/index',
-                //'person/<id:\[a-z0-9_\-]+>' => 'person/index',
+                //'person/<id: >' => 'person/person',
+                //'person' => 'person/person',
+
+                'person<^\/$>' => 'person/person',
                 [
                     'pattern' => 'person/<id:[a-z0-9_\-()]+>',
                     'route' => 'person/index',
                     //'mode' =>  \yii\web\UrlRule::PARSING_ONLY
                 ],
+
                 'persons/<year:\d+>' => 'person/person',
                 'persons' => 'person/person',
+                //'persons/' => 'person/person',
 
                 '<action:\w+>' => 'site/text',
 
@@ -134,7 +147,7 @@ $config = [
     'controllerMap' => [
         'elfinder' => [
             'class' => 'mihaildev\elfinder\PathController',
-            'access' => ['@', '?'],
+            'access' => ['@'],
             'root' => [
                 'path' => 'upload/global',
                 'name' => 'Global'

@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\modules\admin\controllers\SeasonsController;
 use app\modules\admin\models\PersonCities;
 use Yii;
 use app\modules\admin\models\Persons;
@@ -24,26 +25,24 @@ class PersonController extends AppController
     // если есть ID участника ($_GET['id'])
     public function actionIndex(){
 
-       /* $page_data = SiteController::getPageDataByUrl(Url::to());
-
-        debug($page_data);*/
+        $person = [];
 
         if(Yii::$app->request->get('id')){
             $id = $this->getPersonId(Yii::$app->request->get('id'));
 
-            //echo $id;
-            $person = $this->getPerson($id);
-            $s_video = $this->getSvision($id, 'svision');
-            $video = $this->getSvision($id, 'video');
-            $person_nav['prev'] = $this->getNavPerson($id, 'prev');
-            $person_nav['next'] = $this->getNavPerson($id, 'next');
+            if($id){
+                $person = $this->getPerson($id);
+                $s_video = $this->getSvision($id, 'svision');
+                $video = $this->getSvision($id, 'video');
+                $person_nav['prev'] = $this->getNavPerson($id, 'prev');
+                $person_nav['next'] = $this->getNavPerson($id, 'next');
+            }
         }
-
         return $this->render('index', compact('person', 's_video', 'video', 'person_nav'));
     }
 
     // если нет ID участника, то выводим всех
-    public function actionPerson(){
+    /*public function actionPerson(){
 
         $page_data = SiteController::getPageDataByUrl();
 
@@ -62,6 +61,43 @@ class PersonController extends AppController
         }
 
         return $this->render('persons', compact(['persons', 'years', 'page_data']));
+    }*/
+
+    public function actionPerson(){
+
+        $page_data = SiteController::getPageDataByUrl();
+
+        $persons = [];
+
+        $cities = PersonCities::find()->select(['name'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
+
+        $years = Persons::find()->select(['year'], 'DISTINCT')->where(['active' => 1])->asArray()->orderBy(['year' => SORT_DESC])->indexBy('year')->all();
+
+        $arr = [];
+
+        $seasons = SeasonsController::getSeasons(true);
+
+        //debug($seasons);
+
+        foreach($seasons as $s => $v){
+            if(array_key_exists ($v['id'], $years)){
+                $arr[] = $years[$v['id']];
+            }
+        }
+
+        //debug($arr);
+
+        $years = $arr;
+
+        if(Yii::$app->request->get('year')){
+            $year = Yii::$app->request->get('year');
+        }
+
+        foreach($cities as $k => $v){
+            $persons[] = $this->getPersons($v, $year);
+        }
+
+        return $this->render('persons', compact(['persons', 'years', 'page_data']));
     }
 
     // получим данные всех участников
@@ -70,19 +106,21 @@ class PersonController extends AppController
         $arr = [];
 
         $where = [
-            'active' => 1,
+            'persons.active' => 1,
+            'seasons.active' => 1,
         ];
 
         if($city)
-            $where['city_id'] = $city;
+            $where['persons.city_id'] = $city;
 
         if($year)
-            $where['year'] = $year;
+            $where['persons.year'] = $year;
 
         $persons = Persons::find()
             ->where($where)
+            ->leftJoin('seasons', 'persons.year = seasons.id')
             ->asArray()
-            ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
+            ->orderBy(['seasons.sort' => SORT_DESC, 'persons.sort' => SORT_ASC])
             ->all();
 
         foreach($persons as $person){
@@ -132,13 +170,42 @@ class PersonController extends AppController
         $cities = PersonCities::find()->select(['name'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($cities as $k => $v){
-            $arr = Persons::find()
+            /*$arr = Persons::find()
                 ->select(['id', 'name', 'url_alias', 'city_id'])
                 ->where(['active' => 1, 'city_id' => $v['name']])
                 ->indexBy('id')
                 ->asArray()
                 ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                ->all();
+                ->all();*/
+
+            /*$arr = Persons::find()
+                ->select(['persons.id', 'persons.name', 'persons.url_alias', 'persons.city_id'])
+                ->where(['persons.active' => 1, 'persons.city_id' => $v['name']])
+                ->leftJoin('seasons', 'persons.year = seasons.id')
+                ->indexBy('persons.id')
+                ->asArray()
+                ->orderBy(['seasons.sort' => SORT_DESC, 'persons.sort' => SORT_ASC])
+                ->all();*/
+
+
+            //SELECT * FROM `persons` LEFT JOIN `seasons` ON persons.year = seasons.id ORDER BY seasons.sort ASC
+
+            $arr = Yii::$app->db->createCommand('
+                          SELECT persons.id, persons.name, persons.url_alias, persons.city_id, persons.year
+                          FROM `persons` 
+                          LEFT JOIN `seasons` 
+                          ON persons.year = seasons.id 
+                          WHERE persons.active = 1 AND persons.city_id = "'.$v['name'].'" AND seasons.active = 1
+                          ORDER BY seasons.sort DESC, persons.sort ASC')
+                ->queryAll();
+
+            $arr1 = [];
+            foreach($arr as $row){
+                $arr1[$row['id']] = $row;
+            }
+            $arr = $arr1;
+
+            //debug($arr); die;
 
             foreach($arr as $a)
                 array_push($nav, $a);
@@ -155,6 +222,8 @@ class PersonController extends AppController
         $nav_person_id = false;
 
         $nav = $this->getNav();
+
+        //debug($nav);
 
         //$person = $this->getPerson($id);
 

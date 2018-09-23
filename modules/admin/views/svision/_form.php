@@ -42,34 +42,46 @@ echo $form->field($m_person, 'id')->dropDownList(\yii\helpers\ArrayHelper::map(\
                         'id' => 'year']) */?>
                 <?php
                 $data = SvisionController::getPersonData($model->person_id);
-                debug($data);
+                //debug($data);
 
-                debug(SvisionController::getCity($data['year']));
+                //debug(SvisionController::getCity($data['year']));
 
-                debug(SvisionController::getPerson2($data['year'], $data['city_id']));
+                //debug(SvisionController::getPerson2($data['year'], $data['city_id']));
                 ?>
 
-                <?= Html::dropDownList('test', [$data['year']], SvisionController::getYear(), ['prompt' => 'Выберите год...', 'id' => 'year']);?>
+                    <div class="person-param">
+                        <?= Html::label('Год', 'year', ['class' => '']) ?>
+                        <?= Html::dropDownList('year', [$data['year']], SvisionController::getYear(), ['prompt' => 'Выберите год...', 'id' => 'year', 'class' => 'form-control']);?>
+                    </div>
 
+                    <div class="person-param">
                 <?= $form->field($model, 'city')->widget(DepDrop::className(), [
                         'data' => SvisionController::getCity2($data['year']),
-                        'options'=>['id'=>'city', 'prompt' => 'Выберите город...'],
+                        'options'=>['id'=>'city', 'prompt' => 'Выберите город...', 'data-selected' => $data['city_id']],
                         'pluginOptions'=>[
                             'depends'=>['year'],
                             'placeholder'=>'Выберите город...',
-                            'url'=>Url::to(['/admin/svision/get-city'])
-                            ]
+                            'url'=>Url::to(['/admin/svision/get-city']),
+
+                            ],
+
                     ]) ?>
+                    </div>
+
+                    <div class="person-param">
 
                 <?= $form->field($model, 'person_id')->widget(DepDrop::classname(), [
                     'data' => SvisionController::getPerson2($data['year'], $data['city_id']),
-
+                    'options' => ['prompt' => 'Выберите участника'],
                     'pluginOptions'=>[
                         'depends'=>['year', 'city'],
                         'placeholder'=>'Выберите участника...',
                         'url'=>Url::to(['/admin/svision/get-person'])
                     ]
                 ]); ?>
+                    </div>
+
+                    <div style="clear: both"></div>
                 <!---->
 
                 <?= $form->field($model, 'date')->widget(\yii\jui\DatePicker::class, ['language' => 'ru', 'dateFormat' => 'yyyy-MM-dd'])?>
@@ -120,3 +132,4 @@ echo $form->field($m_person, 'id')->dropDownList(\yii\helpers\ArrayHelper::map(\
     <?php ActiveForm::end(); ?>
 
 </div>
+

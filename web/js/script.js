@@ -1,15 +1,38 @@
  /*dropdown menu formatting */
 function setMarginLeft(){
-    var win = $(window);
+   /* var win = $(window);
     var cont = $('.container');
     var brand = $('.navbar-brand img');
-    var mleft = (win.width() / 2) - (cont.width() / 2) + brand.width() - 15;
+
+
+    var i = new Image();
+    i.onload = function(){
+        var mleft = (win.width() / 2) - (cont.width() / 2) + brand.width() - 15;
+
+        if(win.width() > 750){
+            $('.dropdown-menu > li.first-item').css('margin-left', mleft);
+        }
+        else
+            $('.dropdown-menu > li.first-item').css('margin-left', 0);
+    }
+    i.src = $(brand).attr('src');*/
+
+    var a = $('.navbar-nav li:first');
+    var offset = a.offset();
+    var win = $(window);
 
     if(win.width() > 750){
-        $('.dropdown-menu > li.first-item').css('margin-left', mleft);
+        $('.dropdown-menu > li.first-item').css('margin-left', offset.left + 5);
     }
     else
         $('.dropdown-menu > li.first-item').css('margin-left', 0);
+
+
+
+
+
+    //alert(brand.width());
+
 }
 
 
@@ -89,7 +112,7 @@ function personNames(){
 $(document).ready(function(){
 
     // left-margin for dropdown submenu
-    setMarginLeft();
+
     personNames();
 
     // on window resize
@@ -135,12 +158,12 @@ $(document).ready(function(){
         var action = $(this).attr('data-action')
 
         if(action == 'false'){
-            $("#franchform-phone").inputmask({ mask: "+7 (999) 999-99-99"});
+            $("#franchform-phone, #castingform-phone").inputmask({ mask: "+7 (999) 999-99-99"});
             $(this).removeClass('nomask');
             action = 'true';
         }
         else{
-            $("#franchform-phone").inputmask('remove');
+            $("#franchform-phone, #castingform-phone").inputmask('remove');
             $(this).addClass('nomask');
             action = 'false';
         }
@@ -150,7 +173,7 @@ $(document).ready(function(){
         return false;
     })
 
-
+    setMarginLeft();
 
 
 

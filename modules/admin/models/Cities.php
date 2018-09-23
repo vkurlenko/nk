@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $city
+ * @property string $url_alias
  * @property string $text
  * @property int $sort
  * @property string $active
@@ -55,7 +56,7 @@ class Cities extends \yii\db\ActiveRecord
     {
         return [
             [['city', 'active'], 'required'],
-            [['city', 'text', 'content', 'active', 'title', 'kwd', 'dscr'], 'string'],
+            [['city', 'text', 'content', 'active', 'title', 'kwd', 'dscr', 'url_alias'], 'string'],
             [['sort'], 'integer'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
@@ -69,6 +70,7 @@ class Cities extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'city' => 'Город',
+            'url_alias' => 'ЧПУ',
             'image' => 'Герб города',
             'text' => 'Вступление',
             'content' => 'Полный текст',

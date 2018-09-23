@@ -100,3 +100,11 @@ a.del_one_img{
 .current-menu{
     font-weight: bold;
     color:#000}
+
+.person-param{
+    float: left;
+    margin-right: 10px;}
+
+.person-param select{width:100px}
+
+#persons-year{display: inline}

@@ -326,4 +326,12 @@ $(document).ready(function () {
 
     })
 
+
+    // автовыбор города участника в записи Авторский надзор
+    if($('#city').attr('data-selected') != ''){
+        var v = $('#city').attr('data-selected');
+        $("#city").val(v).prop('selected', true);
+    }
+
+
 });

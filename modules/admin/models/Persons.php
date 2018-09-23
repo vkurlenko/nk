@@ -121,7 +121,7 @@ class Persons extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Имя участника',
             'city_id' => 'Город',
-            'year' => 'Год',
+            'year' => 'Год (сезон)',
             'winner' => 'Победитель',
             'winner_text' => 'Текст победителя',
             'text' => 'Биография',

@@ -19,7 +19,7 @@ class CitiesSearch extends Cities
     {
         return [
             [['id', 'sort'], 'integer'],
-            [['city', 'logo', 'active'], 'safe'],
+            [['city',  'active'], 'safe'],
         ];
     }
 

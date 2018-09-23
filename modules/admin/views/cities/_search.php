@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'city') ?>
 
-    <?= $form->field($model, 'logo') ?>
+    <?/*= $form->field($model, 'logo') */?>
 
     <?= $form->field($model, 'sort') ?>
 
