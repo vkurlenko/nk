@@ -40,13 +40,13 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
                         $col_size = 'col-sm-6 col-xs-6';
                         $align = $i % 2 ? 'align-right' : 'align-left';
                     }
-
+                    array_multisort (array_column($product['gallery'], 'sort'), SORT_ASC, $product['gallery']);
                     $first = array_shift($product['gallery']);
 
                     ?>
 
                     <div class="product <?= $col_size?> <?= $align ?> <?= $i ?>">
-                        <span><?= $product['name'] ?></span>
+                        <span><?=Html::a($product['name'], 'product/' . $product['url_alias'])?><?/*= $product['name'] */?></span>
                         <a href="<?= Url::to(['product/' . $product['url_alias']]) ?>">
                             <?=Html::img($first['img'])?>
                         </a>

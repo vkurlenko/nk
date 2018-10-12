@@ -168,6 +168,9 @@ class ProductsController extends AppController
     {
         $this->findModel($id)->delete();
 
+        // удалим картинки, привязанные к продукту
+        $sql = Yii::$app->db->createCommand()->delete('image', ['modelName' => 'Products', 'itemId' => $id])->execute();
+
         return $this->redirect(['index']);
     }
 

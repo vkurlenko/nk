@@ -277,7 +277,7 @@ class SiteController extends AppController
         foreach($jury as $m){
             $p = Jury::findOne($m['id']);
             $photo = $p->getImage();
-            $jury[$m['id']]['photo'] = $photo->getUrl('460x360');
+            $jury[$m['id']]['photo'] = $photo->getPath('460x360');
         }
         return $this->render('jury', compact('jury', 'page_data'));
     }
@@ -373,16 +373,26 @@ class SiteController extends AppController
             // подменю Где купить
             if($page['url'] == 'markets' || $page['url'] == '/markets'){
 
-                $cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
+                //$cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->indexBy('id')->asArray()->all();
+                $cities = Cities::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->asArray()->all();
                 //debug($cities); die;
-                foreach($cities as $city){
 
-                    $page['childs'][] = [
-                        'active' => $city['active'],
-                        'title' => $city['city'],
-                        'url' => '/markets/'.$city['url_alias'],
-                    ];
+                if(count($cities) == 1)
+                {
+                    $page['url'] = '/markets/'.$cities[0]['url_alias'];
                 }
+                else{
+                    foreach($cities as $city){
+
+                        $page['childs'][] = [
+                            'active' => $city['active'],
+                            'title' => $city['city'],
+                            'url' => '/markets/'.$city['url_alias'],
+                        ];
+                    }
+                }
+
+
             }
 
             if($page['childs']){
@@ -516,7 +526,9 @@ class SiteController extends AppController
         foreach($images as $img){
             switch($img->role){
                 case $pfx.'_on_main'   :
-                    $photos[$pfx.'_on_main'] = [$img->getUrl('338x235'), $img->name]; break;
+                    //$photos[$pfx.'_on_main'] = [$img->getUrl('338x235'), $img->name]; break;
+                    $photos[$pfx.'_on_main'] = [$img->getPath('338x235'), $img->name]; break;
+                    //$photos[$pfx.'_big'] = [$img->getPath('360x549'), $img->name]; break;
 
                 default : break;
             }

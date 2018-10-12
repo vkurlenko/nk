@@ -79,9 +79,18 @@ class ProductsController extends AppController
             $model = Products::findOne($id);
             $images = $model->getImages();
 
-            foreach($images as $img){
+            /*foreach($images as $img){
                 if($img->active){
                     $gallery[$img->sort] = [
+                        'img' => $img->getPath('460x330'),
+                        'sort' => $img->sort,
+                        'active' => $img->active
+                    ];
+                }
+            }*/
+            foreach($images as $img){
+                if($img->active){
+                    $gallery[] = [
                         'img' => $img->getPath('460x330'),
                         'sort' => $img->sort,
                         'active' => $img->active

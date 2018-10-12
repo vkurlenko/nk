@@ -46,7 +46,14 @@ h3{
 
 a, a:hover, a:active, a:focus{
     color:#dc3383;
-    font-family: 'HelveticaLight', Arial, sans-serif;;
+    font-family: 'HelveticaLight', Arial, sans-serif;
+    outline:none !important;
+    outline-offset: 0 !important;
+}
+
+input{
+    outline:none !important;
+    outline-offset: 0 !important;
 }
 
 hr{
@@ -676,6 +683,11 @@ footer .laces{
     display: block;
     font-family: HelveticaNeueCyrLight;
     font-size:30px;
+}
+
+.product span a{
+    color:#333;
+    text-decoration: none;
 }
 
 .gallery-nav .item img{

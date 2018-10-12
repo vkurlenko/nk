@@ -27,6 +27,7 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $product['kwd']]);
 
             <div class="gallery-view">
                 <?php
+                array_multisort (array_column($product['gallery'], 'sort'), SORT_ASC, $product['gallery']);
                 $arr = $product['gallery'];
                 $first = array_shift($arr);
                 ?>
@@ -42,13 +43,13 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $product['kwd']]);
             <div class="gallery-nav row">
                 <?php
                 $i = 0;
+
                 foreach($product['gallery'] as $img):
                     if($img['active']){
                     ?>
                     <div class="item col-xs-4 col-sm-4 col-md-4">
                         <a href="#" class="link <?=!$i ? 'selected' : ''?>">
                             <?=Html::img('/'.$img['img'])?>
-
                         </a>
                     </div>
                     <?php
