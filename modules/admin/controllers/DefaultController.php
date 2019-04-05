@@ -7,6 +7,9 @@ use app\modules\admin\models\Cities;
 use app\modules\admin\models\PersonCities;
 use app\modules\admin\models\Persons;
 
+use app\modules\admin\models\MarketsCities;
+use app\modules\admin\models\Markets;
+
 use yii\web\Controller;
 use Yii;
 use yii\filters\AccessControl;
@@ -145,6 +148,24 @@ class DefaultController extends Controller
         }
         $n = Brands::find()->where(['active' => 1])->count();
         $arrCities[] = ['label' => 'Все ('.$n.')', 'icon' => '', 'options' => isset($session['brand_city']) ? [] : ['class' => 'active'], 'url' => ['/admin/brands?city=all']];
+
+        return $arrCities;
+    }
+	
+	public static function getMarketCitiesSubMenu(){
+        $cities = MarketsCities::find()->select(['id', 'city'])->orderBy(['sort' => SORT_ASC])->asArray()->distinct()->all();
+        $arrCities = [];
+        $session = Yii::$app->session;
+        foreach($cities as $k => $v){
+            $arrOptions = [];
+            if(isset($session['market_city']) && $session['market_city'] == $v['id'])
+                $arrOptions = ['class' => 'active'];
+
+            $n = Markets::find()->where(['city' => $v['city']/*, 'active' => true*/])->count();
+            $arrCities[] = ['label' => $v['city'].' ('.$n.')', 'icon' => '', 'options' => $arrOptions, 'url' => ['/admin/markets?city='.$v['city']]];
+        }
+        $n = Markets::find()->count();
+        $arrCities[] = ['label' => 'Все ('.$n.')', 'icon' => '', 'options' => isset($session['market_city']) ? [] : ['class' => 'active'], 'url' => ['/admin/markets?city=all']];
 
         return $arrCities;
     }

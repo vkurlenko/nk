@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use app\modules\admin\models\Products;
+use app\modules\admin\models\Productscat;
 use Yii;
 use yii\imagine\Image;
 use Imagine\Image\Box;
@@ -23,14 +24,25 @@ class ProductsController extends AppController
     public function actionIndex(){
 
         $page_data = SiteController::getPageDataByUrl();
+        $cat = [];
 
-        $products = Products::find()->where(['active' => 1])->asArray()->indexBy('id')->orderBy(['sort' => SORT_ASC])->all();
+        // если указана категория продукции
+        if(Yii::$app->request->get('cat')){
+            $cat = self::getProductcat(Yii::$app->request->get('cat'));
+
+            if($cat){
+                $products = Products::find()->where(['active' => 1, 'cid' => $cat['id']])->asArray()->indexBy('id')->orderBy(['sort' => SORT_ASC])->all();
+            }
+            else
+                $products = Products::find()->where(['active' => 1])->asArray()->indexBy('id')->orderBy(['sort' => SORT_ASC])->all();
+        }
+        else
+            $products = Products::find()->where(['active' => 1])->asArray()->indexBy('id')->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($products as $product){
             $products[$product['id']]['gallery'] = $this->getGallery($product['id']);
-
         }
-        return $this->render('index', compact('products', 'page_data'));
+        return $this->render('index', compact('products', 'page_data', 'cat'));
     }
 
     public function actionProduct(){
@@ -101,5 +113,20 @@ class ProductsController extends AppController
             ksort($gallery);
         }
         return $gallery;
+    }
+
+    /**
+     * прочитаем категорию продукции по url_alias
+     */
+    public function getProductcat($url_alias = null)
+    {
+        if($url_alias){
+            $pcat = Productscat::find()->where(['url_alias' => $url_alias])->asArray()->one();
+
+            if($pcat)
+                return $pcat;
+        }
+        return false;
+
     }
 }

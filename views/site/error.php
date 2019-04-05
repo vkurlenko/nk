@@ -9,10 +9,16 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-Yii::$app->response->redirect(Url::to('/'));
+Yii::$app->response->setStatusCode(404);
+
+/* auto redirect to mainpage */
+//Yii::$app->response->redirect(Url::to('/'));
+
+
 //$this->redirect(['user/index']);
 
-$this->title = $name;
+
+$this->title = 'Not Found (#404)';
 ?>
 <div class="site-error">
 
@@ -22,12 +28,11 @@ $this->title = $name;
         <?= nl2br(Html::encode($message)) ?>
     </div>
 
-    <p>
-        404
-        The above error occurred while the Web server was processing your request.
+    <p style="text-align:center; padding:20px"> 
+        Ошибка 404. Страница не существует        
     </p>
-    <p>
+    <!-- <p>
         Please contact us if you think this is a server error. Thank you.
-    </p>
+    </p> -->
 
 </div>

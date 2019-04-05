@@ -40,10 +40,10 @@ use app\modules\admin\models\Options;
         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
     ]) */?>
 
-    <?= $form->field($model, 'reCaptcha')->widget(
+   <!-- --><?/*= $form->field($model, 'reCaptcha')->widget(
         \himiklab\yii2\recaptcha\ReCaptcha::className(),
         ['siteKey' => '6LfanGEUAAAAAFIS5OyAFgrlAvnbt9nSRnTHP1sA']
-    ) ?>
+    ) */?>
 
     <div class="form-group">
         <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'franch-button', 'class' => 'franch-submit']) ?>
@@ -61,7 +61,7 @@ use app\modules\admin\models\Options;
                 $('#form').prepend('<div class="progress">  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">    <span class="">Идет отправка сообщения</span>  </div></div>')
                 
                 $.ajax({
-                    url: '/site/casting',
+                    url: '/site/franchform',
                     type: 'POST',
                     data: data,
                     success: function(res){

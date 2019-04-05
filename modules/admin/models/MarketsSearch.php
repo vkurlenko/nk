@@ -18,8 +18,8 @@ class MarketsSearch extends Markets
     public function rules()
     {
         return [
-            [['id', 'city', 'text'], 'integer'],
-            [['brands', 'anons', 'active'], 'safe'],
+            [['id', 'scale', 'active', 'sort'], 'integer'],
+            [['text', 'name', 'city', 'latitude', 'longitude'], 'safe'],
         ];
     }
 
@@ -48,8 +48,10 @@ class MarketsSearch extends Markets
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
+                // количество пунктов на странице
                 'pageSize' => 1000,
             ],
+            'sort'=> ['defaultOrder' => ['sort' => SORT_ASC]]
         ]);
 
         $this->load($params);
@@ -59,17 +61,41 @@ class MarketsSearch extends Markets
             // $query->where('0=1');
             return $dataProvider;
         }
+		
+		$session = Yii::$app->session;
+        if(Yii::$app->request->get('city')){
+            if(Yii::$app->request->get('city') == 'all'){
+                unset($session['market_city']);
+            }
+            else{
+                $this->city = Yii::$app->request->get('city');
+                $session->set('market_city', $this->city);
+            }
+        }
+        elseif(isset($session['market_city']))
+            $this->city = $session['market_city'];
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'city' => $this->city,
-            'text' => $this->text,
         ]);
 
-        $query->andFilterWhere(['like', 'brands', $this->brands])
-            ->andFilterWhere(['like', 'anons', $this->anons])
-            ->andFilterWhere(['like', 'active', $this->active]);
+        // grid filtering conditions
+        /*$query->andFilterWhere([
+            'id' => $this->id,
+            'name' => $this->name,
+            'url_alias' => $this->url_alias,
+            'city' => $this->city,
+            'short_addr' => $this->short_addr,
+            'scale' => $this->scale,
+            'active' => $this->active,
+            'sort' => $this->sort,
+        ]);*/
+
+        $query->andFilterWhere(['like', 'text', $this->text])
+            ->andFilterWhere(['like', 'latitude', $this->latitude])
+            ->andFilterWhere(['like', 'longitude', $this->longitude]);
 
         return $dataProvider;
     }

@@ -10,6 +10,7 @@ use app\modules\admin\models\Brands;
 use app\modules\admin\models\Cities;
 use app\modules\admin\models\Jury;
 use app\modules\admin\models\Markets;
+use app\modules\admin\models\Productscat;
 use Yii;
 use app\modules\admin\controllers\PagesController;
 use yii\filters\AccessControl;
@@ -125,6 +126,7 @@ class SiteController extends AppController
         return $this->render('index', compact('page_data', 'gallery', 'persons_on_main', 's_vision'));
     }
 
+
     /* action по умолчанию для типовых (тестовых) страниц */
     public function actionText()
     {
@@ -206,13 +208,24 @@ class SiteController extends AppController
 
 
         $model = new FranchForm();
+        /*if (Yii::$app->request->isAjax) {
+            if ($model->load(Yii::$app->request->post()) && $model->franch(Yii::$app->params['adminEmail'])){
+                return 'Запрос принят';
+            }
+        }*/
+        return $this->render('franch', compact('model', 'page_data', 'img', 'gallery'));
+    }
+
+    public function actionFranchform()
+    {
+        $model = new FranchForm();
         if (Yii::$app->request->isAjax) {
             if ($model->load(Yii::$app->request->post()) && $model->franch(Yii::$app->params['adminEmail'])){
                 return 'Запрос принят';
             }
         }
-        return $this->render('franch', compact('model', 'page_data', 'img', 'gallery'));
     }
+
 
     public function actionCasting()
     {
@@ -361,6 +374,22 @@ class SiteController extends AppController
     {
         $arr = [];
 
+        if( \app\controllers\AppController::getOption('nav-phone')){
+            $phone = \app\controllers\AppController::getOption('nav-phone');
+
+            $clean = str_replace(array('(', ')', ' ', '-', '+'), '', $phone);
+
+            $arr[] = [
+                'label' => $phone,
+                'url'   => 'tel:+'.$clean,
+                'options' => [
+                    'id' => 'navbar-phone'
+                ]
+            ];
+        }
+
+
+
         $pages = SiteController::getMenu(1);
 
         //debug($pages);die;
@@ -391,8 +420,28 @@ class SiteController extends AppController
                         ];
                     }
                 }
+            }
 
+            // подменю Продукция
+            if($page['url'] == 'products' || $page['url'] == '/products'){
 
+                $pcats = Productscat::find()->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->asArray()->all();
+                //debug($pcats); die;
+
+                if(count($pcats) == 1)
+                {
+                    $page['url'] = '/products/'.$pcats[0]['url_alias'];
+                }
+                else{
+                    foreach($pcats as $pcat){
+
+                        $page['childs'][] = [
+                            'active' => $pcat['active'],
+                            'title' => $pcat['name'],
+                            'url' => '/products/'.$pcat['url_alias'],
+                        ];
+                    }
+                }
             }
 
             if($page['childs']){
@@ -423,8 +472,9 @@ class SiteController extends AppController
 
                 $arr[] = ['label' => $page['title'], 'url' => $page['url']];
             }
-
         }
+
+
 
         //debug($arr); die;
 

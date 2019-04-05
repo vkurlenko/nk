@@ -5,10 +5,16 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+if(!empty($cat)){
+    $page_data['title'] .= ' "'.$cat['name'].'"';
+    $page_data['h1'] = $cat['name'];
+}
 
 $this->title = $page_data['title'];
 $this->registerMetaTag(['name' => 'description', 'content' => $page_data['dscr']]);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
+
+//debug($products);
 ?>
 
 <div class="container main">
@@ -26,6 +32,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
                 <?=$page_data['anons']?>
                 <div style="clear:both;"></div>
 
+                <div class="wrap1">
+
                 <?php
                 $i = 0;
                 foreach($products as $product):?>
@@ -41,22 +49,23 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $page_data['kwd']]);
                         $align = $i % 2 ? 'align-right' : 'align-left';
                     }
                     array_multisort (array_column($product['gallery'], 'sort'), SORT_ASC, $product['gallery']);
+
                     $first = array_shift($product['gallery']);
 
                     ?>
 
                     <div class="product <?= $col_size?> <?= $align ?> <?= $i ?>">
-                        <span><?=Html::a($product['name'], 'product/' . $product['url_alias'])?><?/*= $product['name'] */?></span>
+                        <span><?=Html::a($product['name'], '/product/' . $product['url_alias'])?><?/*= $product['name'] */?></span>
                         <a href="<?= Url::to(['product/' . $product['url_alias']]) ?>">
-                            <?=Html::img($first['img'])?>
+                            <?=Html::img('/'.$first['img'])?>
                         </a>
-                        <!--<div style="clear: both"></div>-->
+                        <p class="product-price"><?=$product['price'] ? $product['price'].'&nbsp;'.\app\controllers\AppController::getOption('currency') : ''?></p>
                     </div>
 
                 <?php
                 //echo $product['size'];
                 if($i % 2)
-                    echo '<div style="clear: both"></div><hr>';
+                    echo '</div><div style="clear: both"></div><hr><div class="wrap1">';
                 $i++;
                 endforeach;
                 ?>

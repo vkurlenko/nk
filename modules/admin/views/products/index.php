@@ -58,6 +58,12 @@ else
             'format' => 'raw'
         ],
         [
+            'attribute' => 'cid',
+            'value' => function($data){
+                return $data->productscat->name;
+            }
+        ],
+        [
             'attribute' => 'photo',
             'value' => function($data){
                 //$brand = new Brands();
@@ -77,7 +83,7 @@ else
             },
             'format' => 'raw'
         ],
-        //'descr:ntext',
+        'price:ntext',
         //'sort',
         [
             'attribute' => 'size',

@@ -2,19 +2,25 @@
 
 namespace app\modules\admin\controllers;
 
-use app\controllers\AppController;
 use Yii;
 use app\modules\admin\models\Markets;
 use app\modules\admin\models\MarketsSearch;
+use app\modules\admin\models\MarketsCities;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\controllers\AppController;
+use richardfan\sortable\SortableAction;
 
 /**
  * MarketsController implements the CRUD actions for Markets model.
  */
 class MarketsController extends AppController
 {
+
+    /*
+     * 92ef1e5f-a416-44d2-8586-4b72c927d350
+     * */
     /**
      * {@inheritdoc}
      */
@@ -68,8 +74,35 @@ class MarketsController extends AppController
         $model = new Markets();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            // в таблицу городов участников добавим новый город, если его там нет
+            if(!MarketsCities::find()->where(['city' => $model->city])->one()){
+                $city = new MarketsCities();
+                $city->city = $model->city;
+                $city->sort = MarketsCities::find()->max('sort') + 1;
+                $city->active = 1;
+
+               /* $modelName = strtolower(\yii\helpers\StringHelper::basename(get_class($city)));
+                $city->url_alias = AppController::makePrettyUrl($model->city, $modelName);*/
+
+                $url = AppController::yaTranslit($model->city);
+                $url_alias = MarketsCities::find()->where(['LIKE', 'url_alias', [$url]])->all();
+                if($url_alias){
+                    $url .= '-'. count($url_alias);
+                }
+                $city->url_alias = $url;
+
+                if (!$city->save()){
+                    Yii::$app->session->setFlash('error', 'Страница не сохранена');
+                    var_dump($city->getErrors());
+                }
+            }
+
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
+
 
         return $this->render('create', [
             'model' => $model,
@@ -88,7 +121,29 @@ class MarketsController extends AppController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            // в таблицу городов участников добавим новый город, если его там нет
+            if(!MarketsCities::find()->where(['city' => $model->city])->one()){
+                $city = new MarketsCities();
+                $city->city = $model->city;
+                $city->sort = MarketsCities::find()->max('sort') + 1;
+                $city->active = 1;
+
+                $url = AppController::yaTranslit($model->city);
+                $url_alias = MarketsCities::find()->where(['LIKE', 'url_alias', [$url]])->all();
+                if($url_alias){
+                    $url .= '-'. count($url_alias);
+                }
+                $city->url_alias = $url;
+
+
+                if (!$city->save()){
+                    Yii::$app->session->setFlash('error', 'Страница не сохранена');
+                    var_dump($city->getErrors());
+                }
+            }
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -124,5 +179,34 @@ class MarketsController extends AppController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public static function getMarkets()
+    {
+        $res = Markets::find()->where(['active' => true])->orderBy(['sort' => SORT_ASC])->asArray()->all();
+
+        return $res;
+
+    }
+
+    /* сортировка записи */
+    public function actionSetsort($id = null, $sort = null)
+    {
+        $person = Markets::findOne($id);
+        $person->sort = $sort;
+        $save = $person->save();
+        //$save = false;
+        return $save;
+    }
+
+    public function actions(){
+        return [
+            'sortItem' => [
+                'class' => SortableAction::className(),
+                'activeRecordClassName' => Markets::className(),
+                'orderColumn' => 'sort',
+            ],
+            // your other actions
+        ];
     }
 }

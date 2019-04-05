@@ -3,8 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\components\SortWidget;
-use richardfan\sortable\SortableGridView;
 use yii\helpers\Url;
+use richardfan\sortable\SortableGridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\PersonCitiesSearch */

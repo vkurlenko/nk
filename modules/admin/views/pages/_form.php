@@ -49,7 +49,7 @@ use app\modules\admin\components\ImageOneWidget;
 
         <div class="row group">
             <div class="col-md-12">
-                <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6]]);?>
+                <?= $form->field($model, 'content')->widget(CKEditor::className(), ['options' => ['rows' => 6], 'editorOptions' => ElFinder::ckeditorOptions('elfinder',[])]);?>
             </div>
         </div>
 

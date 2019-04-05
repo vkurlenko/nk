@@ -1,4 +1,14 @@
 <?php
 //debug($data);
 ?>
-<input type="checkbox" class="ajax-checkbox" data-model="<?=$model_name?>" data-id="<?=$data->id?>" data-attr="<?=$attr?>" <?=$data->$attr ? 'checked' : ''?>>
+
+<label class="checkbox">
+    <input type="checkbox" class="ajax-checkbox" data-model="<?=$model_name?>" data-id="<?=$data->id?>" data-attr="<?=$attr?>" <?=$data->$attr ? 'checked' : ''?>>
+    <div class="checkbox__text"></div>
+</label>
+<?php
+if($title)
+{
+    echo $title;
+}
+?>

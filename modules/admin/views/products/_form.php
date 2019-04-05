@@ -35,7 +35,12 @@ use mihaildev\elfinder\ElFinder;
 
     <div class="group">
 
+        <?= $form->field($model, 'cid')
+            ->dropDownList(\yii\helpers\ArrayHelper::map(\app\modules\admin\models\Productscat::find()->orderBy(['sort' => SORT_ASC])->all(), 'id', 'name'), ['options' => []]) ?>
+
         <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'style' => 'width:100%']) ?>
+
+        <?= $form->field($model, 'price')->textInput() ?>
 
         <?= $form->field($model, 'url_alias')->textInput(['maxlength' => true, 'style' => 'width:100%' ]) ?>
 

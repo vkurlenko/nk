@@ -29,6 +29,7 @@ else
     $btn_edit_active = 'btn-primary active';
 
 $cities = \app\modules\admin\controllers\DefaultController::getPersonCities();
+
 $arrCities = [];
 foreach($cities as $k => $v){
     $arrCities[$v['id']] = $v['name'];

@@ -40,6 +40,14 @@ class AppController extends Controller
         }
         return false;
     }
+	
+	public static function getOptionData($option_name = null){
+        if($option_name){
+            $option = Options::find()->where(['name' => $option_name])->asArray()->one();
+            return $option;
+        }
+        return false;
+    }
 
     /* удаление картинки */
     public function actionDeleteimg($page_id, $img_id, $model_name = null)
@@ -147,6 +155,29 @@ class AppController extends Controller
 
     }
 
+    public function actionSetTextinput($model_name = null, $field = null, $id = null,  $value = null){
+        $model = 'app\modules\admin\models\\'.$this->upFirstLetter($model_name);
+
+        if($model && $field && $id){
+            $attr = $model::find()
+                ->where(['id' => $id])
+                ->one();
+
+            $save = false;
+
+            $attr->$field = $value;
+            //return $attr->$field;
+
+            $save = $attr->update();
+
+            return $save;
+        }
+        else
+            return false;
+
+    }
+	
+
 
 
     public static function upFirstLetter($str, $encoding = 'UTF-8')
@@ -200,7 +231,6 @@ class AppController extends Controller
 
         $url = AppController::yaTranslit($string);
         $url_alias = $model::find()->where(['LIKE', 'url_alias', [$url]])->all();
-//debug($url_alias);
         if($url_alias){
             $url .= '-'. count($url_alias);
         }

@@ -45,8 +45,8 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             [['name', ], 'required'],
-            [['descr', 'video', 'cover', 'title', 'kwd', 'dscr', 'url_alias'], 'string'],
-            [['sort', 'active', 'size'], 'integer'],
+            [['descr', 'video', 'cover', 'title', 'kwd', 'dscr', 'price', 'url_alias'], 'string'],
+            [['sort', 'active', 'size', 'cid'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['product_images'], 'file', 'extensions' => 'png, jpg', 'maxFiles' => 4],
             [['cover_file'], 'file', 'extensions' => 'png, jpg',],
@@ -61,7 +61,9 @@ class Products extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Наименование',
+            'cid' => 'Категория',
             'descr' => 'Описание',
+            'price' => 'Цена',
             'video' => 'Код вставки видео',
             'cover' => 'Обложка',
             'sort' => 'Сортировка',
@@ -87,11 +89,18 @@ class Products extends \yii\db\ActiveRecord
                 $this->attachImage($path);
                 unlink($path);
             }
+
+
+
             return true;
         }
         else {
             return false;
         }
 
+    }
+
+    public function getProductscat(){
+        return $this->hasOne(Productscat::className(), ['id' => 'cid']);
     }
 }

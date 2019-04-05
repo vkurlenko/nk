@@ -18,13 +18,18 @@ body {
 
 .main{border:0px solid #eee; padding:0}
 
+.main img{
+    max-width: 100%;
+    height: auto !important;
+}
+
 
 
 h1{
     font-family: 'HelveticaLight', Arial, sans-serif;
     font-size: 48px;
     text-transform: uppercase;
-    padding-top:20px;
+    padding-top:48px;
     text-align: center;
 }
 
@@ -100,12 +105,14 @@ picture img{
     max-width: 100%;}
 
 /* NavBar */
-.navbar{
+.navbar/*, .navbar .container*/{
     position: relative;
 }
 .navbar-header{
     position: relative;
     z-index: 2;
+    margin-right:0 !important;
+    margin-left:0 !important;
 }
 .navbar-default{
     background: #dc3383;
@@ -219,7 +226,19 @@ picture img{
     transform:none;
 }
 
+.navbar-collapse{
+    /*position: relative;*/
+}
 
+#navbar-phone{
+    position: absolute !important;
+    right: 0;
+    display: none;
+}
+
+#navbar-phone a{
+    font-size:16px;
+}
 
 /* /NavBar */
 
@@ -711,6 +730,15 @@ footer .laces{
     text-align: left;
 }
 
+.product-price{
+    text-align: center;
+    color: #808080;
+}
+
+div.product-price{
+    text-align: left;
+}
+
 .product-descr ul,
 .product-descr ul li{
     list-style: none;
@@ -777,6 +805,75 @@ button.franch-submit {
     max-width: 302px !important;
 }
 /* /SECTION Franch */
+
+/* SECTION WHERE */
+.where-form{
+    background: #FCBDDC;
+    color: #981251;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.where-form select{
+    color: #333;
+    max-width: 380px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+    /*display: none;*/
+}
+
+
+
+ul.markets-city-ul,
+ul.markets-city-ul > li,
+ul.markets-city-ul > li > ul,
+ul.markets-city-ul > li > ul > li{
+    display: block;
+    padding:0;
+    list-style: none;
+}
+
+ul.markets-city-ul{
+    margin: 20px 0 40px;
+    padding: 0 10px;
+}
+
+ul.markets-city-ul > li{
+    font-size: 20px;
+    padding: 5px 0 5px;
+    background: url("/tpl/plus.png") no-repeat left 10px;
+}
+
+ul.markets-city-ul > li > span{
+    cursor: pointer;
+	padding-left: 30px;
+}
+
+ul.markets-city-ul > li.open{
+    background: url("/tpl/minus.png") no-repeat left 10px;
+}
+
+ul.markets-city-ul > li.open > ul{
+    display: block;
+}
+
+ul.markets-city-ul > li > ul
+{
+    padding-left: 20px;
+    display: none;
+}
+
+ul.markets-city-ul > li > ul > li{
+    font-size: 18px;
+    color: #dc3383;
+    padding: 5px 0 5px 20px;
+    background: url("/tpl/dot.png") no-repeat left;
+    cursor: pointer;
+
+}
+/* /SECTION WHERE */
 
 
 
@@ -863,6 +960,27 @@ footer ul li.social{
     transform: rotate(-45deg);
 }
 
+.bootstrap-select .dropdown-menu{
+    border: 1px solid red;
+}
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+    max-width: 320px;
+    width: 90% !important;
+}
+
+.bootstrap-select .dropdown-menu.inner{
+    overflow: hidden;
+}
+
+.dropdown-menu > li > a, .dropdown-menu > li > a:hover{
+    font-family: 'HelveticaRegular', Arial, sans-serif;;
+}
+
+.bootstrap-select .dropdown-menu li a span.text{
+    display: block !important;
+}
+
 /* ==================================================================================================== */
 /*                  MEDIA QUERYES                                                                       */
 /* ==================================================================================================== */
@@ -870,10 +988,39 @@ footer ul li.social{
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
     .main{margin-top:30px;}
+    .where{margin-top:0;}
+
+    .navbar .container {
+        width: auto;
+    }
+
+    .nav > li > a{
+        padding-left: 12px;
+        padding-right:12px;
+    }
+
+
+}
+
+@media only screen and (max-width : 1024px) {
+    .nav > li > a{
+
+        font-size:12px !important;
+    }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
+    h1{
+        padding-top:0px;
+    }
+
+    .navbar .container{
+        width: auto;
+        padding-right: 0;
+    }
+
+
      .navbar-brand > img {
         display: block;
         width: 150px;
@@ -887,14 +1034,19 @@ footer ul li.social{
 
     }
 
+    .navbar-collapse{
+        padding-right: 0;
+        padding-left: 0;
+    }
+
     /*.navbar > .container{
         width:100%;
     }*/
 
     .nav > li > a{
-        padding-left: 10px;
-        padding-right:10px;
-        font-size:12px !important;
+        /*padding-left: 10px;
+        padding-right:10px;*/
+        /*font-size:12px !important;*/
     }
 
     .main{margin-top:0;}
@@ -905,6 +1057,24 @@ footer ul li.social{
 
     .clear-2{
         clear:both;
+    }
+
+    #map{
+        height:300px !important;
+    }
+
+
+}
+
+@media only screen and (max-width : 767px){
+    #navbar-phone{
+        position: unset !important;
+        right: auto;
+        text-align: center;
+    }
+
+    #navbar-phone a{
+        font-size:20px !important;
     }
 }
 
@@ -977,6 +1147,7 @@ footer ul li.social{
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
     .main{margin-top:20px;}
+    .where{margin-top:0;}
 
 
     .slider-main{
@@ -1004,7 +1175,8 @@ footer ul li.social{
     }
 
     .navbar-nav {
-        margin: 55px 0 0 0;
+        /*margin: 55px 0 0 0;*/
+        margin: 35px 0 0 0;
     }
 
     .dropdown-menu li {
@@ -1021,6 +1193,8 @@ footer ul li.social{
         background: #fff;
         font-family: 'HelveticaBold', Arial, sans-serif;
     }
+
+
 
     .footer-menu-social, .social-menu{
         text-align: center;
@@ -1138,6 +1312,8 @@ footer ul li.social{
         margin-bottom: 20px;
     }
 
+   
+
 }
 
 @media only screen and (max-width : 576px) {
@@ -1208,7 +1384,7 @@ footer ul li.social{
         width:150px;
     }
 
-
+   
 
 
 }
@@ -1277,6 +1453,9 @@ footer ul li.social{
         padding:0;
     }
 
+   
+
+
     
 }
 
@@ -1287,6 +1466,9 @@ footer ul li.social{
         left:auto;
         margin-left: auto;
     }
+
+   
+
 }
 
 /* Custom, iPhone Retina (iphone 6) */
@@ -1323,6 +1505,8 @@ footer ul li.social{
     .markets-city-brand{
         width:125px;
     }
+
+
 }
 
 /* Custom, iPhone Retina (iphone 4, 5) */
@@ -1363,4 +1547,9 @@ footer ul li.social{
     footer ul, footer ul li {
         font-size: 12px;
     }
+
+    #map{
+        height:200px !important;
+    }
+   
 }

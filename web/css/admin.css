@@ -108,3 +108,86 @@ a.del_one_img{
 .person-param select{width:100px}
 
 #persons-year{display: inline}
+
+/* styled checkbox  */
+
+label .checkbox{
+    display: inline;
+}
+.checkbox input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    margin: 10px 0 0 20px;
+}
+.checkbox__text {
+    position: relative;
+    padding: 0 0 0 60px;
+    cursor: pointer;
+    width:50px;
+    margin:auto;
+}
+.checkbox__text:before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    background: #CDD1DA;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+    transition: .2s;
+}
+.checkbox__text:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0 2px 5px rgba(0,0,0,.3);
+    transition: .2s;
+}
+.checkbox input:checked + .checkbox__text:before {
+    background: #3c8dbc85;
+}
+.checkbox input:checked + .checkbox__text:after {
+    left: 26px;
+}
+.checkbox input:focus + .checkbox__text:before {
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.2), 0 0 0 3px rgba(221, 221, 221, 0.7);
+}
+/* /styled checkbox  */
+
+.treeview-menu>li>a{
+	font-size:12px;
+}
+.treeview-menu>li>a>.fa{
+	width:15px;
+}
+
+.option-block{
+	padding: 20px 0;
+	font-size:12px;
+}
+
+.option-block label.checkbox{
+	display: inline-block !important; 
+	margin-left: 20px;
+}
+
+.ui-widget-content a {
+    color: #3c8dbc;
+}
+
+.ui-widget-content a.btn {
+    color: #fff;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+    background: #3c8dbc;
+    border:0;
+}

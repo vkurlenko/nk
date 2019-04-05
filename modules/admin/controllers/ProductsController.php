@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
+use rico\yii2images\models\Image;
 use richardfan\sortable\SortableAction;
 
 /**
@@ -147,7 +148,11 @@ class ProductsController extends AppController
             }
 
             $model->product_images = UploadedFile::getInstances($model, 'product_images');
+
             $model->UploadImages();
+
+            // сортировка картинок
+            self::reSortImages($model, 'Products');
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -155,6 +160,27 @@ class ProductsController extends AppController
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * сортировка картинок после загрузки
+     * автоинкремент поля sort
+     */
+    public function reSortImages($model = null, $modelName = null)
+    {
+        if($model && $modelName){
+            $arr = Image::find()->asArray()->where(['itemId' => $model->id, 'sort' => 0, 'modelName' => $modelName])->orderBy(['sort' => SORT_ASC])->all();
+
+            if(!empty($arr)){
+                $sort_max = Image::find()->where(['itemId' => $model->id])->max('sort');
+                $sort_max++;
+                foreach($arr as $item){
+                    Yii::$app->db->createCommand()
+                        ->update('image', ['sort' => $sort_max++], ['id' => $item['id']])
+                        ->execute();
+                }
+            }
+        }
     }
 
     /**

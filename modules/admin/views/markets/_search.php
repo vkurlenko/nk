@@ -19,13 +19,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'city') ?>
 
-    <?= $form->field($model, 'brands') ?>
-
-    <?= $form->field($model, 'anons') ?>
-
     <?= $form->field($model, 'text') ?>
 
+    <?= $form->field($model, 'latitude') ?>
+
+    <?php // echo $form->field($model, 'longitude') ?>
+
+    <?php // echo $form->field($model, 'scale') ?>
+
     <?php // echo $form->field($model, 'active') ?>
+
+    <?php // echo $form->field($model, 'sort') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

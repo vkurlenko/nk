@@ -46,13 +46,25 @@ use yii\helpers\Html;
                         'items' => [
                             ['label' => 'Города участников', 'icon' => '', 'url' => ['/admin/personcities']],
                             ['label' => 'Города производств', 'icon' => '', 'url' => ['/admin/cities']],
+                            ['label' => 'Города Где купить', 'icon' => '', 'url' => ['/admin/marketscities']],
                         ]
                     ],
 
                     ['label' => 'Торговые сети', 'icon' => 'trademark', 'url' => ['/admin/brands'],
                         'items' => \app\modules\admin\controllers\DefaultController::getBrandsCitiesSubMenu()
                     ],
-                    ['label' => 'Продукция', 'icon' => 'birthday-cake', 'url' => ['/admin/products']],
+
+                    ['label' => 'Где купить', 'icon' => 'trademark', 'url' => ['/admin/markets'],
+                        'items' => \app\modules\admin\controllers\DefaultController::getMarketCitiesSubMenu()
+                    ],
+
+                    ['label' => 'Продукция', 'icon' => 'birthday-cake', 'url' => '#',
+                        'items' => [
+                            ['label' => 'Категории продукции', 'icon' => '', 'url' => ['/admin/productscat']],
+                            ['label' => 'Продукция', 'icon' => '', 'url' => ['/admin/products']],
+                        ]],
+
+
                     ['label' => 'Видео', 'icon' => 'file-video-o', 'url' => ['#'],
                         'items' => [
                             ['label' => 'Авторский надзор', 'icon' => '', 'url' => ['/admin/svision?type=svision']],
@@ -66,6 +78,7 @@ use yii\helpers\Html;
                                 ['label' => 'Нижнее меню (справа)', 'icon' => '', 'url' => ['/admin/menu?pid=3']],
                             ]*/
                     ],
+					['label' => 'MenuTree', 'icon' => 'bars', 'url' => ['/admin/menu-tree']],
                     ['label' => 'Настройки', 'icon' => 'cogs', 'url' => ['/admin/options']],
 
                    // ['label' => 'Где купить', 'icon' => 'file-code-o', 'url' => ['/admin/markets']],

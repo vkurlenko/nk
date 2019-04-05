@@ -143,8 +143,35 @@ function setCheckbox(obj, e){
 
         }
     });
+}
+
+function setTextinput(obj, e){
+    //e.preventDefault();
+
+    var model = $(obj).attr('data-model');
+    var field = $(obj).attr('data-attr');
+    var id = $(obj).attr('data-id');
+    var value = $(obj).val();
 
 
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        url: '/admin/'+model+'/set-textinput?model_name='+model+'&field='+field+'&id='+id+'&value='+value,
+        //data: "name="+name
+        success: function(res){
+            if(res){
+                //alert('Сохранено');
+                $(obj).addClass('save-success');
+            }
+            else{
+                //alert('Ошибка');
+                $(obj).addClass('save-error');
+            }
+
+            console.log(res);
+        }
+    });
 }
 
 function massSave(e){
@@ -228,6 +255,16 @@ $(document).ready(function () {
 
     $('.ajax-checkbox').click(function (e) {
         setCheckbox($(this), e);
+    })
+
+    $('.ajax-textinput').click(function (e) {
+        setTextinput($(this).prev('input'), e);
+    })
+
+    $('.save-options').click(function(e){
+        $('.option-block input').each(function(e){
+            setTextinput($(this), e);
+        })
     })
 
     $('.mass-save').click(function (e) {
@@ -332,6 +369,10 @@ $(document).ready(function () {
         var v = $('#city').attr('data-selected');
         $("#city").val(v).prop('selected', true);
     }
+
+    $( "#tabs" ).tabs({
+        //active: 1
+    });
 
 
 });

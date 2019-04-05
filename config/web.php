@@ -41,6 +41,15 @@ $config = [
 
 
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'yii\jui\JuiAsset' => [
+                    'css' => [
+                        'themes/base/jquery-ui.css?v=1',
+                    ]
+                ]
+            ]
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'DB7K1R3Eljg5DK_zI-kE9uVCBQM9_Apv',
@@ -99,6 +108,7 @@ $config = [
             ],*/
             'rules' => [
                 '/' => 'site/index',
+                'yandex_dc3953a6cade32e5.html' => 'http://nk/yandex_dc3953a6cade32e5.html',
                 //'<action:\w+>' => 'site/<action>',
                 //'<action:(person)>/' => 'site/<action>',
                 'admin' => 'admin/default/index',
@@ -112,9 +122,32 @@ $config = [
                 'markets' => 'site/markets',
                 //'markets/<id:\d+>' => 'site/markets',
                 'markets/<id:[a-z0-9_\-()]+>' => 'site/markets',
+                'markets/<id:[a-z0-9_\-()]+>/' => 'site/markets',
+
+                /*'gde' => 'where/index',
+                'gde/<city:[a-z0-9_\-()]+>' => 'where/index',*/
+
+               /* 'where' => 'where/index',
+                'where/<city:[a-z0-9_\-()]+>' => 'where/index',*/
+
+
+
+
+                /*[
+                    'pattern' => 'gde',
+                    'route' => 'where/index',
+                ],
+                [
+                    'pattern' => 'gde/<city:[a-z0-9_\-()]+>',
+                    'route' => 'where/index',
+                ],*/
+
+                /*'gde' => 'site/where',
+                'gde/<city:[a-z0-9_\-()]+>' => 'where/index',*/
 
                 'products' => 'products',
                 //'product/<id:\d+>' => 'products/product',
+                'products/<cat:[a-z0-9_\-()]+>/' => 'products/',
                 'product/<id:[a-z0-9_\-()]+>' => 'products/product',
 
                 //'person/<id: >' => 'person/person',
@@ -130,6 +163,10 @@ $config = [
                 'persons/<year:\d+>' => 'person/person',
                 'persons' => 'person/person',
                 //'persons/' => 'person/person',
+
+                [
+                    'class' => 'app\components\MyUrlRule',
+                ],
 
                 '<action:\w+>' => 'site/text',
 

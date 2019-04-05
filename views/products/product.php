@@ -99,6 +99,8 @@ $this->registerMetaTag(['name' => 'keywords', 'content' => $product['kwd']]);
             <div class="product-descr"><?=$product['descr']?>
             </div>
 
+            <div class="product-price"><?=$product['price'] ? $product['price'].'&nbsp;'.\app\controllers\AppController::getOption('currency') : ''?></div>
+
 
 
         </div>

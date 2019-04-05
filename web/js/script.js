@@ -1,9 +1,9 @@
  /*dropdown menu formatting */
 function setMarginLeft(){
-   /* var win = $(window);
+   /*
+   var win = $(window);
     var cont = $('.container');
     var brand = $('.navbar-brand img');
-
 
     var i = new Image();
     i.onload = function(){
@@ -15,9 +15,11 @@ function setMarginLeft(){
         else
             $('.dropdown-menu > li.first-item').css('margin-left', 0);
     }
-    i.src = $(brand).attr('src');*/
+    i.src = $(brand).attr('src');
+    */
 
-    var a = $('.navbar-nav li:first');
+    //var a = $('.navbar-nav li:first');
+    var a = $('.navbar-nav li:nth-child(2)');
     var offset = a.offset();
     var win = $(window);
 
@@ -26,13 +28,21 @@ function setMarginLeft(){
     }
     else
         $('.dropdown-menu > li.first-item').css('margin-left', 0);
+}
 
+/* phone position on main menu */
+function setPhonePos()
+{
+    var a = $('.navbar-collapse');
+    var offset = a.offset();    //
 
+    var right = offset.left - 15;
+    //alert(right)
 
-
-
-    //alert(brand.width());
-
+    $('#navbar-phone').css({
+        'right': right/*,
+        'display' : 'block'*/
+    }).fadeIn(300);
 }
 
 
@@ -90,7 +100,7 @@ function viewImg(e, obj){
 }
 
 function personNames(){
-    $('.face').each(function(){
+    $('.face, .product').each(function(){
         if($(this).hasClass('align-left') && $(this).next('div').hasClass('align-right')){
 
             var obj_left = $(this).find('span');
@@ -111,12 +121,17 @@ function personNames(){
 
 $(document).ready(function(){
 
+    setPhonePos();
+
     // left-margin for dropdown submenu
 
     personNames();
 
+
+
     // on window resize
     $(window).on('resize', function(){
+        setPhonePos();
         setMarginLeft();
         setYouTubeSize();
         personNames();
@@ -175,9 +190,33 @@ $(document).ready(function(){
 
     setMarginLeft();
 
+    /* список городов */
+    $("li.city span").click(function() {
+        $(this).next('ul').toggle( "fast", function() {
+            if($(this).parent('li').hasClass('open')){
+                $(this).parent('li').removeClass('open')
+            }
+            else
+                $(this).parent('li').addClass('open')
+
+        });
+    });
+    /* /список городов */
+
+    /* выбор города */
+    $('.select-city').change(function (e) {
+       var city = $(this).val();
+
+        $(location).attr('href', city);
+
+    })
+    /* /выбор города */
+
+
+    //$('.select-city').selectpicker();
+    //$('.select-city').styler();
 
 
 
-   
 });
 

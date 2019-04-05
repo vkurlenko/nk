@@ -21,7 +21,7 @@ use yii\helpers\Html;
 
 
     <div class="img-cont"><?/*=$img->id*/?>
-        <?=Html::img($img->getUrl('200x200'));?>
+        <?=Html::img('/web/'.$img->getPath('200x200'));?>
     </div>
 
     <?php

@@ -26,6 +26,7 @@ use app\modules\admin\controllers\PagesController;
     $gallery2 = [];
     $arr = Image::find()->asArray()->where(['itemId' => $model->id])->orderBy(['sort' => SORT_ASC])->all();
 
+    //$min_price = SomeModel::find()->min('price');
     foreach($arr as $row){
         foreach($gallery as $img){
             if($img->id == $row['id']){
@@ -36,6 +37,7 @@ use app\modules\admin\controllers\PagesController;
 
 
     foreach($gallery2 as $img){
+        //debug($img);
         $url_delete     = Url::toRoute([$modelName.'/deleteimg',  'page_id' => $model->id, 'img_id' => $img->id, 'model_name' => $modelName]);
         $url_setname    = Url::toRoute([$modelName.'/setnameimg', 'page_id' => $model->id, 'img_id' => $img->id, 'model_name' => $modelName]);
         require 'tpl_gallery.php';

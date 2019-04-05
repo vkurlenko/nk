@@ -32,12 +32,12 @@ class FranchForm extends Model
             //['phone', 'phone'],
             // verifyCode needs to be entered correctly
             //['verifyCode', 'captcha'],
-           [
+          /* [
                 ['reCaptcha'],
                 \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
                 'secret' => '6LfanGEUAAAAAK0CHtHFopiAzIzmGoKK4H3LX3qK',
                 'uncheckedMessage' => 'Подтвердите, что Вы не робот)'
-            ]
+            ]*/
 
         ];
     }
@@ -46,7 +46,7 @@ class FranchForm extends Model
     {
         return [
             //'verifyCode' => 'Подтвердите код',
-            'reCaptcha' => '',
+            //'reCaptcha' => '',
             'name' => 'Имя',
             'phone' => 'Телефон',
             'email' => 'E-mail',

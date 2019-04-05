@@ -54,6 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             break;
 
                         case 'checkbox':
+						
+							//debug($data); die;
+						
                             return '<div class="data-align-left">'.\app\modules\admin\components\CheckboxWidget::widget(['data' => $data, 'attr' => 'value', 'model_name' => 'options']).'</div>';
                             break;
 

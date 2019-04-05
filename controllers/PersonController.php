@@ -170,25 +170,7 @@ class PersonController extends AppController
         $cities = PersonCities::find()->select(['name'])->where(['active' => '1'])->asArray()->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($cities as $k => $v){
-            /*$arr = Persons::find()
-                ->select(['id', 'name', 'url_alias', 'city_id'])
-                ->where(['active' => 1, 'city_id' => $v['name']])
-                ->indexBy('id')
-                ->asArray()
-                ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                ->all();*/
-
-            /*$arr = Persons::find()
-                ->select(['persons.id', 'persons.name', 'persons.url_alias', 'persons.city_id'])
-                ->where(['persons.active' => 1, 'persons.city_id' => $v['name']])
-                ->leftJoin('seasons', 'persons.year = seasons.id')
-                ->indexBy('persons.id')
-                ->asArray()
-                ->orderBy(['seasons.sort' => SORT_DESC, 'persons.sort' => SORT_ASC])
-                ->all();*/
-
-
-            //SELECT * FROM `persons` LEFT JOIN `seasons` ON persons.year = seasons.id ORDER BY seasons.sort ASC
+            
 
             $arr = Yii::$app->db->createCommand('
                           SELECT persons.id, persons.name, persons.url_alias, persons.city_id, persons.year
@@ -222,46 +204,7 @@ class PersonController extends AppController
         $nav_person_id = false;
 
         $nav = $this->getNav();
-
-        //debug($nav);
-
-        //$person = $this->getPerson($id);
-
-        //if($id && $dir){
-            /*switch($dir){
-               ase 'prev' :
-                   $nav_person = Persons::find()
-                       ->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
-                       ->andWhere('year = :year_this', [':year_this' => $person->year])
-                       ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
-                       ->asArray()
-                       ->one();
-
-                   if(!$nav_person)
-                       $nav_person = Persons::find()
-                           //->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
-                           ->andWhere('year = :year_this', [':year_this' => $person->year + 1])
-                           ->orderBy(['year' => SORT_DESC, 'sort' => SORT_DESC])
-                           ->asArray()
-                           ->one();
-                   break;
-
-               case 'next' :
-                   $nav_person = Persons::find()
-                       ->andWhere('sort > :sort_this', [':sort_this' => $person->sort])
-                       ->andWhere('year = :year_this', [':year_this' => $person->year])
-                       ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                       ->asArray()
-                       ->one();
-
-                   if(!$nav_person)
-                       $nav_person = Persons::find()
-                           //->andWhere('sort < :sort_this', [':sort_this' => $person->sort])
-                           ->andWhere('year = :year_this', [':year_this' => $person->year - 1])
-                           ->orderBy(['year' => SORT_DESC, 'sort' => SORT_ASC])
-                           ->asArray()
-                           ->one();
-                   break;*/
+       
 
 
         if($id && $dir) {
